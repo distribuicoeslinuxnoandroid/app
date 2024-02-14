@@ -9,7 +9,7 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 # Dialogs
 export USER=$(whoami)
 HEIGHT=0
-WIDTH=0
+WIDTH=32
 CHOICE_HEIGHT=5
 
 export PORT=1

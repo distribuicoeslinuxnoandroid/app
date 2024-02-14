@@ -3,13 +3,21 @@
 pkg install wget curl proot tar dialog -y
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app"
+system_icu_locale_code=$(getprop persist.sys.locale)
 
+
+# Dialogs
 export USER=$(whoami)
 HEIGHT=0
 WIDTH=0
 CHOICE_HEIGHT=5
-MENU="Escolha algumas das seguintes opções: \n \nChoose any of the following options: "
+MENU="Choose any of the following options: "
 export PORT=1
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha algumas das seguintes opções: "
+else
+MENU="Choose any of the following options: "
+fi
 
 OPTIONS=(1 "Ubuntu")
 

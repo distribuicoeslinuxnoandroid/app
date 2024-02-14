@@ -358,10 +358,7 @@ mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
 
-bash ~/system-config.sh
-
 rm -rf ~/.bash_profile
-rm -rf ~/system-config.sh
 clear
 exit" > $folder/root/.bash_profile
 

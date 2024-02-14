@@ -299,15 +299,6 @@ chmod +x $bin
 echo "removing image for some space"
 rm $tarball
 
-
-
-
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-
-else
-MENU="Choose version: "
-fi
-
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 #Definir o idioma
 MENU="Idioma a instalar: "

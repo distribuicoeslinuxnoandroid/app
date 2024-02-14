@@ -54,8 +54,6 @@ fi
 termux-setup-storage
 
 
-
-
 # Download da imagem de acordo com a arquitetura
 if [ "$first" != 1 ];then
 	if [ ! -f $tarball ]; then
@@ -67,11 +65,10 @@ if [ "$first" != 1 ];then
 			echo "unknown architecture"; exit 1 ;;
 		esac
 		if [ "$system_icu_locale_code" = "pt-BR" ]; then
-			MENU="Escolha a versão:"
-				else
-				MENU="Choose version: "
+		MENU="Escolha a versão:"
+		else
+		MENU="Choose version: "
 		fi
-
 		# Escolher a versão do sistema
 		OPTIONS=(1 "Jammy (22.04) [LTS]")
 
@@ -85,10 +82,9 @@ if [ "$first" != 1 ];then
 		clear
 		case $CHOICE in
 		1)
-		version="jammy"
+		wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
 		;;
 		esac
-       	wget "https://partner-images.canonical.com/core/${version}/current/ubuntu-${version}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
 
 	fi
 	mkdir -p "$folder"

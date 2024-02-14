@@ -34,7 +34,7 @@ pkg install wget dialog -y
 folder=ubuntu22-fs
 cur=`pwd`
 
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app"
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 

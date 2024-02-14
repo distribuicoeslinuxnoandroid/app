@@ -35,6 +35,22 @@ folder=ubuntu22-fs
 cur=`pwd`
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app"
+system_icu_locale_code=$(getprop persist.sys.locale)
+
+
+# Dialogs
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=0
+CHOICE_HEIGHT=5
+MENU="Choose any of the following options: "
+export PORT=1
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha algumas das seguintes opções: "
+else
+MENU="Choose any of the following options: "
+fi
+
 
 #Verifica se a pasta já existe e caso exista, o download da imagem será ignorada.
 if [ -d "$folder" ]; then
@@ -47,13 +63,6 @@ termux-setup-storage
 
 
 # Escolher a versão do sistema
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=0
-CHOICE_HEIGHT=5
-MENU="Escolha algumas das seguintes opções: \n \nChoose any of the following options: "
-export PORT=1
-
 OPTIONS=(1 "Jammy (22.04) [LTS]")
 
 CHOICE=$(dialog --clear \
@@ -68,8 +77,8 @@ case $CHOICE in
 1)
 version="jammy"
 ;;
-
 esac
+
 
 # Download da imagem de acordo com a arquitetura
 if [ "$first" != 1 ];then
@@ -81,7 +90,7 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-        	wget "https://partner-images.canonical.com/core/$version/current/ubuntu-$version-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
+        	wget "https://partner-images.canonical.com/core/${version}/current/ubuntu-${version}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
 
 	fi
 	mkdir -p "$folder"
@@ -292,7 +301,68 @@ chmod +x $bin
 echo "removing image for some space"
 rm $tarball
 
+#Puxa o idioma do sistema
+system_icu_locale_code=$(getprop persist.sys.locale)
+
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+# Escolher a versão do sistema
+OPTIONS=(1 "Português do Brasil (pt-BR)"
+		 2 "Default (en-US)")
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+echo "Escolheu Português"
+;;
+2)
+echo "escolheu ingles"
+;;
+esac
+
+else
+OPTIONS=(1 "Default (en-US)"
+		  2 "Português do Brasil (pt-BR)")
+		  
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+echo "escolheu ingles"
+;;
+2)
+echo "Escolheu Português"
+;;
+esac
+fi
 
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
+
+echo "#!/bin/bash
+rm -rf /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+mkdir -p ~/.vnc
+apt update -y && apt install sudo wget -y > /dev/null
+clear
+
+bash ~/system-config.sh
+
+rm -rf ~/.bash_profile
+rm -rf ~/system-config.sh
+clear
+exit" > $folder/root/.bash_profile
+
+bash $bin

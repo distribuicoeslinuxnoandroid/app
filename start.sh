@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
-pkg install wget dialog -y
+pkg install wget curl proot tar dialog -y
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app"
 
@@ -31,3 +31,5 @@ esac
 
 chmod +x start-distro.sh
 bash start-distro.sh
+
+# sleep 2 pausa a execução por 2 segundos

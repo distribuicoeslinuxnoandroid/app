@@ -2,8 +2,24 @@
 #🚀
 pkg install wget curl proot tar dialog -y
 
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+clear
+#Logs do sistema
+android_version=$(getprop ro.build.version.release)
+android_architecture=$(getprop ro.product.cpu.abi)
 system_icu_locale_code=$(getprop persist.sys.locale)
+
+
+echo ""
+echo -e "\e[1;107;30;mInformações do seu sistema\e[0m"
+echo ""
+echo -e "\033[1;32mVersão do Android:\033[0m $android_version"
+echo -e "\033[1;35mArquitetura:\033[0m $android_architecture"
+echo -e "\033[1;33mIdioma:\033[0m: $system_icu_locale_code"
+sleep 5
+clear
+
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
 
 
 # Dialogs

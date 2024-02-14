@@ -43,13 +43,8 @@ export USER=$(whoami)
 HEIGHT=0
 WIDTH=0
 CHOICE_HEIGHT=5
-MENU="Choose any of the following options: "
 export PORT=1
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha algumas das seguintes opções: "
-else
-MENU="Choose any of the following options: "
-fi
+
 
 
 #Verifica se a pasta já existe e caso exista, o download da imagem será ignorada.
@@ -61,6 +56,11 @@ cloudimage="ubuntu-rootfs.tar.gz"
 
 termux-setup-storage
 
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha a versão:"
+else
+MENU="Choose version: "
+fi
 
 # Escolher a versão do sistema
 OPTIONS=(1 "Jammy (22.04) [LTS]")
@@ -301,11 +301,18 @@ chmod +x $bin
 echo "removing image for some space"
 rm $tarball
 
-#Puxa o idioma do sistema
-system_icu_locale_code=$(getprop persist.sys.locale)
+
+
 
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
-# Escolher a versão do sistema
+
+else
+MENU="Choose version: "
+fi
+
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+#Definir o idioma
+MENU="Idioma a instalar: "
 OPTIONS=(1 "Português do Brasil (pt-BR)"
 		 2 "Default (en-US)")
 CHOICE=$(dialog --clear \
@@ -326,6 +333,7 @@ echo "escolheu ingles"
 esac
 
 else
+MENU="Language to install: "
 OPTIONS=(1 "Default (en-US)"
 		  2 "Português do Brasil (pt-BR)")
 		  

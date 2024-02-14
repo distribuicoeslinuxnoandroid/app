@@ -11,14 +11,15 @@ export USER=$(whoami)
 HEIGHT=0
 WIDTH=0
 CHOICE_HEIGHT=5
-MENU="Choose any of the following options: "
-export PORT=1
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha algumas das seguintes opções: "
-else
-MENU="Choose any of the following options: "
-fi
 
+export PORT=1
+
+
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha o sistema operacional que será instalado: "
+else
+MENU="Choose the operating system to be installed: "
+fi
 OPTIONS=(1 "Ubuntu")
 
 CHOICE=$(dialog --clear \

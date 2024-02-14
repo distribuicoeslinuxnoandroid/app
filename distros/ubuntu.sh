@@ -33,10 +33,9 @@ clear
 pkg install wget dialog -y 
 folder=ubuntu22-fs
 cur=`pwd`
-
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
-
+cloudimage="ubuntu-rootfs.tar.gz"
 
 # Dialogs
 export USER=$(whoami)
@@ -51,8 +50,6 @@ export PORT=1
 if [ -d "$folder" ]; then
 	first=1
 fi
-
-cloudimage="ubuntu-rootfs.tar.gz"
 
 termux-setup-storage
 
@@ -70,28 +67,28 @@ if [ "$first" != 1 ];then
 			echo "unknown architecture"; exit 1 ;;
 		esac
 		if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha a versão:"
-else
-MENU="Choose version: "
-fi
+			MENU="Escolha a versão:"
+				else
+				MENU="Choose version: "
+		fi
 
-# Escolher a versão do sistema
-OPTIONS=(1 "Jammy (22.04) [LTS]")
+		# Escolher a versão do sistema
+		OPTIONS=(1 "Jammy (22.04) [LTS]")
 
-CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
+		CHOICE=$(dialog --clear \
+						--title "$TITLE" \
+						--menu "$MENU" \
+						$HEIGHT $WIDTH $CHOICE_HEIGHT \
+						"${OPTIONS[@]}" \
+						2>&1 >/dev/tty)
 
-clear
-case $CHOICE in
-1)
-version="jammy"
-;;
-esac
-        	wget "https://partner-images.canonical.com/core/${version}/current/ubuntu-${version}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
+		clear
+		case $CHOICE in
+		1)
+		version="jammy"
+		;;
+		esac
+       	wget "https://partner-images.canonical.com/core/${version}/current/ubuntu-${version}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
 
 	fi
 	mkdir -p "$folder"

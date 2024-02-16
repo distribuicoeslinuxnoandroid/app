@@ -1,8 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
-pkg --check-mirror update
 pkg install wget curl proot tar dialog -y
-
 clear
 #Logs do sistema
 android_version=$(getprop ro.build.version.release)
@@ -28,6 +26,7 @@ export USER=$(whoami)
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
+
 export PORT=1
 
 

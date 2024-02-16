@@ -25,6 +25,7 @@ pkg install wget -y
 folder=ubuntu22-fs
 cur="pwd"
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_icu_locale_code=$(getprop persist.sys.locale)
 if [ -d "$folder" ]; then
 	first=1
 	echo "skipping downloading"

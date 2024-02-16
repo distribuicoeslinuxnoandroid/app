@@ -299,10 +299,11 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			echo "Escolheu Português"
+			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+			chmod +x ubuntu22-fs/root/locale-base.sh
 		;;
 		2)
-			echo "escolheu ingles"
+			echo ""
 		;;
 	esac
 
@@ -321,10 +322,11 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 		clear
 		case $CHOICE in
 			1)
-				echo "escolheu ingles"
+				echo ""
 			;;
 			2)
-				echo "Escolheu Português"
+				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+				chmod +x ubuntu22-fs/root/locale-base.sh
 			;;
 		esac
 fi
@@ -348,14 +350,9 @@ mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
 
-chmod +x /usr/local/bin/stopvnc
-chmod +x /usr/local/bin/startvnc
-chmod +x /usr/local/bin/startvncserver
+bash ~/locale-base.sh
 
-if [ ! -f /usr/bin/vncserver ]; then
-    apt install tigervnc-standalone-server -y
-fi
-
+rm -rf ~/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

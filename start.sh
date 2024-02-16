@@ -28,7 +28,6 @@ export USER=$(whoami)
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
-
 export PORT=1
 
 

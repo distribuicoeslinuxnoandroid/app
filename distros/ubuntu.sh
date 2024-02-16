@@ -44,7 +44,29 @@ HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
 export PORT=1
-
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+	MENU="Escolha a versão:"
+	else
+	MENU="Choose version: "
+fi
+OPTIONS=(1 "Jammy (22.04) [LTS]"
+		 2 "Bionic")
+CHOICE=$(dialog --clear \
+				--title "$TITLE" \
+				--menu "$MENU" \
+				$HEIGHT $WIDTH $CHOICE_HEIGHT \
+				"${OPTIONS[@]}" \
+				2>&1 >/dev/tty)
+case $CHOICE in
+	1)
+		codinome="jammy"
+	;;
+	2)
+		codinome="bionic"
+	;;
+esac
+clear
+echo "$codinome"
 
 
 #Verifica se a pasta já existe e caso exista, o download da imagem será ignorada.
@@ -65,29 +87,13 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
+		wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
 
-		if [ "$system_icu_locale_code" = "pt-BR" ]; then
-			MENU="Escolha a versão:"
-			else
-				MENU="Choose version: "
-		fi
-		OPTIONS=(1 "Jammy (22.04) [LTS]")
-		CHOICE=$(dialog --clear \
-						--title "$TITLE" \
-						--menu "$MENU" \
-						$HEIGHT $WIDTH $CHOICE_HEIGHT \
-						"${OPTIONS[@]}" \
-						2>&1 >/dev/tty)
-		case $CHOICE in
-			1)
-				wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
-			;;
-		esac
-	fi
+fi
 	mkdir -p "$folder"
 	cd "$folder"
-    #Descomprimindo o Rootfs
-	proot --link2symlink tar -xf ${cur}/${cloudimage} --exclude=dev||:
+	echo "Decompressing Rootfs, please be patient."
+	proot --link2symlink tar -xf ${cur}/${tarball} --exclude=dev||:
 	cd "$cur"
 fi
 

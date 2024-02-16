@@ -28,11 +28,12 @@ UU:::::U     U:::::UU b:::::b                                                   
 
 
 \e[0m"
+sleep 2
 clear
 
-pkg install wget dialog -y 
-folder=ubuntu22-fs
-cur=`pwd`
+pkg install wget curl proot tar dialog -y
+folder="ubuntu22-fs"
+cur="pwd"
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 cloudimage="ubuntu-rootfs.tar.gz"
@@ -64,28 +65,24 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-		if [ "$system_icu_locale_code" = "pt-BR" ]; then
-		MENU="Escolha a versão:"
-		else
-		MENU="Choose version: "
-		fi
-		# Escolher a versão do sistema
-		OPTIONS=(1 "Jammy (22.04) [LTS]")
 
+		if [ "$system_icu_locale_code" = "pt-BR" ]; then
+			MENU="Escolha a versão:"
+			else
+				MENU="Choose version: "
+		fi
+		OPTIONS=(1 "Jammy (22.04) [LTS]")
 		CHOICE=$(dialog --clear \
 						--title "$TITLE" \
 						--menu "$MENU" \
 						$HEIGHT $WIDTH $CHOICE_HEIGHT \
 						"${OPTIONS[@]}" \
 						2>&1 >/dev/tty)
-
-		clear
 		case $CHOICE in
-		1)
-		wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
-		;;
+			1)
+				wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
+			;;
 		esac
-
 	fi
 	mkdir -p "$folder"
 	cd "$folder"
@@ -286,6 +283,52 @@ mkdir -p ubuntu22-fs/var/tmp
 rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
+
+#Definir o idioma
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+	MENU="Idioma a instalar: "
+	OPTIONS=(1 "Português do Brasil (pt-BR)"
+			 2 "Default (en-US)")
+	CHOICE=$(dialog --clear \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+		1)
+			echo "Escolheu Português"
+		;;
+		2)
+			echo "escolheu ingles"
+		;;
+	esac
+
+	else
+		MENU="Language to install: "
+		OPTIONS=(1 "Default (en-US)"
+				2 "Português do Brasil (pt-BR)")
+				
+		CHOICE=$(dialog --clear \
+						--title "$TITLE" \
+						--menu "$MENU" \
+						$HEIGHT $WIDTH $CHOICE_HEIGHT \
+						"${OPTIONS[@]}" \
+						2>&1 >/dev/tty)
+
+		clear
+		case $CHOICE in
+			1)
+				echo "escolheu ingles"
+			;;
+			2)
+				echo "Escolheu Português"
+			;;
+		esac
+fi
+
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
 
@@ -294,52 +337,6 @@ chmod +x $bin
 
 echo "removing image for some space"
 rm $tarball
-
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-#Definir o idioma
-MENU="Idioma a instalar: "
-OPTIONS=(1 "Português do Brasil (pt-BR)"
-		 2 "Default (en-US)")
-CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
-
-clear
-case $CHOICE in
-1)
-echo "Escolheu Português"
-;;
-2)
-echo "escolheu ingles"
-;;
-esac
-
-else
-MENU="Language to install: "
-OPTIONS=(1 "Default (en-US)"
-		  2 "Português do Brasil (pt-BR)")
-		  
-CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
-
-clear
-case $CHOICE in
-1)
-echo "escolheu ingles"
-;;
-2)
-echo "Escolheu Português"
-;;
-esac
-fi
-
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
@@ -351,8 +348,14 @@ mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
 
-rm -rf ~/.bash_profile
-clear
-exit" > $folder/root/.bash_profile
+chmod +x /usr/local/bin/stopvnc
+chmod +x /usr/local/bin/startvnc
+chmod +x /usr/local/bin/startvncserver
+
+if [ ! -f /usr/bin/vncserver ]; then
+    apt install tigervnc-standalone-server -y
+fi
+
+rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

@@ -38,8 +38,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	else
 	MENU="Choose version: "
 fi
-OPTIONS=(1 "Jammy (22.04) [LTS]"
-		 2 "Bionic")
+OPTIONS=(1 "Jammy (22.04) [LTS]")
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
 				--menu "$MENU" \
@@ -49,9 +48,6 @@ CHOICE=$(dialog --clear \
 case $CHOICE in
 	1)
 		codinome="jammy"
-	;;
-	2)
-		codinome="bionic"
 	;;
 esac
 clear

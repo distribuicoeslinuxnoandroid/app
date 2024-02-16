@@ -82,7 +82,7 @@ fi
 	mkdir -p "$folder"
 	cd "$folder"
 	echo "Decompressing Rootfs, please be patient."
-	proot --link2symlink tar -xf ${cur}/${tarball} --exclude=dev||:
+	proot --link2symlink tar -xf ${cur}/${cloudimage} --exclude=dev||:
 	cd "$cur"
 fi
 

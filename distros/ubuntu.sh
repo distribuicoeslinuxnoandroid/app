@@ -283,6 +283,17 @@ mkdir -p ubuntu22-fs/var/tmp
 rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
+echo "fixing shebang of $bin"
+termux-fix-shebang $bin
+
+echo "making $bin executable"
+chmod +x $bin
+
+echo "removing image for some space"
+rm $tarball
+
+wget --tries=20  $extralink/system-config.sh -O ubuntu22-fs/root/system-config.sh > /dev/null
+chmod +x ubuntu22-fs/root/system-config.sh
 
 #Definir o idioma
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
@@ -331,14 +342,6 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 		esac
 fi
 
-echo "fixing shebang of $bin"
-termux-fix-shebang $bin
-
-echo "making $bin executable"
-chmod +x $bin
-
-echo "removing image for some space"
-rm $tarball
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin

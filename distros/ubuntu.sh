@@ -1,62 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
-#📥
-#                     bbbbbbbb                                                                                       
-# UUUUUUUU     UUUUUUUUb::::::b                                                       tttt                            
-# U::::::U     U::::::Ub::::::b                                                    ttt:::t                            
-# U::::::U     U::::::Ub::::::b                                                    t:::::t                            
-# UU:::::U     U:::::UU b:::::b                                                    t:::::t                            
-#  U:::::U     U:::::U  b:::::bbbbbbbbb    uuuuuu    uuuuuunnnn  nnnnnnnn    ttttttt:::::ttttttt    uuuuuu    uuuuuu  
-#  U:::::D     D:::::U  b::::::::::::::bb  u::::u    u::::un:::nn::::::::nn  t:::::::::::::::::t    u::::u    u::::u  
-#  U:::::D     D:::::U  b::::::::::::::::b u::::u    u::::un::::::::::::::nn t:::::::::::::::::t    u::::u    u::::u  
-#  U:::::D     D:::::U  b:::::bbbbb:::::::bu::::u    u::::unn:::::::::::::::ntttttt:::::::tttttt    u::::u    u::::u  
-#  U:::::D     D:::::U  b:::::b    b::::::bu::::u    u::::u  n:::::nnnn:::::n      t:::::t          u::::u    u::::u  
-#  U:::::D     D:::::U  b:::::b     b:::::bu::::u    u::::u  n::::n    n::::n      t:::::t          u::::u    u::::u  
-#  U:::::D     D:::::U  b:::::b     b:::::bu::::u    u::::u  n::::n    n::::n      t:::::t          u::::u    u::::u  
-#  U::::::U   U::::::U  b:::::b     b:::::bu:::::uuuu:::::u  n::::n    n::::n      t:::::t    ttttttu:::::uuuu:::::u  
-#  U:::::::UUU:::::::U  b:::::bbbbbb::::::bu:::::::::::::::uun::::n    n::::n      t::::::tttt:::::tu:::::::::::::::uu
-#   UU:::::::::::::UU   b::::::::::::::::b  u:::::::::::::::un::::n    n::::n      tt::::::::::::::t u:::::::::::::::u
-#     UU:::::::::UU     b:::::::::::::::b    uu::::::::uu:::un::::n    n::::n        tt:::::::::::tt  uu::::::::uu:::u
-#       UUUUUUUUU       bbbbbbbbbbbbbbbb       uuuuuuuu  uuuunnnnnn    nnnnnn          ttttttttttt      uuuuuuuu  uuuu
-                                   
-
-pkg install wget curl proot tar dialog -y
-clear
-folder="ubuntu22-fs"
-cur="pwd"
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-system_icu_locale_code=$(getprop persist.sys.locale)
-
-
-# Dialogs
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
-export PORT=1
-
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-	MENU="Escolha a versão:"
-	else
-	MENU="Choose version: "
-fi
-OPTIONS=(1 "Jammy (22.04) [LTS]")
-CHOICE=$(dialog --clear \
-				--title "$TITLE" \
-				--menu "$MENU" \
-				$HEIGHT $WIDTH $CHOICE_HEIGHT \
-				"${OPTIONS[@]}" \
-				2>&1 >/dev/tty)
-case $CHOICE in
-	1)
-		codinome="jammy"
-		cloudimage="ubuntu22-rootfs.tar.gz"
-	;;
-esac
-clear
-echo "$codinome"
-
-
-
+pkg install wget -y 
+folder=ubuntu22-fs
+cur=`pwd`
+extralink="https://raw.githubusercontent.com/allytiago/Ubuntu-no-Android/main/config"
 
 if [ -d "$folder" ]; then
 	first=1
@@ -73,10 +19,12 @@ if [ "$first" != 1 ];then
 		case `dpkg --print-architecture` in
 		aarch64)
 			archurl="arm64" ;;
+   		arm)
+			archurl="armhf" ;;
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-        wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
+        	wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
 
 	fi
 	mkdir -p "$folder"
@@ -279,53 +227,8 @@ rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Script de instalação adicional
-#Definir o idioma
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-	MENU="Idioma a instalar: "
-	OPTIONS=(1 "Português do Brasil (pt-BR)"
-			 2 "Default (en-US)")
-	CHOICE=$(dialog --clear \
-					--title "$TITLE" \
-					--menu "$MENU" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
 
-	clear
-	case $CHOICE in
-		1)
-			wget --tries=20  "$extralink/locale/locale_pt-BR.sh" -O ubuntu22-fs/root/locale-base.sh > /dev/null
-			chmod +x ubuntu22-fs/root/locale-base.sh
-		;;
-		2)
-			echo ""
-		;;
-	esac
 
-	else
-		MENU="Language to install: "
-		OPTIONS=(1 "Default (en-US)"
-				2 "Português do Brasil (pt-BR)")
-				
-		CHOICE=$(dialog --clear \
-						--title "$TITLE" \
-						--menu "$MENU" \
-						$HEIGHT $WIDTH $CHOICE_HEIGHT \
-						"${OPTIONS[@]}" \
-						2>&1 >/dev/tty)
-
-		clear
-		case $CHOICE in
-			1)
-				echo ""
-			;;
-			2)
-				wget --tries=20  "$extralink/locale/locale_pt-BR.sh" -O ubuntu22-fs/root/locale-base.sh > /dev/null
-				chmod +x ubuntu22-fs/root/locale-base.sh
-			;;
-		esac
-fi
-clear
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -344,16 +247,10 @@ rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
+sudo apt-get full-upgrade -y > /dev/null
 clear
 
-bash ~/locale-base.sh
 
-
-#if [ ! -f /usr/bin/vncserver ]; then
-#    apt install tigervnc-standalone-server -y
-#fi
-
-rm -rf /root/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

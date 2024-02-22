@@ -336,7 +336,23 @@ bash ~/locale*.sh
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 clear
+echo "etapa 1"
+sleep 2
+clear
 exit
 " > $folder/root/.bash_profile 
 
 bash $bin
+
+echo "#!/bin/bash
+
+apt update -y
+clear
+
+sudo apt install dialog tzdata -y
+
+rm -rf ~/.bash_profile
+
+echo "etapa 2"
+
+" > $folder/root/.bash_profile 

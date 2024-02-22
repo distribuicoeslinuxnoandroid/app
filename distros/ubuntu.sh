@@ -333,7 +333,7 @@ clear
 
 bash ~/locale*.sh
 
-rm -rf ~/locale-base.sh
+#rm -rf ~/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

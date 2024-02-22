@@ -1,15 +1,43 @@
 #!/data/data/com.termux/files/usr/bin/bash
+system_icu_locale_code=$(getprop persist.sys.locale)
 pkg install wget -y 
-folder=ubuntu22-fs
 cur=`pwd`
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=100
+CHOICE_HEIGHT=5
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha o sistema operacional que será instalado: "
+else
+MENU="Choose the operating system to be installed: "
+fi
+export PORT=1
+OPTIONS=(1 "Jammy (22.04) [LTS]")
+
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+codinome="jammy"
+folder="ubuntu22-fs"
+tarball="ubuntu22-rootfs.tar.gz"
+;;
+
+esac
+
 
 if [ -d "$folder" ]; then
 	first=1
 	echo "skipping downloading"
 fi
 
-tarball="ubuntu22-rootfs.tar.gz"
 
 termux-setup-storage
 
@@ -19,12 +47,10 @@ if [ "$first" != 1 ];then
 		case `dpkg --print-architecture` in
 		aarch64)
 			archurl="arm64" ;;
-   		arm)
-			archurl="armhf" ;;
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-        	wget "https://partner-images.canonical.com/core/jammy/current/ubuntu-jammy-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
+        	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
 
 	fi
 	mkdir -p "$folder"
@@ -227,7 +253,60 @@ rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Script de instalação adicional
+# Dialogs
+#export USER=$(whoami)
+#HEIGHT=0
+#WIDTH=100
+#CHOICE_HEIGHT=5
 
+#export PORT=1
+#Definir o idioma
+#if [ "$system_icu_locale_code" = "pt-BR" ]; then
+#	MENU="Idioma a instalar: "
+#	OPTIONS=(1 "Português do Brasil (pt-BR)"
+#			 2 "Default (en-US)")
+#	CHOICE=$(dialog --clear \
+#					--title "$TITLE" \
+#					--menu "$MENU" \
+#					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+#					"${OPTIONS[@]}" \
+#					2>&1 >/dev/tty)
+#
+#	clear
+#	case $CHOICE in
+#		1)
+#			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+#			chmod +x ubuntu22-fs/root/locale-base.sh
+#		;;
+#		2)
+#			echo ""
+#		;;
+#	esac
+#
+#	else
+#		MENU="Language to install: "
+#		OPTIONS=(1 "Default (en-US)"
+#				2 "Português do Brasil (pt-BR)")
+#				
+#		CHOICE=$(dialog --clear \
+#						--title "$TITLE" \
+#						--menu "$MENU" \
+#						$HEIGHT $WIDTH $CHOICE_HEIGHT \
+#						"${OPTIONS[@]}" \
+# 						2>&1 >/dev/tty)
+
+# 		clear
+# 		case $CHOICE in
+# 			1)
+# 				echo ""
+# 			;;
+# 			2)
+# 				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+# 				chmod +x ubuntu22-fs/root/locale-base.sh
+# 			;;
+# 		esac
+# fi
+clear
 
 
 echo "fixing shebang of $bin"

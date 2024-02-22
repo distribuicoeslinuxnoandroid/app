@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/bin/bash
 #📥
 #                     bbbbbbbb                                                                                       
 # UUUUUUUU     UUUUUUUUb::::::b                                                       tttt                            

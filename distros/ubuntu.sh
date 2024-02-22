@@ -344,6 +344,9 @@ exit
 
 bash $bin
 
+echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
+touch $folder/root/.hushlogin
+
 echo "#!/bin/bash
 
 apt update -y
@@ -356,3 +359,4 @@ rm -rf ~/.bash_profile
 echo "etapa 2"
 
 " > $folder/root/.bash_profile 
+bash $bin

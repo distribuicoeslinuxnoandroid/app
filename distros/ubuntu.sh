@@ -303,7 +303,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 			;;
 			2)
 				#wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale-base.sh > /dev/null
-				wget --tries=20  https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/locale/locale_pt-BR.sh -O /root/locale_pt-BR.sh > /dev/null
+				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
 				chmod +x $folder/root/locale-base.sh
 				chmod +x $folder/root/locale_pt-BR.sh
 			;;
@@ -333,7 +333,7 @@ clear
 
 bash ~/locale*.sh
 
-#rm -rf ~/locale-base.sh
+rm -rf ~/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

@@ -274,7 +274,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
 			chmod +x ubuntu22-fs/root/locale-base.sh
 		;;
 		2)
@@ -300,7 +300,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				echo ""
 			;;
 			2)
-				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
 				chmod +x ubuntu22-fs/root/locale-base.sh
 			;;
 		esac

@@ -2,7 +2,7 @@
 pkg install wget -y 
 folder=ubuntu22-fs
 cur=`pwd`
-extralink="https://raw.githubusercontent.com/allytiago/Ubuntu-no-Android/main/config"
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
 if [ -d "$folder" ]; then
 	first=1

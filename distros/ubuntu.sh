@@ -274,8 +274,10 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
-			chmod +x ubuntu22-fs/root/locale-base.sh
+			#wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale-base.sh > /dev/null
+			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
+			chmod +x $folder/root/locale-base.sh
+			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
 			echo ""
@@ -300,8 +302,10 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				echo ""
 			;;
 			2)
-				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
-				chmod +x ubuntu22-fs/root/locale-base.sh
+				#wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale-base.sh > /dev/null
+				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
+				chmod +x $folder/root/locale-base.sh
+				chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		esac
 fi
@@ -327,7 +331,7 @@ apt update -y && apt install sudo wget apt-utils -y > /dev/null
 sudo apt-get full-upgrade -y > /dev/null
 clear
 
-bash ~/locale-base.sh
+bash ~/locale*.sh
 
 rm -rf ~/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 

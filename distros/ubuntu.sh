@@ -27,7 +27,7 @@ case $CHOICE in
 1)
 codinome="jammy"
 folder="ubuntu22-fs"
-tarball="ubuntu22-rootfs.tar.gz"
+cloudimagename="ubuntu22-rootfs.tar.gz"
 ;;
 
 esac
@@ -42,7 +42,7 @@ fi
 termux-setup-storage
 
 if [ "$first" != 1 ];then
-	if [ ! -f $tarball ]; then
+	if [ ! -f $cloudimagename ]; then
 		echo "Download Rootfs, this may take a while base on your internet speed."
 		case `dpkg --print-architecture` in
 		aarch64)
@@ -50,13 +50,13 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-        	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
+        	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename
 
 	fi
 	mkdir -p "$folder"
 	cd "$folder"
 	echo "Decompressing Rootfs, please be patient."
-	proot --link2symlink tar -xf ${cur}/${tarball} --exclude=dev||:
+	proot --link2symlink tar -xf ${cur}/${cloudimagename} --exclude=dev||:
 	cd "$cur"
 fi
 
@@ -253,61 +253,59 @@ rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Script de instalação adicional
-# Dialogs
-#export USER=$(whoami)
-#HEIGHT=0
-#WIDTH=100
-#CHOICE_HEIGHT=5
-
-#export PORT=1
+# Idioma
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=100
+CHOICE_HEIGHT=5
+export PORT=1
 #Definir o idioma
-#if [ "$system_icu_locale_code" = "pt-BR" ]; then
-#	MENU="Idioma a instalar: "
-#	OPTIONS=(1 "Português do Brasil (pt-BR)"
-#			 2 "Default (en-US)")
-#	CHOICE=$(dialog --clear \
-#					--title "$TITLE" \
-#					--menu "$MENU" \
-#					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-#					"${OPTIONS[@]}" \
-#					2>&1 >/dev/tty)
-#
-#	clear
-#	case $CHOICE in
-#		1)
-#			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
-#			chmod +x ubuntu22-fs/root/locale-base.sh
-#		;;
-#		2)
-#			echo ""
-#		;;
-#	esac
-#
-#	else
-#		MENU="Language to install: "
-#		OPTIONS=(1 "Default (en-US)"
-#				2 "Português do Brasil (pt-BR)")
-#				
-#		CHOICE=$(dialog --clear \
-#						--title "$TITLE" \
-#						--menu "$MENU" \
-#						$HEIGHT $WIDTH $CHOICE_HEIGHT \
-#						"${OPTIONS[@]}" \
-# 						2>&1 >/dev/tty)
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+	MENU="Idioma a instalar: "
+	OPTIONS=(1 "Português do Brasil (pt-BR)"
+			 2 "Default (en-US)")
+	CHOICE=$(dialog --clear \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
 
-# 		clear
-# 		case $CHOICE in
-# 			1)
-# 				echo ""
-# 			;;
-# 			2)
-# 				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
-# 				chmod +x ubuntu22-fs/root/locale-base.sh
-# 			;;
-# 		esac
-# fi
+	clear
+	case $CHOICE in
+		1)
+			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+			chmod +x ubuntu22-fs/root/locale-base.sh
+		;;
+		2)
+			echo ""
+		;;
+	esac
+
+	else
+		MENU="Language to install: "
+		OPTIONS=(1 "Default (en-US)"
+				2 "Português do Brasil (pt-BR)")
+				
+		CHOICE=$(dialog --clear \
+						--title "$TITLE" \
+						--menu "$MENU" \
+						$HEIGHT $WIDTH $CHOICE_HEIGHT \
+						"${OPTIONS[@]}" \
+						2>&1 >/dev/tty)
+
+		clear
+		case $CHOICE in
+			1)
+				echo ""
+			;;
+			2)
+				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+				chmod +x ubuntu22-fs/root/locale-base.sh
+			;;
+		esac
+fi
 clear
-
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -316,7 +314,7 @@ echo "making $bin executable"
 chmod +x $bin
 
 echo "removing image for some space"
-rm $tarball
+rm $cloudimagename
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
@@ -329,7 +327,9 @@ apt update -y && apt install sudo wget -y > /dev/null
 sudo apt-get full-upgrade -y > /dev/null
 clear
 
+bash ~/locale-base.sh
 
+rm -rf ~/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 #📥
 #                     bbbbbbbb                                                                                       
 # UUUUUUUU     UUUUUUUUb::::::b                                                       tttt                            
@@ -19,23 +19,21 @@
 #       UUUUUUUUU       bbbbbbbbbbbbbbbb       uuuuuuuu  uuuunnnnnn    nnnnnn          ttttttttttt      uuuuuuuu  uuuu
                                    
 
-
-#!/data/data/com.termux/files/usr/bin/bash
-pkg install wget -y 
-folder=ubuntu22-fs
+pkg install wget curl proot tar dialog -y
+clear
+folder="ubuntu22-fs"
 cur="pwd"
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
-if [ -d "$folder" ]; then
-	first=1
-	echo "skipping downloading"
-fi
+
+
 # Dialogs
 export USER=$(whoami)
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
 export PORT=1
+
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	MENU="Escolha a versão:"
 	else
@@ -57,10 +55,20 @@ esac
 clear
 echo "$codinome"
 
+
+
+
+if [ -d "$folder" ]; then
+	first=1
+	echo "skipping downloading"
+fi
+
+tarball="ubuntu22-rootfs.tar.gz"
+
 termux-setup-storage
 
 if [ "$first" != 1 ];then
-	if [ ! -f $cloudimage ]; then
+	if [ ! -f $tarball ]; then
 		echo "Download Rootfs, this may take a while base on your internet speed."
 		case `dpkg --print-architecture` in
 		aarch64)
@@ -68,13 +76,13 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-		wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimage
+        wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $tarball
 
-fi
+	fi
 	mkdir -p "$folder"
 	cd "$folder"
 	echo "Decompressing Rootfs, please be patient."
-	proot --link2symlink tar -xf ${cur}/${cloudimage} --exclude=dev||:
+	proot --link2symlink tar -xf ${cur}/${tarball} --exclude=dev||:
 	cd "$cur"
 fi
 
@@ -102,12 +110,12 @@ if [ ! -f "${cur}/${folder}/proc/fakethings/stat" ]; then
 	EOF
 fi
 
-
 if [ ! -f "${cur}/${folder}/proc/fakethings/version" ]; then
 	cat <<- EOF > "${cur}/${folder}/proc/fakethings/version"
 	Linux version 5.4.0-faked (andronix@fakeandroid) (gcc version 4.9.x (Andronix fake /proc/version) ) #1 SMP PREEMPT Sun Sep 13 00:00:00 IST 2020
 	EOF
 fi
+
 
 if [ ! -f "${cur}/${folder}/proc/fakethings/vmstat" ]; then
 	cat <<- EOF > "${cur}/${folder}/proc/fakethings/vmstat"
@@ -217,7 +225,7 @@ if [ ! -f "${cur}/${folder}/proc/fakethings/vmstat" ]; then
 	EOF
 fi
 
-bin=start-ubuntu22.sh
+bin=start-ubuntu.sh
 echo "writing launch script"
 cat > $bin <<- EOM
 #!/bin/bash
@@ -270,19 +278,7 @@ mkdir -p ubuntu22-fs/var/tmp
 rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
-echo "fixing shebang of $bin"
-termux-fix-shebang $bin
-echo "making $bin executable"
-chmod +x $bin
-echo "removing image for some space"
-rm $cloudimage
-
-
-#DE installation addition
-
-wget --tries=20 $extralink/system-config.sh -O $folder/root/system-config.sh
-chmod +x $folder/root/system-config.sh
-
+# Script de instalação adicional
 #Definir o idioma
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	MENU="Idioma a instalar: "
@@ -298,7 +294,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+			wget --tries=20  "$extralink/locale/locale_pt-BR.sh" -O ubuntu22-fs/root/locale-base.sh > /dev/null
 			chmod +x ubuntu22-fs/root/locale-base.sh
 		;;
 		2)
@@ -324,21 +320,40 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				echo ""
 			;;
 			2)
-				wget --tries=20  $extralink/locale/locale_pt-BR.sh -O ubuntu22-fs/root/locale-base.sh > /dev/null
+				wget --tries=20  "$extralink/locale/locale_pt-BR.sh" -O ubuntu22-fs/root/locale-base.sh > /dev/null
 				chmod +x ubuntu22-fs/root/locale-base.sh
 			;;
 		esac
 fi
 clear
 
+echo "fixing shebang of $bin"
+termux-fix-shebang $bin
+
+echo "making $bin executable"
+chmod +x $bin
+
+echo "removing image for some space"
+rm $tarball
+
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
+
 echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
+
+bash ~/locale-base.sh
+
+
+#if [ ! -f /usr/bin/vncserver ]; then
+#    apt install tigervnc-standalone-server -y
+#fi
+
+rm -rf /root/locale-base.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

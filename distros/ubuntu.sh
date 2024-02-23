@@ -390,7 +390,7 @@ touch $folder/root/.hushlogin
 echo "#!/bin/bash
 
 $locale_base
-apt update
+sudo apt update
 
 apt install dialog tzdata -y
 

@@ -8,6 +8,7 @@ android_architecture=$(getprop ro.product.cpu.abi)
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 
+
 echo ""
 echo -e "\e[1;107;30;mInformações do seu sistema\e[0m"
 echo ""

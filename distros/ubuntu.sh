@@ -328,7 +328,6 @@ rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
-sudo apt-get full-upgrade -y > /dev/null
 clear
 
 bash ~/locale*.sh

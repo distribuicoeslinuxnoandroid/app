@@ -15,8 +15,3 @@ locale-gen
 echo 'export LC_ALL=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANG=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANGUAGE=pt_BR.UTF-8' >> ~/.bashrc
-
-sed -i '9i\
-export LC_ALL=pt_BR.UTF-8\n\
-export LANG=pt_BR.UTF-8\n\
-export LANGUAGE=pt_BR.UTF-8\n\' ~/.bash_profile

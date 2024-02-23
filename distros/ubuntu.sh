@@ -301,10 +301,6 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 			2)
 				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
 				chmod +x $folder/root/locale_pt-BR.sh
-				locale_base="
-				export LC_ALL=pt_BR.UTF-8
-				export LANG=pt_BR.UTF-8
-				export LANGUAGE=pt_BR.UTF-8"
 			;;
 		esac
 fi
@@ -325,7 +321,7 @@ rm $cloudimagename
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
-
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
 echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
@@ -334,18 +330,25 @@ apt update -y && apt install sudo wget -y > /dev/null
 clear
 
 bash ~/locale*.sh
-
-
+export LC_ALL=pt_BR.UTF-8
+export LANG=pt_BR.UTF-8
+export LANGUAGE=pt_BR.UTF-8
 sudo apt update
-
+sudo apt install dialog tzdata -y
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 
-echo "Etapa 1"
-sleep 2
-clear
 exit" > $folder/root/.bash_profile 
+else
+echo "#!/bin/bash
+rm -rf /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+mkdir -p ~/.vnc
+apt update -y && apt install sudo wget -y > /dev/null
+clear
 
+rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+fi
 bash $bin
 
 # GUI
@@ -390,8 +393,6 @@ echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Set
 touch $folder/root/.hushlogin
 
 echo "#!/bin/bash
-
-$locale_base
 sudo apt update
 
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 

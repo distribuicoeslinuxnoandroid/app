@@ -85,7 +85,7 @@ fi
 
 if [ ! -f "${cur}/${folder}/proc/fakethings/version" ]; then
 	cat <<- EOF > "${cur}/${folder}/proc/fakethings/version"
-	Linux version 5.4.0-faked (andronix@fakeandroid) (gcc version 4.9.x (Andronix fake /proc/version) ) #1 SMP PREEMPT Sun Sep 13 00:00:00 IST 2020
+	Linux version 5.4.0-faked (distribuicoeslinuxnoandroid@fakeandroid) (gcc version 4.9.x (Fake Distribuicoes Linux no Android /proc/version) ) #1 SMP PREEMPT Sun Sep 13 00:00:00 IST 2020
 	EOF
 fi
 
@@ -252,6 +252,9 @@ rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Script de instalação adicional
+wget --tries=20  $extralink/config/system-config.sh -O $folder/root/system-config.sh > /dev/null
+chmod +x $folder/root/system-config.sh
+
 # Idioma
 export USER=$(whoami)
 HEIGHT=0
@@ -334,10 +337,10 @@ export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
-sudo apt install dialog tzdata -y
+bash ~/system-config.sh
 rm -rf ~/locale*.sh
+rm -rf ~/system-config.sh
 rm -rf ~/.bash_profile
-
 exit" > $folder/root/.bash_profile 
 else
 echo "#!/bin/bash
@@ -346,8 +349,10 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
-
-rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+bash ~/system-config.sh
+rm -rf ~/system-config.sh
+rm -rf ~/.bash_profile
+exit" > $folder/root/.bash_profile 
 fi
 bash $bin
 

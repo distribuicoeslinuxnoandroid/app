@@ -1,0 +1,11 @@
+#!/bin/bash
+USER=$(whoami)
+echo "Shutting down the VNC server"
+echo -n "Enter the port number you want to close (example: 3): "
+read porta
+echo " "
+echo "Shutting down VNC from port: $porta"
+vncserver -kill :$porta
+
+rm -rf /tmp/.X$pt-lock
+rm -rf /tmp/.X11-unix/X$pt

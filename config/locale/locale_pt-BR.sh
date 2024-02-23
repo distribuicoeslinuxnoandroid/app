@@ -4,7 +4,7 @@
 sudo apt update
 
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
-sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base -y
+sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base wbrazilian hunspell-pt-br -y
 
 ## Gerar o idioma
 sed -i 's/^# *\(pt_BR.UTF-8\)/\1/' /etc/locale.gen

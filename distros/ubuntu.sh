@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 system_icu_locale_code=$(getprop persist.sys.locale)
 pkg install wget -y 
-cur=`pwd`
+cur="pwd"
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 export USER=$(whoami)
 HEIGHT=0
@@ -389,6 +389,31 @@ echo "XFCE UI"
 ;;
 3)
 echo "Gnome UI"
+pkg install dbus -y
+# Parte da resolução do problema do gnome e do systemd
+mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
+rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
+dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
+
+if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+   grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+   grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+   grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null ; then # verifica se existe a linha com esse texto
+	echo ""
+	else
+	echo "" # caso não exista as linhas verificadas, alterar e adicionar as linhas no arquivo usando o sed
+	sed -i 's|<auth>EXTERNAL</auth>|<listen>tcp:host=localhost,bind=*,port=6667,family=ipv4</listen>\
+   <listen>unix:tmpdir=/tmp</listen>\
+   <auth>EXTERNAL</auth>\
+   <auth>ANONYMOUS</auth>\
+   <allow_anonymous/>|' /data/data/com.termux/files/usr/share/dbus-1/system.conf
+fi
+
+# É necessário repetir o processo toda vez que alterar o system.conf
+rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
+dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
+sed -i '\|command+=" -b /proc/self/fd:/dev/fd"|a command+=" -b system_bus_socket:/run/dbus/system_bus_socket"' $bin
+sed -i '1 a\if [ ! -e "system_bus_socket" ]; then\n	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \n	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\nfi' $bin
 ;;
 esac
 

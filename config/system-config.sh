@@ -1,5 +1,5 @@
 #!/bin/bash
-
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 # Garantindo a remoção snap
 sudo apt autoremove --purge chromium* -y
 sudo apt autoremove --purge firefox* -y

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=0
+CHOICE_HEIGHT=5
+BACKTITLE="Seleção de resolução"
+TITLE="vncserver-start"
+MENU="Escolha alguma das seguintes opções:"
+export PORT=1
+
+
+OPTIONS=(1 "Iniciar o vncserver na resolução Ultrawide HD"
+         2 "Iniciar o vncserver na resolução Quad-HD"
+         3 "Iniciar o vncserver na resolução Full-HD"
+         4 "Iniciar o vncserver na resolução HD"
+         5 "Iniciar o vncserver com resolução e porta customizada")
+
+
+
+CHOICE=$(dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+echo "Você escolheu a resolução UWHD"
+GEO="-geometry 2560x1080" vnc
+;;
+2)
+echo "Você escolheu a resolução QHD"
+GEO="-geometry 2560x1440" vnc
+;;
+3)
+echo "Você escolheu a resolução Full HD"
+GEO="-geometry 1920x1080" vnc
+;;
+4)
+echo "Você escolheu a resolução HD"
+GEO="-geometry 1280x720" vnc
+;;
+5)
+echo "Você escolheu definir a resolução e porta manualmente"
+echo "Insira a resolução personalizada no formato LARGURAxALTURA. Exemplo: 1920x1200"
+read custom
+echo "Insira o número da porta. Exemplo: 2"
+read port
+GEO="-geometry $custom" PORT=$port vnc
+;;
+esac

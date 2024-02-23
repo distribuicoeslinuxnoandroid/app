@@ -29,7 +29,6 @@ codinome="jammy"
 folder="ubuntu22-fs"
 cloudimagename="ubuntu22-rootfs.tar.gz"
 ;;
-
 esac
 
 
@@ -302,47 +301,16 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 			2)
 				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
 				chmod +x $folder/root/locale_pt-BR.sh
+				locale_base="
+				export LC_ALL=pt_BR.UTF-8
+				export LANG=pt_BR.UTF-8
+				export LANGUAGE=pt_BR.UTF-8"
+				clear
 			;;
 		esac
 fi
 clear
 
-
-# GUI
-
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha um ambientes de área de trabalho: "
-else
-MENU="Choose a desktop environments: "
-fi
-export PORT=1
-OPTIONS=(1 "LXDE"
-		 2 "XFCE"
-		 3 "Gnome")
-
-CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
-
-clear
-case $CHOICE in
-1)
-echo "LXDE UI"
-;;
-2)
-echo "XFCE UI"
-;;
-3)
-echo "Gnome UI"
-;;
-esac
 
 chmod +x $folder/root/locale*.sh
 
@@ -420,6 +388,8 @@ echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Set
 touch $folder/root/.hushlogin
 
 echo "#!/bin/bash
+
+$locale_base
 apt update
 
 apt install dialog tzdata -y

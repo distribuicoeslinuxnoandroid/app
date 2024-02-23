@@ -274,9 +274,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			#wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale-base.sh > /dev/null
 			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
-			chmod +x $folder/root/locale-base.sh
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
@@ -302,14 +300,52 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				echo ""
 			;;
 			2)
-				#wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale-base.sh > /dev/null
 				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
-				chmod +x $folder/root/locale-base.sh
 				chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		esac
 fi
 clear
+
+
+# GUI
+
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=100
+CHOICE_HEIGHT=5
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha um ambientes de área de trabalho: "
+else
+MENU="Choose a desktop environments: "
+fi
+export PORT=1
+OPTIONS=(1 "LXDE"
+		 2 "XFCE"
+		 3 "Gnome")
+
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+echo "LXDE UI"
+;;
+2)
+echo "XFCE UI"
+;;
+3)
+echo "Gnome UI"
+;;
+esac
+
+chmod +x $folder/root/locale*.sh
+
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -334,28 +370,62 @@ bash ~/locale*.sh
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
-clear
-echo "etapa 1"
+
+echo "Etapa 1"
 sleep 2
 clear
-exit
-" > $folder/root/.bash_profile 
+exit" > $folder/root/.bash_profile 
 
 bash $bin
 
+# GUI
+
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=100
+CHOICE_HEIGHT=5
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+MENU="Escolha um ambientes de área de trabalho: "
+else
+MENU="Choose a desktop environments: "
+fi
+export PORT=1
+OPTIONS=(1 "LXDE"
+		 2 "XFCE"
+		 3 "Gnome")
+
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+echo "LXDE UI"
+;;
+2)
+echo "XFCE UI"
+;;
+3)
+echo "Gnome UI"
+;;
+esac
+
+termux-fix-shebang $bin
+chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 
 echo "#!/bin/bash
+apt update
 
-apt update -y
-clear
+apt install dialog tzdata -y
 
-sudo apt install dialog tzdata -y
+echo "Etapa 02"
+sleep 2
 
-rm -rf ~/.bash_profile
-
-echo "etapa 2"
-
-" > $folder/root/.bash_profile 
+rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 bash $bin

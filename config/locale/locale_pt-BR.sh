@@ -2,7 +2,6 @@
 	
 # Atualizar repositório
 sudo apt update
-sudo apt-get update
 
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
 sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base -y

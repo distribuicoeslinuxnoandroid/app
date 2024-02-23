@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 system_icu_locale_code=$(getprop persist.sys.locale)
 pkg install wget -y 
-cur="pwd"
+cur=`pwd`
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 export USER=$(whoami)
 HEIGHT=0
@@ -277,10 +277,21 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	case $CHOICE in
 		1)
 			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
+
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
 			echo ""
+			wget --tries=20 "$extralink/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "$extralink/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
 		;;
 	esac
 
@@ -300,9 +311,19 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 		case $CHOICE in
 			1)
 				echo ""
+				wget --tries=20 "$extralink/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
 			;;
 			2)
 				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
 				chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		esac
@@ -311,7 +332,11 @@ clear
 
 
 chmod +x $folder/root/locale*.sh
-
+chmod +x $folder/usr/local/bin/vnc
+chmod +x $folder/usr/local/bin/vncpasswd
+chmod +x $folder/usr/local/bin/startvnc
+chmod +x $folder/usr/local/bin/stopvnc
+chmod +x $folder/usr/local/bin/startvncserver
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -383,12 +408,15 @@ clear
 case $CHOICE in
 1)
 echo "LXDE UI"
+wget --tries=20  $extralink/config/environment/lxde/config.sh -O $folder/root/config-environment.sh > /dev/null
 ;;
 2)
 echo "XFCE UI"
+wget --tries=20  $extralink/config/environment/xfce4/config.sh -O $folder/root/config-environment.sh > /dev/null
 ;;
 3)
 echo "Gnome UI"
+wget --tries=20  $extralink/config/environment/gnome/config.sh -O $folder/root/config-environment.sh > /dev/null
 pkg install dbus -y
 # Parte da resolução do problema do gnome e do systemd
 mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
@@ -417,6 +445,10 @@ sed -i '1 a\if [ ! -e "system_bus_socket" ]; then\n	rm -rf /data/data/com.termux
 ;;
 esac
 
+chmod +x $folder/root/config-environment.sh
+
+sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
+
 termux-fix-shebang $bin
 chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
@@ -425,5 +457,8 @@ touch $folder/root/.hushlogin
 echo "#!/bin/bash
 sudo apt update
 
+bash ~/config-environment.sh
+
+rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 bash $bin

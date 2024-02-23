@@ -335,6 +335,7 @@ clear
 
 bash ~/locale*.sh
 
+
 sudo apt update
 
 rm -rf ~/locale*.sh

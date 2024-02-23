@@ -305,7 +305,6 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				export LC_ALL=pt_BR.UTF-8
 				export LANG=pt_BR.UTF-8
 				export LANGUAGE=pt_BR.UTF-8"
-				clear
 			;;
 		esac
 fi
@@ -335,6 +334,8 @@ apt update -y && apt install sudo wget -y > /dev/null
 clear
 
 bash ~/locale*.sh
+
+sudo apt update
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
@@ -391,11 +392,6 @@ echo "#!/bin/bash
 
 $locale_base
 sudo apt update
-
-apt install dialog tzdata -y
-
-echo "Etapa 02"
-sleep 2
 
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 bash $bin

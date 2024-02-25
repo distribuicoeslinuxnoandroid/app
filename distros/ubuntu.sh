@@ -276,7 +276,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
+			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -P $folder/root > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null

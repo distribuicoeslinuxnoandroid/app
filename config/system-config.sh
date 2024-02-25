@@ -53,6 +53,8 @@ if [ ! -d "/usr/share/backgrounds/" ];then
   mkdir -p "/usr/share/backgrounds/"
 fi
 
+wget "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
+
 if [ ! -d "/usr/share/icons/" ];then
   mkdir -p "/usr/share/icons/"
 fi
@@ -60,6 +62,7 @@ fi
 if [ ! -d "~/.config/gtk-3.0" ];then
   mkdir -p ~/.config/gtk-3.0/
 fi
+
 
 mkdir $HOME/.config/gtk-3.0/
 echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks

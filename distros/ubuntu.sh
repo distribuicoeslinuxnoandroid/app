@@ -457,7 +457,7 @@ touch $folder/root/.hushlogin
 echo "#!/bin/bash
 sudo apt update
 
-bash ~/config-environment.sh
+#bash ~/config-environment.sh
 
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 

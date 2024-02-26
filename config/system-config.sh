@@ -18,6 +18,26 @@ sudo apt-get install keyboard-configuration -y
 #Definir o fuso horário
 sudo apt-get install tzdata -y
 
+
+# Se não existir, será criado
+if [ ! -d "/usr/share/backgrounds/" ];then
+  mkdir -p "/usr/share/backgrounds/"
+fi
+
+wget "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
+
+if [ ! -d "/usr/share/icons/" ];then
+  mkdir -p "/usr/share/icons/"
+fi
+
+if [ ! -d "~/.config/gtk-3.0" ];then
+  mkdir -p ~/.config/gtk-3.0/
+fi
+
+mkdir $HOME/.config/gtk-3.0/
+echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+
+sudo apt-get installsoftware-properties-common -y
 # Adicionar as PPAs de repositórios
 # Caso não queira adicionar algum desses repositórios, apague a linha e o comentário (o texto que vem após o #) relacionado ao PPA do repositório 
 ## PPA do Inkscape
@@ -46,23 +66,3 @@ rm -f packages.microsoft.gpg
 # PPA do Brave Browser
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-
-# Se não existir, será criado
-if [ ! -d "/usr/share/backgrounds/" ];then
-  mkdir -p "/usr/share/backgrounds/"
-fi
-
-wget "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
-
-if [ ! -d "/usr/share/icons/" ];then
-  mkdir -p "/usr/share/icons/"
-fi
-
-if [ ! -d "~/.config/gtk-3.0" ];then
-  mkdir -p ~/.config/gtk-3.0/
-fi
-
-
-mkdir $HOME/.config/gtk-3.0/
-echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks

@@ -255,6 +255,12 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 wget --tries=20  $extralink/config/system-config.sh -O $folder/root/system-config.sh > /dev/null
 chmod +x $folder/root/system-config.sh
 
+if [ ! -d "/usr/share/backgrounds/" ];then
+  mkdir -p "/usr/share/backgrounds/"
+fi
+
+wget --tries=20 "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
+
 # Idioma
 export USER=$(whoami)
 HEIGHT=0
@@ -276,7 +282,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -P $folder/root > /dev/null
+			wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
@@ -421,6 +427,7 @@ pkg install dbus -y
 # Parte da resolução do problema do gnome e do systemd
 mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
 rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
+rm -rf system_bus_socket
 dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
 
 if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
@@ -454,11 +461,52 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 
+
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
 echo "#!/bin/bash
+export LC_ALL=pt_BR.UTF-8
+export LANG=pt_BR.UTF-8
+export LANGUAGE=pt_BR.UTF-8
 sudo apt update
+sudo apt-get install keyboard-configuration -y
+sudo apt-get install tzdata -y
+sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
-#bash ~/config-environment.sh
+bash ~/config-environment.sh
+bash ~/system-config.sh
 
+chmod +x /usr/local/bin/vnc
+chmod +x /usr/local/bin/vncpasswd
+chmod +x /usr/local/bin/startvnc
+chmod +x /usr/local/bin/stopvnc
+chmod +x /usr/local/bin/startvncserver
+
+rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+
+else
+echo "#!/bin/bash
+sudo apt update
+sudo apt-get install keyboard-configuration -y
+sudo apt-get install tzdata -y
+sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
+
+bash ~/config-environment.sh
+bash ~/system-config.sh
+
+chmod +x /usr/local/bin/vnc
+chmod +x /usr/local/bin/vncpasswd
+chmod +x /usr/local/bin/startvnc
+chmod +x /usr/local/bin/stopvnc
+chmod +x /usr/local/bin/startvncserver
+
+rm -rf ~/system-config.sh
+rm -rf ~/config-environment.sh
+rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+fi
+
+
+
+
 bash $bin

@@ -34,7 +34,6 @@ if [ ! -d "~/.config/gtk-3.0" ];then
   mkdir -p ~/.config/gtk-3.0/
 fi
 
-mkdir $HOME/.config/gtk-3.0/
 echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
 sudo apt-get installsoftware-properties-common -y

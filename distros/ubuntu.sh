@@ -368,9 +368,9 @@ export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
-bash ~/system-config.sh
+#bash ~/system-config.sh
 rm -rf ~/locale*.sh
-rm -rf ~/system-config.sh
+#rm -rf ~/system-config.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 else
@@ -380,8 +380,8 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
-bash ~/system-config.sh
-rm -rf ~/system-config.sh
+#bash ~/system-config.sh
+#rm -rf ~/system-config.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 fi

@@ -28,7 +28,7 @@ vncserver -name remote-desktop -geometry 1920x1080 :1
 xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
 xfconf-query -c xsettings -p /Net/IconThemeName -s Uos-fulldistro-icons
 xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg
-wget --tries=20 $extralink/config/environment/xfce4/xfce4-panel.tar.bz2  -O ~/xfce4-panel.tar.bz2
+wget --tries=20 "${extralink}/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2
 chmod +x ~/xfce4-panel.tar.bz2
 xfce4-panel-profiles load xfce4-panel.tar.bz2
 mkdir $HOME/.config/gtk-3.0/

@@ -71,7 +71,7 @@ clear
 case $CHOICE in
 1)
 echo "Ubuntu"
-wget --tries=20 $extralink/distros/ubuntu.sh -O start-distro.sh
+wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh
 ;;
 
 esac

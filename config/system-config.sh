@@ -24,7 +24,7 @@ if [ ! -d "/usr/share/backgrounds/" ];then
   mkdir -p "/usr/share/backgrounds/"
 fi
 
-wget "$extralink/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
+wget "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
 
 
 if [ ! -d "/usr/share/icons/" ];then

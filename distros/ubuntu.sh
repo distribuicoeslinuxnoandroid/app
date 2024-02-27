@@ -259,7 +259,7 @@ if [ ! -d "/usr/share/backgrounds/" ];then
   mkdir -p "/usr/share/backgrounds/"
 fi
 
-wget --tries=20 "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
+wget --tries=20 "$extralink/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
 
 # Idioma
 export USER=$(whoami)
@@ -282,7 +282,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null
+			wget --tries=20 "$extralink/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
 			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
@@ -505,8 +505,6 @@ rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 fi
-
-
 
 
 bash $bin

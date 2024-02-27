@@ -5,22 +5,44 @@ clear
 #Logs do sistema
 android_version=$(getprop ro.build.version.release)
 android_architecture=$(getprop ro.product.cpu.abi)
+device_manufacturer=$(getprop ro.product.manufacturer)
+device_model=$(getprop ro.product.model)
+device_model_complete=$(getprop ril.product_code)
+
+device_hardware=$(getprop ro.hardware.chipname)
+system_country=$(getprop ro.csc.country_code)
+system_country_iso=$(getprop ro.csc.countryiso_code)
 system_icu_locale_code=$(getprop persist.sys.locale)
+system_timezone=$(getprop persist.sys.timezone)
 
+clear
+echo ""
+echo -e "\033[1;4;37mInformações do seu sistema\033[0m"
+echo ""
+echo -e "\033[1;29mVersão do Android:\033[0m ${android_version}" #Versão do sistema
+echo ""
+echo -e "\033[1;29mMarca:\033[0m ${device_manufacturer}" #Marca
+echo -e "\033[1;29mModelo:\033[0m ${device_model} / ${device_model_complete}" #Modelo
 
 
 echo ""
-echo -e "\e[1;107;30;mInformações do seu sistema\e[0m"
+echo -e "\033[1;29mChipset:\033[0m ${device_hardware}" #SoC
+echo -e "\033[1;29mArquitetura:\033[0m ${android_architecture}" #Arquitetura do processador
 echo ""
-echo -e "\033[1;32mVersão do Android:\033[0m $android_version"
-echo -e "\033[1;35mArquitetura:\033[0m $android_architecture"
-echo -e "\033[1;33mIdioma:\033[0m: $system_icu_locale_code"
-sleep 5
+echo -e "\033[1;29mRegião:\033[0m ${system_country}" #País
+echo -e "\033[1;29mAbreviação:\033[0m ${system_country_iso}" #Abreviação nome do país
+echo -e "\033[1;29mCódigo do idioma:\033[0m ${system_icu_locale_code}" #Idioma 
+echo -e "\033[1;29mSeu fuso horário:\033[0m ${system_timezone}" #Fuso horário
+echo ""
+echo ""
+for i in {10..1}; do
+  echo -ne "\rFecha em: [$i]s"
+  sleep 1
+done
+#sleep 10
 clear
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-
-
 
 # Dialogs
 export USER=$(whoami)

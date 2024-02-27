@@ -252,14 +252,14 @@ rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Script de instalação adicional
-wget --tries=20  $extralink/config/system-config.sh -O $folder/root/system-config.sh > /dev/null
+wget --tries=20  "${extralink}/config/system-config.sh" -O $folder/root/system-config.sh > /dev/null
 chmod +x $folder/root/system-config.sh
 
 if [ ! -d "/usr/share/backgrounds/" ];then
   mkdir -p "/usr/share/backgrounds/"
 fi
 
-wget --tries=20 "$extralink/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
+wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
 
 # Idioma
 export USER=$(whoami)
@@ -282,22 +282,22 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
-			wget --tries=20 "$extralink/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
 
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
 			echo ""
-			wget --tries=20 "$extralink/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
-			wget --tries=20 "$extralink/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
+			wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
 		;;
 	esac
 
@@ -317,19 +317,19 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 		case $CHOICE in
 			1)
 				echo ""
-				wget --tries=20 "$extralink/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null
 			;;
 			2)
-				wget --tries=20  $extralink/config/locale/locale_pt-BR.sh -O $folder/root/locale_pt-BR.sh > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
-				wget --tries=20 "$extralink/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20  "${extralink}/config/locale/locale_pt-BR.sh" -O $folder/root/locale_pt-BR.sh > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null
 				chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		esac
@@ -414,15 +414,15 @@ clear
 case $CHOICE in
 1)
 echo "LXDE UI"
-wget --tries=20  $extralink/config/environment/lxde/config.sh -O $folder/root/config-environment.sh > /dev/null
+wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null
 ;;
 2)
 echo "XFCE UI"
-wget --tries=20  $extralink/config/environment/xfce4/config.sh -O $folder/root/config-environment.sh > /dev/null
+wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null
 ;;
 3)
 echo "Gnome UI"
-wget --tries=20  $extralink/config/environment/gnome/config.sh -O $folder/root/config-environment.sh > /dev/null
+wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null
 pkg install dbus -y
 # Parte da resolução do problema do gnome e do systemd
 mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará

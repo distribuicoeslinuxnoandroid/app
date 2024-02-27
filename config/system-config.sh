@@ -17,7 +17,7 @@ sudo apt-get install sudo wget nano inetutils-tools dialog software-properties-c
 sudo apt-get install keyboard-configuration -y
 #Definir o fuso horário
 sudo apt-get install tzdata -y
-sudo apt-get install tumbler -y
+sudo apt-get install ristretto tumbler -y
 sudo apt-get install nautilus-font-manager nautilus-extension-gnome-terminal nautilus-gnome-console -y
 
 

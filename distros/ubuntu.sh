@@ -26,7 +26,7 @@ clear
 case $CHOICE in
 1)
 codinome="jammy"
-folder="ubuntu22-fs"
+folder=ubuntu22-fs
 cloudimagename="ubuntu22-rootfs.tar.gz"
 ;;
 esac
@@ -255,8 +255,15 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 wget --tries=20  "${extralink}/config/system-config.sh" -O $folder/root/system-config.sh > /dev/null
 chmod +x $folder/root/system-config.sh
 
-if [ ! -d "/usr/share/backgrounds/" ];then
-  mkdir -p "/usr/share/backgrounds/"
+
+# Se não existir, será criado
+if [ ! -d "$folder/usr/share/backgrounds/" ];then
+  mkdir -p "$folder/usr/share/backgrounds/"
+fi
+
+
+if [ ! -d "$folder/usr/share/icons/" ];then
+  mkdir -p "$folder/usr/share/icons/"
 fi
 
 wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null

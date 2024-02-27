@@ -17,14 +17,16 @@ sudo apt-get install sudo wget nano inetutils-tools dialog software-properties-c
 sudo apt-get install keyboard-configuration -y
 #Definir o fuso horário
 sudo apt-get install tzdata -y
+sudo apt-get install tumbler -y
+sudo apt-get install nautilus-font-manager nautilus-extension-gnome-terminal nautilus-gnome-console -y
+
+
 
 
 # Se não existir, será criado
 if [ ! -d "/usr/share/backgrounds/" ];then
   mkdir -p "/usr/share/backgrounds/"
 fi
-
-wget "${extralink}/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P /usr/share/backgrounds/ > /dev/null
 
 
 if [ ! -d "/usr/share/icons/" ];then

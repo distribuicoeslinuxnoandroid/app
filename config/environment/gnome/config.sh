@@ -10,6 +10,7 @@ sudo apt-get clean
 # Pasta resposável pela execução do vnc
 mkdir -p ~/.vnc
 echo "#!/bin/bash
+export LANG
 export PULSE_SERVER=127.0.0.1
 gnome-shell --x11" > ~/.vnc/xstartup
 

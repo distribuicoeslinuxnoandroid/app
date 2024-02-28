@@ -480,6 +480,11 @@ sudo apt-get install tzdata -y
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh
+if [ "$LANG" = "pt_BR.UTF-8" ]; then
+	sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
+else
+	sed -i '\|export LANG|a LANG=en_US.UTF-8|' ~/.vnc/xstartup
+fi
 bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc
@@ -500,6 +505,13 @@ sudo apt-get install tzdata -y
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh
+
+if [ "$LANG" = "pt_BR.UTF-8" ]; then
+sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
+else
+sed -i '\|export LANG|a LANG=en_US.UTF-8|' ~/.vnc/xstartup
+fi
+
 bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc

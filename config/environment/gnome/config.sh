@@ -26,6 +26,8 @@ vncpasswd
 vncserver
 
 gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
+gnome-extensions enable ubuntu-dock@ubuntu.com
+
 vncserver -kill
 rm -rf /tmp/.X$pt-lock
 rm -rf /tmp/.X11-unix/X$pt

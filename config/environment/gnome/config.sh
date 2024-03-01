@@ -2,6 +2,13 @@
 echo -e  "\033[0;32mGnome UI\033[0m"
 
 clear
+
+#sudo apt-get install notification-daemon -y
+
+#echo '[D-BUS Service]
+#Name=org.freedesktop.Notifications
+#Exec=/usr/lib/notification-daemon/notification-daemon' | sudo tee /usr/share/dbus-1/services/org.freedesktop.Notifications.service
+
 # Instalar pacotes necessários da interface
 sudo apt-get install gnome-shell gnome-terminal gnome-tweaks gnome-shell-extensions gnome-shell-extension-ubuntu-dock -y
 #sudo apt-get install  yaru-theme-gtk yaru-theme-icon -y

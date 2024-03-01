@@ -17,11 +17,16 @@ sudo apt-get install sudo wget nano inetutils-tools dialog software-properties-c
 sudo apt-get install keyboard-configuration -y
 #Definir o fuso horário
 sudo apt-get install tzdata -y
-sudo apt-get install ristretto tumbler -y
-sudo apt-get install nautilus-font-manager nautilus-extension-gnome-terminal nautilus-gnome-console -y
+sudo apt-get install gdebi font-manager evince -y
+sudo dpkg --configure -a
+sudo apt-get --reinstall nautilus -y
+sudo apt-get install nautilus -y
+sudo apt-get install nautilus-extension-gnome-terminal nautilus-gnome-console -y
+#sudo apt-get install xloadimage -y
 
-
-
+if [ ! -d "${HOME}/Documents" ];then
+  mkdir -p "${HOME}/Documents"
+fi
 
 # Se não existir, será criado
 if [ ! -d "/usr/share/backgrounds/" ];then
@@ -37,9 +42,10 @@ if [ ! -d "~/.config/gtk-3.0" ];then
   mkdir -p ~/.config/gtk-3.0/
 fi
 
-echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+echo 'file:///
+file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
-sudo apt-get installsoftware-properties-common -y
+sudo apt-get install software-properties-common -y
 # Adicionar as PPAs de repositórios
 # Caso não queira adicionar algum desses repositórios, apague a linha e o comentário (o texto que vem após o #) relacionado ao PPA do repositório 
 ## PPA do Inkscape
@@ -68,3 +74,6 @@ rm -f packages.microsoft.gpg
 # PPA do Brave Browser
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+sudo apt-get install code -y
+sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop

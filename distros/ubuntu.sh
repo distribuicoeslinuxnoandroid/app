@@ -375,9 +375,8 @@ export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
-#bash ~/system-config.sh
+
 rm -rf ~/locale*.sh
-#rm -rf ~/system-config.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 else
@@ -387,8 +386,6 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y && apt install sudo wget -y > /dev/null
 clear
-#bash ~/system-config.sh
-#rm -rf ~/system-config.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 fi
@@ -455,7 +452,7 @@ fi
 rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
 dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
 sed -i '\|command+=" -b /proc/self/fd:/dev/fd"|a command+=" -b system_bus_socket:/run/dbus/system_bus_socket"' $bin
-sed -i '1 a\if [ ! -e "system_bus_socket" ]; then\n	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \n	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\nfi' $bin
+sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
 ;;
 esac
 
@@ -475,6 +472,7 @@ export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
+sudo apt-get install zenity -y
 sudo apt-get install keyboard-configuration -y
 sudo apt-get install tzdata -y
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y

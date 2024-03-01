@@ -36,6 +36,7 @@ echo -e "\033[1;29mCódigo do idioma:\033[0m ${system_icu_locale_code}" #Idioma
 echo -e "\033[1;29mSeu fuso horário:\033[0m (GMT${GMT_date}:00) ${system_timezone}" #Fuso horário
 echo ""
 echo ""
+echo 'Use o comando "./sys-info" para poder ver essas informações novamente.'
 for i in {10..1}; do
   echo -ne "\rFecha em: [$i]s"
   sleep 1

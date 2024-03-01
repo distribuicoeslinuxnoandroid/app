@@ -1,12 +1,15 @@
 #!/data/data/com.termux/files/usr/bin/bash
 system_icu_locale_code=$(getprop persist.sys.locale)
+GMT_date=$(date +"%Z":00)
 pkg install wget -y 
 cur=`pwd`
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 export USER=$(whoami)
+
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
+
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 MENU="Escolha o sistema operacional que será instalado: "
 else
@@ -270,9 +273,6 @@ wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4
 
 # Idioma
 export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
 export PORT=1
 #Definir o idioma
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
@@ -394,9 +394,6 @@ bash $bin
 # GUI
 
 export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 MENU="Escolha um ambientes de área de trabalho: "
 else
@@ -460,11 +457,7 @@ chmod +x $folder/root/config-environment.sh
 
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
 
-termux-fix-shebang $bin
-chmod +x $bin
-#echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
-
 
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
 echo "#!/bin/bash
@@ -472,8 +465,15 @@ export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
-sudo apt-get install zenity -y
+
+sudo apt-get install dialog -y
+
 sudo apt-get install keyboard-configuration -y
+dialog --yesno 'O fuso horário do seu sistema está configurado como (GMT${GMT_date}) ${system_timezone}. Deseja manter?'  $HEIGHT $WIDTH
+clear
+if [ $? -eq 0 ]; then
+   export TZ=${system_timezone}
+fi
 sudo apt-get install tzdata -y
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 

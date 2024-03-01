@@ -14,6 +14,7 @@ system_country=$(getprop ro.csc.country_code)
 system_country_iso=$(getprop ro.csc.countryiso_code)
 system_icu_locale_code=$(getprop persist.sys.locale)
 system_timezone=$(getprop persist.sys.timezone)
+GMT_date=$(date +"%Z")
 
 clear
 echo ""
@@ -32,17 +33,19 @@ echo ""
 echo -e "\033[1;29mRegião:\033[0m ${system_country}" #País
 echo -e "\033[1;29mAbreviação:\033[0m ${system_country_iso}" #Abreviação nome do país
 echo -e "\033[1;29mCódigo do idioma:\033[0m ${system_icu_locale_code}" #Idioma 
-echo -e "\033[1;29mSeu fuso horário:\033[0m ${system_timezone}" #Fuso horário
+echo -e "\033[1;29mSeu fuso horário:\033[0m (GMT${GMT_date}:00) ${system_timezone}" #Fuso horário
 echo ""
 echo ""
 for i in {10..1}; do
   echo -ne "\rFecha em: [$i]s"
   sleep 1
 done
-#sleep 10
 clear
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
+wget --tries=20 "${extralink}/sys-info"
+chmod +x sys-info
 
 # Dialogs
 export USER=$(whoami)

@@ -24,8 +24,6 @@ echo -e "\033[1;29mVersão do Android:\033[0m ${android_version}" #Versão do si
 echo ""
 echo -e "\033[1;29mMarca:\033[0m ${device_manufacturer}" #Marca
 echo -e "\033[1;29mModelo:\033[0m ${device_model} / ${device_model_complete}" #Modelo
-
-
 echo ""
 echo -e "\033[1;29mChipset:\033[0m ${device_hardware}" #SoC
 echo -e "\033[1;29mArquitetura:\033[0m ${android_architecture}" #Arquitetura do processador

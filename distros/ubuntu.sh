@@ -469,12 +469,8 @@ sudo apt update
 sudo apt-get install dialog -y
 
 sudo apt-get install keyboard-configuration -y
-dialog --yesno 'O fuso horário do seu sistema está configurado como (GMT${GMT_date}) ${system_timezone}. Deseja manter?'  $HEIGHT $WIDTH
-clear
-if [ $? -eq 0 ]; then
-   export TZ=${system_timezone}
-fi
-sudo apt-get install tzdata -y
+sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
+sudo dpkg-reconfigure tzdata
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh

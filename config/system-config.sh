@@ -17,16 +17,16 @@ sudo apt-get install sudo wget nano inetutils-tools dialog software-properties-c
 sudo apt-get install keyboard-configuration -y
 #Definir o fuso horário
 sudo apt-get install tzdata -y
-sudo apt-get install gdebi font-manager evince -y
+sudo apt-get install git gdebi font-manager evince -y
 sudo dpkg --configure -a
 sudo apt-get --reinstall nautilus -y
 sudo apt-get install nautilus -y
 sudo apt-get install nautilus-extension-gnome-terminal nautilus-gnome-console -y
 #sudo apt-get install xloadimage -y
 
-if [ ! -d "${HOME}/Documents" ];then
-  mkdir -p "${HOME}/Documents"
-fi
+#if [ ! -d "${HOME}/Documents" ];then
+#  mkdir -p "${HOME}/Documents"
+#fi
 
 # Se não existir, será criado
 if [ ! -d "/usr/share/backgrounds/" ];then
@@ -77,3 +77,12 @@ echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] http
 
 sudo apt-get install code -y
 sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
+
+git clone https://github.com/ZorinOS/zorin-icon-themes.git
+git clone https://github.com/ZorinOS/zorin-desktop-themes.git
+
+cd zorin-icon-themes/
+mv Zorin*/ /usr/share/icons/
+cd $HOME
+cd zorin-desktop-themes/
+mv Zorin*/ /usr/share/themes/

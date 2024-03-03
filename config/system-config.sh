@@ -86,3 +86,6 @@ mv Zorin*/ /usr/share/icons/
 cd $HOME
 cd zorin-desktop-themes/
 mv Zorin*/ /usr/share/themes/
+cd $HOME
+
+rm -rf zorin-*-themes/

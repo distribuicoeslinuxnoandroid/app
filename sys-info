@@ -30,7 +30,6 @@ pt_BR_timezone="Fuso horário do sistema"
 if [ "$system_country" = "Brazil" ]; then
 system_country="Brasil"
 fi
-echo "$system_country"
 
 # dialog --msgbox "${}" 0 0
 if [ "$system_icu_locale_code" = "pt-BR" ]; then

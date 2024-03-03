@@ -16,6 +16,10 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 system_timezone=$(getprop persist.sys.timezone)
 GMT_date=$(date +"%Z")
 
+
+if [ "$system_country" = "Brazil" ]; then
+  system_country="Brasil"
+fi
 clear
 echo ""
 echo -e "\033[1;4;37mInformações do seu sistema\033[0m"

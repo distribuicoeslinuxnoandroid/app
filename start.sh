@@ -1,8 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
-pkg install wget curl proot tar dialog -y
+pkg install wget curl proot tar dialog whiptail -y
 clear
 #Logs do sistema
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 android_version=$(getprop ro.build.version.release)
 android_architecture=$(getprop ro.product.cpu.abi)
 device_manufacturer=$(getprop ro.product.manufacturer)
@@ -16,44 +17,66 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 system_timezone=$(getprop persist.sys.timezone)
 GMT_date=$(date +"%Z")
 
+#Whilptail dialogs
+whiptail_total_time=2
+## Configurar o intervalo de atualização da barra de progresso
+whiptail_intervalo=1
+## Número de etapas na barra de progresso
+steps=$((whiptail_total_time / whiptail_intervalo))
 
 if [ "$system_country" = "Brazil" ]; then
   system_country="Brasil"
 fi
 clear
-echo ""
-echo -e "\033[1;4;37mInformações do seu sistema\033[0m"
-echo ""
-echo -e "\033[1;29mVersão do Android:\033[0m ${android_version}" #Versão do sistema
-echo ""
-echo -e "\033[1;29mMarca:\033[0m ${device_manufacturer}" #Marca
-echo -e "\033[1;29mModelo:\033[0m ${device_model} / ${device_model_complete}" #Modelo
-echo ""
-echo -e "\033[1;29mChipset:\033[0m ${device_hardware}" #SoC
-echo -e "\033[1;29mArquitetura:\033[0m ${android_architecture}" #Arquitetura do processador
-echo ""
-echo -e "\033[1;29mRegião:\033[0m ${system_country}" #País
-echo -e "\033[1;29mAbreviação:\033[0m ${system_country_iso}" #Abreviação nome do país
-echo -e "\033[1;29mCódigo do idioma:\033[0m ${system_icu_locale_code}" #Idioma 
-echo -e "\033[1;29mSeu fuso horário:\033[0m (GMT${GMT_date}:00) ${system_timezone}" #Fuso horário
-echo ""
-echo ""
-echo -e 'Use o comando \033[1;44m ./sys-info \033[0m para poder ver essas informações novamente.'
-for i in {10..1}; do
-  echo -ne "\rFecha em: [$i]s"
-  sleep 1
-done
-clear
 
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_info="Informações do seu sistema
 
-wget --tries=20 "${extralink}/sys-info"
+Versão do Android: ${android_version}
+
+Marca: ${device_manufacturer}
+Modelo: ${device_model} / ${device_model_complete}
+
+Chipset: ${device_hardware}
+Arquitetura: ${android_architecture}
+
+Região: ${system_country}
+Abreviação: ${system_country_iso}
+Código do idioma: ${system_icu_locale_code}
+Seu fuso horário: (GMT${GMT_date}:00) ${system_timezone}
+
+Use o comando ./sys-info para poder ver essas informações novamente.
+"
+
+wget --tries=20 "${extralink}/sys-info" -O sys-info > /dev/null 2>&1 &
 chmod +x sys-info
+
+
+
+
+
+
+
+# Exibir a caixa de progresso
+(
+  progress=0
+  while [ $progress -lt $steps ]; do
+    sleep $whiptail_intervalo
+    echo "Em andamento..."
+    echo "$((++progress * 100 / steps))"
+  done
+  echo "Em andamento..."
+  echo "100"
+  sleep 2
+  clear
+) | whiptail --gauge "${system_info}" 25 70 0
+
+# Limpar a tela
+clear
 
 # Dialogs
 export USER=$(whoami)
 HEIGHT=0
-WIDTH=100
+WIDTH=70
 CHOICE_HEIGHT=5
 
 export PORT=1
@@ -77,12 +100,23 @@ clear
 case $CHOICE in
 1)
 echo "Ubuntu"
-wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh
+wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 2>&1 &
+(
+  while pkill -0 wget >/dev/null 2>&1; do
+    sleep $whiptail_intervalo
+    echo "Em andamento..."
+    echo "$((++percentage))"
+  done
+  echo "Em andamento..."
+  echo "100"
+  sleep 2
+) | whiptail --gauge "Em andamento..." 7 50 0
+
+# Limpar a tela
+clear
 ;;
 
 esac
 
 chmod +x start-distro.sh
 bash start-distro.sh
-
-# sleep 2 pausa a execução por 2 segundos

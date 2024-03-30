@@ -55,15 +55,36 @@ sudo add-apt-repository ppa:libreoffice/ppa -y
 ## PPA do Tema do ZorinOS
 sudo add-apt-repository ppa:zorinos/stable -y
 ## PPA do Firefox
-sudo add-apt-repository ppa:mozillateam/ppa -y
+#sudo add-apt-repository ppa:mozillateam/ppa -y
 
-# Esse comando dá a prioridade de uso para a PPA ao invés do instalador snad e faz com que seja possível baixar o Firefox mais recente
-echo 'Package: *
-Pin: release o=LP-PPA-mozillateam
-Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+
+# Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
+#echo 'Package: *
+#Pin: release o=LP-PPA-mozillateam
+#Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
 
 # Dá a possibilidade do Firefox atualizar quando houver uma atualização
-echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+#echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+
+## PPA do Chromium
+#sudo add-apt-repository ppa:chromium-team/beta -y
+
+# Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd
+#echo 'Package: *
+#Pin: release o=LP-PPA-chromium-team-beta
+#Pin-Priority: 1001
+
+# Package: chromium*
+# Pin: origin "LP-PPA-chromium-team-beta"
+# Pin-Priority: 1001
+# ' | sudo tee /etc/apt/preferences.d/chromium
+
+# ## O PPA não tem o suporte ao Chromium para Jammy, por isso será trocado pela versão bionic
+# rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
+
+# ## Substituição pela lista do Bionix
+# echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
+# # deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
 
 # PPA do VSCode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -75,6 +96,7 @@ rm -f packages.microsoft.gpg
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 
+sudo apt-get update
 sudo apt-get install code -y
 sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
 

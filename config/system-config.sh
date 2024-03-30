@@ -95,8 +95,9 @@ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://b
 echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 
 sudo apt-get update
-sudo apt-get install code -y
+sudo apt-get install firefox chromium-browser code -y
 sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
+sed -i 's|Exec=chromium-browser|Exec=chromium-browser --no-sandbox|' /usr/share/applications/chromium-browser.desktop
 
 git clone https://github.com/ZorinOS/zorin-icon-themes.git
 git clone https://github.com/ZorinOS/zorin-desktop-themes.git

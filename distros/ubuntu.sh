@@ -371,9 +371,6 @@ apt update -y && apt install sudo wget -y > /dev/null
 clear
 
 bash ~/locale*.sh
-export LC_ALL=pt_BR.UTF-8
-export LANG=pt_BR.UTF-8
-export LANGUAGE=pt_BR.UTF-8
 sudo apt update
 
 rm -rf ~/locale*.sh
@@ -469,8 +466,10 @@ sudo apt update
 sudo apt-get install dialog -y
 
 sudo apt-get install keyboard-configuration -y
+clear
 sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
 sudo dpkg-reconfigure tzdata
+clear
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh
@@ -495,7 +494,9 @@ else
 echo "#!/bin/bash
 sudo apt update
 sudo apt-get install keyboard-configuration -y
+clear
 sudo apt-get install tzdata -y
+clear
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh

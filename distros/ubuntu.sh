@@ -1,11 +1,30 @@
 #!/data/data/com.termux/files/usr/bin/bash
+
+pkg install wget -y >/dev/null 2>&1
+(
+  while [ "$(pidof pkg)" ]; do
+    sleep 0.1
+    echo "50"
+  done
+  echo "100"
+  sleep 1
+) | whiptail --gauge "Aguarde..." 6 50 0
+clear
+
 system_icu_locale_code=$(getprop persist.sys.locale)
 GMT_date=$(date +"%Z":00)
-pkg install wget -y 
 cur=`pwd`
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-export USER=$(whoami)
 
+#Whilptail dialogs
+whiptail_total_time=2
+## Configurar o intervalo de atualização da barra de progresso
+whiptail_intervalo=1
+## Número de etapas na barra de progresso
+steps=$((whiptail_total_time / whiptail_intervalo))
+
+
+export USER=$(whoami)
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
@@ -45,7 +64,6 @@ termux-setup-storage
 
 if [ "$first" != 1 ];then
 	if [ ! -f $cloudimagename ]; then
-		echo "Download Rootfs, this may take a while base on your internet speed."
 		case `dpkg --print-architecture` in
 		aarch64)
 			archurl="arm64" ;;

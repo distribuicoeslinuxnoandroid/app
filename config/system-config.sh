@@ -19,9 +19,6 @@ sudo apt-get install keyboard-configuration -y
 sudo apt-get install tzdata -y
 sudo apt-get install git gdebi font-manager evince -y
 sudo dpkg --configure -a
-sudo apt-get --reinstall nautilus -y
-sudo apt-get install nautilus -y
-sudo apt-get install nautilus-extension-gnome-terminal nautilus-gnome-console -y
 #sudo apt-get install xloadimage -y
 
 #if [ ! -d "${HOME}/Documents" ];then

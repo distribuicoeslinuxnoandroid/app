@@ -70,7 +70,17 @@ if [ "$first" != 1 ];then
 		*)
 			echo "unknown architecture"; exit 1 ;;
 		esac
-        	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename
+        	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename  >/dev/null 2>&1 &
+			(
+				while pkill -0 wget >/dev/null 2>&1; do
+				sleep $whiptail_intervalo
+				echo "Baixando o Ubuntu..."
+				echo "$((++percentage))"
+				done
+				echo "Baixando o Ubuntu..."
+				echo "100"
+				sleep 2
+			) | whiptail --gauge "Baixando o Ubuntu..." 7 50 0
 
 	fi
 	mkdir -p "$folder"

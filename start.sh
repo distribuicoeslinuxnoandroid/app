@@ -92,12 +92,6 @@ Use o comando ./sys-info para poder ver essas informações novamente.
 wget --tries=20 "${extralink}/sys-info" -O sys-info > /dev/null 2>&1 &
 chmod +x sys-info
 
-
-
-
-
-
-
 # Exibir a caixa de progresso
 (
   progress=0

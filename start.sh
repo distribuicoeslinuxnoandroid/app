@@ -4,11 +4,11 @@ pkg install wget curl proot tar dialog whiptail -y
 clear
 #Logs do sistema
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-android_version=$(getprop ro.build.version.release)
-android_architecture=$(getprop ro.product.cpu.abi)
-device_manufacturer=$(getprop ro.product.manufacturer)
-device_model=$(getprop ro.product.model)
-device_model_complete=$(getprop ril.product_code)
+android_version=$(getprop ro.build.version.release) #versão do Android
+android_architecture=$(getprop ro.product.cpu.abi) #Arquitetura do aparelho
+device_manufacturer=$(getprop ro.product.manufacturer) #fabricante
+device_model=$(getprop ro.product.model) # modelo
+device_model_complete=$(getprop ril.product_code) #código do modelo
 
 device_hardware=$(getprop ro.hardware.chipname)
 system_country=$(getprop ro.csc.country_code)
@@ -16,6 +16,24 @@ system_country_iso=$(getprop ro.csc.countryiso_code)
 system_icu_locale_code=$(getprop persist.sys.locale)
 system_timezone=$(getprop persist.sys.timezone)
 GMT_date=$(date +"%Z")
+
+# Traduções
+## Português do Brasil
+separator_infos="----------"
+pt_BR_title="Informações do seu sistema"
+pt_BR_version_release="Versão do Android"
+pt_BR_product_manufacturer="Marca"
+pt_BR_model="Modelo"
+pt_BR_hardware_chipname="Chipset"
+pt_BR_chip_architecture="Arquitetura do chipset"
+pt_BR_country="Região"
+pt_BR_country_iso="Abreviação"
+pt_BR_locale_code="Código do idioma"
+pt_BR_timezone="Fuso horário do sistema"
+
+if [ "$system_country" = "Brazil" ]; then
+system_country="Brasil"
+fi
 
 #Whilptail dialogs
 whiptail_total_time=2
@@ -28,6 +46,30 @@ if [ "$system_country" = "Brazil" ]; then
   system_country="Brasil"
 fi
 clear
+
+
+
+
+# dialog --msgbox "${}" 0 0
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+dialog --msgbox "${pt_BR_title} \n
+${separator_infos} \n
+${pt_BR_version_release}: ${android_version} \n
+${pt_BR_product_manufacturer}: ${device_manufacturer} \n
+${pt_BR_model}: ${device_model} / ${device_model_complete} \n
+${separator_infos} \n
+${pt_BR_hardware_chipname}: ${device_hardware} \n
+${pt_BR_chip_architecture}: ${android_architecture} \n
+${separator_infos} \n
+${pt_BR_country}: ${system_country} \n
+${pt_BR_country_iso}: ${system_country_iso} \n
+${pt_BR_locale_code}: ${system_icu_locale_code} \n
+${pt_BR_timezone}: (GMT${GMT_date}:00) ${system_timezone} \n
+'Use o comando ./sys-info para poder ver essas informações novamente.' \n
+" 0 0
+fi
+clear
+
 
 system_info="Informações do seu sistema
 
@@ -68,7 +110,7 @@ chmod +x sys-info
   echo "100"
   sleep 2
   clear
-) | whiptail --gauge "${system_info}" 25 70 0
+) | whiptail --gauge "${system_info}" 0 0 0
 
 # Limpar a tela
 clear
@@ -110,7 +152,7 @@ wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 
   echo "Em andamento..."
   echo "100"
   sleep 2
-) | whiptail --gauge "Em andamento..." 7 50 0
+) | whiptail --gauge "Em andamento..." 0 0 0
 
 # Limpar a tela
 clear

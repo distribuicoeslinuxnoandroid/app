@@ -47,30 +47,6 @@ if [ "$system_country" = "Brazil" ]; then
 fi
 clear
 
-
-
-
-# dialog --msgbox "${}" 0 0
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-dialog --msgbox "${pt_BR_title} \n
-${separator_infos} \n
-${pt_BR_version_release}: ${android_version} \n
-${pt_BR_product_manufacturer}: ${device_manufacturer} \n
-${pt_BR_model}: ${device_model} / ${device_model_complete} \n
-${separator_infos} \n
-${pt_BR_hardware_chipname}: ${device_hardware} \n
-${pt_BR_chip_architecture}: ${android_architecture} \n
-${separator_infos} \n
-${pt_BR_country}: ${system_country} \n
-${pt_BR_country_iso}: ${system_country_iso} \n
-${pt_BR_locale_code}: ${system_icu_locale_code} \n
-${pt_BR_timezone}: (GMT${GMT_date}:00) ${system_timezone} \n
-'Use o comando ./sys-info para poder ver essas informações novamente.' \n
-" 0 0
-fi
-clear
-
-
 system_info="Informações do seu sistema
 
 Versão do Android: ${android_version}

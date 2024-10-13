@@ -17,24 +17,6 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 system_timezone=$(getprop persist.sys.timezone)
 GMT_date=$(date +"%Z")
 
-# Traduções
-## Português do Brasil
-separator_infos="----------"
-pt_BR_title="Informações do seu sistema"
-pt_BR_version_release="Versão do Android"
-pt_BR_product_manufacturer="Marca"
-pt_BR_model="Modelo"
-pt_BR_hardware_chipname="Chipset"
-pt_BR_chip_architecture="Arquitetura do chipset"
-pt_BR_country="Região"
-pt_BR_country_iso="Abreviação"
-pt_BR_locale_code="Código do idioma"
-pt_BR_timezone="Fuso horário do sistema"
-
-if [ "$system_country" = "Brazil" ]; then
-system_country="Brasil"
-fi
-
 #Whilptail dialogs
 whiptail_total_time=2
 ## Configurar o intervalo de atualização da barra de progresso

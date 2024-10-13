@@ -8,7 +8,7 @@ pkg install wget -y >/dev/null 2>&1
   done
   echo "100"
   sleep 1
-) | whiptail --gauge "Aguarde..." 6 50 0
+) | whiptail --gauge "Aguarde..." 0 0 0
 clear
 
 system_icu_locale_code=$(getprop persist.sys.locale)

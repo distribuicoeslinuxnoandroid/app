@@ -91,10 +91,20 @@ if [ "$first" != 1 ];then
 			###
 
 	fi
-	mkdir -p "$folder"
-	cd "$folder"
-	echo "Decompressing Rootfs, please be patient."
-	proot --link2symlink tar -xf ${cur}/${cloudimagename} --exclude=dev||:
+
+	(
+    echo 0  # Inicia em 0%
+    mkdir -p "$folder"
+    cd "$folder" || exit
+    echo 10  # 10% após criar o diretório
+    echo "Decompressing Rootfs, please be patient." #Decompressing Rootfs, please be patient.
+    
+    # Executa a descompressão e atualiza a barra de progresso
+    proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
+    
+    echo 100  # Finaliza em 100%
+	 ) | whiptail --gauge "Aguarde um instante..." 0 0 0
+
 	cd "$cur"
 fi
 

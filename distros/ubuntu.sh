@@ -1,6 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
 pkg install wget -y >/dev/null 2>&1
+
+
+# GUI
 (
   while [ "$(pidof pkg)" ]; do
     sleep 0.1
@@ -10,6 +13,8 @@ pkg install wget -y >/dev/null 2>&1
   sleep 1
 ) | whiptail --gauge "Aguarde..." 0 0 0
 clear
+
+#############
 
 system_icu_locale_code=$(getprop persist.sys.locale)
 GMT_date=$(date +"%Z":00)
@@ -30,27 +35,28 @@ WIDTH=100
 CHOICE_HEIGHT=5
 
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha o sistema operacional que será instalado: "
-else
-MENU="Choose the operating system to be installed: "
+	MENU="Escolha o sistema operacional que será instalado: "
+	else
+		MENU="Choose the operating system to be installed: "
 fi
-export PORT=1
-OPTIONS=(1 "Jammy (22.04) [LTS]")
 
-CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                "${OPTIONS[@]}" \
-                2>&1 >/dev/tty)
+export PORT=1
+	OPTIONS=(1 "Jammy (22.04) [LTS]")
+
+	CHOICE=$(dialog --clear \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
 
 clear
 case $CHOICE in
-1)
-codinome="jammy"
-folder=ubuntu22-fs
-cloudimagename="ubuntu22-rootfs.tar.gz"
-;;
+	1)
+		codinome="jammy"
+		folder=ubuntu22-fs
+		cloudimagename="ubuntu22-rootfs.tar.gz"
+	;;
 esac
 
 
@@ -71,6 +77,7 @@ if [ "$first" != 1 ];then
 			echo "unknown architecture"; exit 1 ;;
 		esac
         	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename  >/dev/null 2>&1 &
+			#GUI
 			(
 				while pkill -0 wget >/dev/null 2>&1; do
 				sleep $whiptail_intervalo
@@ -80,7 +87,8 @@ if [ "$first" != 1 ];then
 				echo "Baixando o Ubuntu..."
 				echo "100"
 				sleep 2
-			) | whiptail --gauge "Baixando o Ubuntu..." 7 50 0
+			) | whiptail --gauge "Baixando o Ubuntu..." 0 0 0
+			###
 
 	fi
 	mkdir -p "$folder"

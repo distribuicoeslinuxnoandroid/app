@@ -102,7 +102,7 @@ if [ "$first" != 1 ];then
     # Executa a descompressão e atualiza a barra de progresso
     proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
     
-    echo 100  # Finaliza em 100%
+    echo 33  # Finaliza em 33%
 	 ) | whiptail --gauge "Aguarde um instante..." 0 0 0
 
 	cd "$cur"
@@ -300,9 +300,23 @@ mkdir -p ubuntu22-fs/var/tmp
 rm -rf ubuntu22-fs/usr/local/bin/*
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
-# Script de instalação adicional
-wget --tries=20  "${extralink}/config/system-config.sh" -O $folder/root/system-config.sh > /dev/null
-chmod +x $folder/root/system-config.sh
+
+(
+    echo 34  # Inicia em 34%
+
+    echo "Baixando script de instalação..."
+    wget --tries=20 "${extralink}/config/system-config.sh" -O "$folder/root/system-config.sh" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi 
+    done
+
+    chmod +x "$folder/root/system-config.sh"
+    echo 66  # Finaliza em 66%
+) | whiptail --gauge "Aguarde..." 0 0 0
+
 
 
 # Se não existir, será criado
@@ -315,7 +329,21 @@ if [ ! -d "$folder/usr/share/icons/" ];then
   mkdir -p "$folder/usr/share/icons/"
 fi
 
-wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P $folder/usr/share/backgrounds > /dev/null
+(
+    echo 67  # Inicia em 67%
+
+    echo "Baixando wallpaper..."
+    wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi
+    done
+
+    echo 100  # Finaliza em 100%
+) | whiptail --gauge "Aguarde..." 0 0 0
+
 
 # Idioma
 export USER=$(whoami)

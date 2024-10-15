@@ -701,9 +701,7 @@ mkdir -p ~/.vnc
 
 (
     echo 0  # Inicia em 0%
-    
-    echo 'Atualizando pacotes...'
-    apt update -y && apt install sudo wget -y > /dev/null 2>&1  # Executa o comando e oculta a saída
+    apt update -y && apt install sudo wget -y > /dev/null # Executa o comando e oculta a saída
     echo 100  # Finaliza em 100%
 ) | whiptail --gauge 'Procurando atgualizações...' 0 0 0
 

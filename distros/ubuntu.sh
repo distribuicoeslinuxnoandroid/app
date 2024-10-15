@@ -672,14 +672,24 @@ chmod +x $folder/usr/local/bin/startvnc
 chmod +x $folder/usr/local/bin/stopvnc
 chmod +x $folder/usr/local/bin/startvncserver
 
-echo "fixing shebang of $bin"
-termux-fix-shebang $bin
 
-echo "making $bin executable"
+
+(
+    echo 0  # Inicia em 0%
+  
+    echo "fixing shebang of $bin"
+    termux-fix-shebang $bin
+    echo 33  # 33% após criar o diretório
+
+    echo "making $bin executable"
 chmod +x $bin
+    echo 66  # 66% após remover arquivos
 
 echo "removing image for some space"
 rm $cloudimagename
+    echo 100  # Finaliza em 100%
+) | whiptail --gauge "Criando a inicialização..." 0 0 0
+
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
@@ -688,7 +698,15 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
-apt update -y && apt install sudo wget -y > /dev/null
+
+(
+    echo 0  # Inicia em 0%
+    
+    echo "Atualizando pacotes..."
+    apt update -y && apt install sudo wget -y > /dev/null 2>&1  # Executa o comando e oculta a saída
+    echo 100  # Finaliza em 100%
+) | whiptail --gauge 'Procurando atgualizações...' 0 0 0
+
 clear
 
 bash ~/locale*.sh

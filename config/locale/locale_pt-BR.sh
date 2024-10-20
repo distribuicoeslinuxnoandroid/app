@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
-sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base wbrazilian hunspell-pt-br -y
+echo "Innstalar os pacotes de idioma"
+sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt -y
+# sudo apt-get install language-pack-gnome-pt-base wbrazilian hunspell-pt-br -y
 #sudo apt-get install firefox-locale-pt libreoffice-l10n-pt-br libreoffice-lightproof-pt-br -y
 
 ## Gerar o idioma

@@ -704,12 +704,11 @@ apt update -y && apt install sudo wget -y > /dev/null # Executa o comando e ocul
 clear
 
 bash ~/locale*.sh
-sudo apt update
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
-else
+else # comando em ingles
 echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf

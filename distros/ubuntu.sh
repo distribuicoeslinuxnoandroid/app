@@ -692,7 +692,7 @@ chmod +x $folder/usr/local/bin/startvncserver
 ) | whiptail --gauge "Criando a inicialização..." 0 0 0
 
 
-dialog --title "Aviso" --msgbox 'A seguir aparecerá uma tela preta, mas não se preocupe, é só para fazer umas configurações mega importantes para o funcionamento do sistema.\n \n \nCaso já tenha entendido, clique em "OK" ou aguarde que essa mensagem irá sumir em instantes.' 0 0 &
+dialog --title "Aviso" --msgbox 'A seguir aparecerá uma tela preta, mas não se preocupe, é só para fazer umas configurações mega importantes para o funcionamento do sistema.\n \n \nEssa mensagem irá sumir em alguns instantes.' 0 0 &
 
 # Aguarda 15 segundos
 sleep 15

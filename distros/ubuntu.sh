@@ -688,7 +688,18 @@ chmod +x $folder/usr/local/bin/startvncserver
 	echo "removing image for some space"
 	rm $cloudimagename
     echo 100  # Finaliza em 100%
+	sleep 5
 ) | whiptail --gauge "Criando a inicialização..." 0 0 0
+
+
+dialog --title "Aviso" --msgbox 'A seguir aparecerá uma tela preta, mas não se preocupe, é só para fazer umas configurações mega importantes para o funcionamento do sistema.\n \n \nCaso já tenha entendido, clique em "OK" ou aguarde que essa mensagem irá sumir em instantes.' 0 0 &
+
+# Aguarda 15 segundos
+sleep 15
+
+# Fecha a mensagem
+kill $!
+clear
 
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
@@ -698,12 +709,11 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
-apt install dialog whiptail -y > /dev/null 2>&1
-echo 'teste ralizado'
-sleep 5
-apt update -y && apt install sudo wget -y > /dev/null # Executa o comando e oculta a saída
 
-clear
+echo 'Estou me atualizando para que o sistema que bom para você.'
+apt update -y > /dev/null 2>&1
+apt install dialog whiptail -y > /dev/null 2>&1
+apt install sudo wget -y > /dev/null 2>&1 
 
 bash ~/locale*.sh
 
@@ -715,7 +725,9 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
-apt update -y && apt install sudo wget -y > /dev/null
+apt update -y > /dev/null 2>&1
+apt install dialog whiptail -y > /dev/null 2>&1
+apt install sudo wget -y > /dev/null 2>&1 
 clear
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 

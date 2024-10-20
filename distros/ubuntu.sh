@@ -699,11 +699,7 @@ rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
-(
-    echo 0  # Inicia em 0%
     apt update -y && apt install sudo wget -y > /dev/null # Executa o comando e oculta a saída
-    echo 100  # Finaliza em 100%
-) | whiptail --gauge 'Procurando atgualizações...' 0 0 0
 
 clear
 

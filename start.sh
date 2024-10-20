@@ -50,6 +50,18 @@ Use o comando ./sys-info para poder ver essas informações novamente.
 wget --tries=20 "${extralink}/sys-info" -O sys-info > /dev/null 2>&1 &
 chmod +x sys-info
 
+
+
+# textos traduzidos
+## Em andamento
+if [ "$system_icu_locale_code" = "pt-BR" ]; then
+      andamento="Em andamento..."
+      else
+        andamento="In progress..."
+    fi
+
+####################
+
 # Exibir a caixa de progresso
 (
   progress=0
@@ -98,13 +110,22 @@ wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 
 (
   while pkill -0 wget >/dev/null 2>&1; do
     sleep $whiptail_intervalo
-    echo "Em andamento..."
+    if [ "$system_icu_locale_code" = "pt-BR" ]; then
+      echo "Em andamento..."
+      else
+        echo "In progress..."
+    fi
+    
     echo "$((++percentage))"
   done
-  echo "Em andamento..."
+  if [ "$system_icu_locale_code" = "pt-BR" ]; then
+      echo "Em andamento..."
+      else
+        echo "In progress..."
+    fi
   echo "100"
   sleep 2
-) | whiptail --gauge "Em andamento..." 0 0 0
+) | whiptail --gauge $andamento 0 0 0
 
 # Limpar a tela
 clear

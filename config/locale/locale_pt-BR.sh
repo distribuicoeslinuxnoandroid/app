@@ -11,6 +11,9 @@
 #locale-gen
 
 
+# Ajuste das cores da GUI
+export NEWT_COLORS='window=,white border=black,white title=black,white textbox=black,white button=white,blue'
+
 (
     echo 0  # Inicia em 0%
 

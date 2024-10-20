@@ -1,6 +1,7 @@
 #!/bin/bash
 	
 # Atualizar repositório
+sudo apt update
 
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
 sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base wbrazilian hunspell-pt-br -y

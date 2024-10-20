@@ -1,13 +1,6 @@
 #!/bin/bash
 	
 # Atualizar repositório
-(
-    echo 0  # Inicia em 0%
-    
-    echo "Atualizando pacotes..."
-    sudo apt update > /dev/null 2>&1  # Executa o comando e oculta a saída
-    echo 100  # Finaliza em 100%
-) | whiptail --gauge "Procurando atgualizações..." 0 0 0
 
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
 sudo apt-get install locales language-pack-pt language-pack-pt-base language-pack-gnome-pt language-pack-gnome-pt-base wbrazilian hunspell-pt-br -y

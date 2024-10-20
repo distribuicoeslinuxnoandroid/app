@@ -698,7 +698,9 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
-
+apt install dialog whiptail -y > /dev/null 2>&1
+echo 'teste ralizado'
+sleep 5
 apt update -y && apt install sudo wget -y > /dev/null # Executa o comando e oculta a saída
 
 clear

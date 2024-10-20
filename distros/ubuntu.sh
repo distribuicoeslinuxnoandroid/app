@@ -682,11 +682,11 @@ chmod +x $folder/usr/local/bin/startvncserver
     echo 33  # 33% após criar o diretório
 
     echo "making $bin executable"
-chmod +x $bin
+	chmod +x $bin
     echo 66  # 66% após remover arquivos
 
-echo "removing image for some space"
-rm $cloudimagename
+	echo "removing image for some space"
+	rm $cloudimagename
     echo 100  # Finaliza em 100%
 ) | whiptail --gauge "Criando a inicialização..." 0 0 0
 

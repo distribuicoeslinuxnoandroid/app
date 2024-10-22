@@ -716,6 +716,7 @@ apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
 
 bash ~/locale*.sh
+apt autoremove --purge whiptail -y
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
@@ -726,7 +727,7 @@ rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 apt update -y > /dev/null 2>&1
-apt install dialog whiptail -y > /dev/null 2>&1
+
 apt install sudo wget -y > /dev/null 2>&1 
 clear
 rm -rf ~/.bash_profile

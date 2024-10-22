@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
-pkg install wget curl proot tar dialog whiptail -y
+apt install wget curl proot tar dialog whiptail -y
 clear
 #Logs do sistema
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"

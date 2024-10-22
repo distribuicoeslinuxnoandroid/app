@@ -1,11 +1,11 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-pkg install wget -y >/dev/null 2>&1
+apt install wget -y >/dev/null 2>&1
 
 
 # GUI
 (
-  while [ "$(pidof pkg)" ]; do
+  while [ "$(pidof apt)" ]; do
     sleep 0.1
     echo "50"
   done
@@ -767,7 +767,7 @@ wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/ro
 3)
 echo "Gnome UI"
 wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null
-pkg install dbus -y
+apt install dbus -y
 # Parte da resolução do problema do gnome e do systemd
 mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
 rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente

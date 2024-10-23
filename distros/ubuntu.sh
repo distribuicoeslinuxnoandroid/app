@@ -716,7 +716,6 @@ apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
 
 bash ~/locale*.sh
-#
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
@@ -766,9 +765,9 @@ case $CHOICE in
 	wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null
 ;;
 3)
-	echo "Gnome UI"
 	(
 		echo 0  # Inicia em 0%
+		echo "Gnome UI"
 		wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 			# Extraindo a porcentagem do progresso do wget
 			if [[ $line =~ ([0-9]+)% ]]; then
@@ -828,10 +827,9 @@ echo "#!/bin/bash
 export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
-sudo apt update
+sudo apt update > /dev/null 2>&1 
 
 # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-
 apt autoremove --purge whiptail -y > /dev/null 2>&1 
 
 sudo apt-get install dialog -y > /dev/null 2>&1 

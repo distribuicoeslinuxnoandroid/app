@@ -827,18 +827,42 @@ echo "#!/bin/bash
 export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
-sudo apt update > /dev/null 2>&1 
 
-# será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-apt remove whiptail -y > /dev/null 2>&1 
+(
+    echo 0  # Inicia em 0%
 
-sudo apt-get install dialog -y > /dev/null 2>&1 
+    echo "Aguarde, atualizando pacotes..."
+    sudo apt update > /dev/null 2>&1
+    echo 25  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Procurando atualizações..." 0 0 0
 
-sudo apt-get install keyboard-configuration -y
-clear
-sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y
+(
+    echo 26  # Inicia em 0%
+    sudo apt-get install dialog -y > /dev/null 2>&1
+
+    echo 50  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Instalando ferramentas..." 0 0 0
+
+(
+    echo 51  # Inicia em 0%
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1 
+
+    echo 75  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Trazendo as configurações do teclado...." 0 0 0
+(
+    echo 76  # Inicia em 0%
+    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
+
+    echo 100  # Atualiza para 100% após a atualização
+	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
+) | whiptail --gauge "Trazendo as configurações de teclado e fuso horário...." 0 0 0
+
+
+sudo dpkg-reconfigure keyboard-configuration
 sudo dpkg-reconfigure tzdata
+
 clear
+
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh

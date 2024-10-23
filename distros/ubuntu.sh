@@ -830,7 +830,7 @@ export LANGUAGE=pt_BR.UTF-8
 sudo apt update > /dev/null 2>&1 
 
 # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-apt autoremove --purge whiptail -y > /dev/null 2>&1 
+apt remove whiptail -y > /dev/null 2>&1 
 
 sudo apt-get install dialog -y > /dev/null 2>&1 
 
@@ -842,7 +842,7 @@ clear
 sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
 
 bash ~/config-environment.sh
-if [ "$LANG" = "pt_BR.UTF-8" ]; then
+if [ '$LANG' = "pt_BR.UTF-8" ]; then
 	sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
 else
 	sed -i '\|export LANG|a LANG=en_US.UTF-8|' ~/.vnc/xstartup

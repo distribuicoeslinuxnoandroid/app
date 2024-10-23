@@ -716,7 +716,7 @@ apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
 
 bash ~/locale*.sh
-apt autoremove --purge whiptail -y
+#
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
@@ -739,9 +739,9 @@ bash $bin
 
 export USER=$(whoami)
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha um ambientes de área de trabalho: "
+	MENU="Escolha um ambientes de área de trabalho: "
 else
-MENU="Choose a desktop environments: "
+	MENU="Choose a desktop environments: "
 fi
 export PORT=1
 OPTIONS=(1 "LXDE"
@@ -758,22 +758,41 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
 1)
-echo "LXDE UI"
-wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null
+	echo "LXDE UI"
+	wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null
 ;;
 2)
-echo "XFCE UI"
-wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null
+	echo "XFCE UI"
+	wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null
 ;;
 3)
-echo "Gnome UI"
-wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null
-apt install dbus -y
+	echo "Gnome UI"
+	(
+		echo 0  # Inicia em 0%
+		wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "Baixando as configurações necessárias para o Gnome..." 0 0 0
+
+
+
+
+# Sem isso o gnome não funciona
+apt install dbus -y > /dev/null 2>&1
+
+
 # Parte da resolução do problema do gnome e do systemd
-mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
+mkdir /data/data/com.termux/files/usr/var/run/dbus > /dev/null 2>&1 # criar a pasta que o dbus funcionará
 rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
 rm -rf system_bus_socket
-dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
+
+dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket > /dev/null 2>&1 #cria o arquivo
 
 if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
    grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
@@ -797,6 +816,7 @@ sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemo
 ;;
 esac
 
+
 chmod +x $folder/root/config-environment.sh
 
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
@@ -810,7 +830,11 @@ export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
 sudo apt update
 
-sudo apt-get install dialog -y
+# será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
+
+apt autoremove --purge whiptail -y > /dev/null 2>&1 
+
+sudo apt-get install dialog -y > /dev/null 2>&1 
 
 sudo apt-get install keyboard-configuration -y
 clear

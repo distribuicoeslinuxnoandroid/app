@@ -823,11 +823,11 @@ sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/fi
 touch $folder/root/.hushlogin
 
 if [ "$system_icu_locale_code" = "pt-BR" ]; then
-echo "#!/bin/bash
+echo '#!/bin/bash
 export LC_ALL=pt_BR.UTF-8
 export LANG=pt_BR.UTF-8
 export LANGUAGE=pt_BR.UTF-8
-
+export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 (
     echo 0  # Inicia em 0%
 
@@ -863,14 +863,35 @@ sudo dpkg-reconfigure tzdata
 
 clear
 
-sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
+sudo apt install whiptail -y > /dev/null 2>&1
+(
+    echo 0  # Inicia em 0%
+	echo ""
+    sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
+
+    echo 16 
+
+    sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 32
+    
+    sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
+    echo 48
+    
+    sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
+    echo 64
+    
+    sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
+
+    echo 100  # Finaliza em 100%
+    
+ ) | whiptail --gauge "Configurando o sistema..." 0 0 0
+
 
 bash ~/config-environment.sh
-if [ '$LANG' = "pt_BR.UTF-8" ]; then
-	sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
-else
-	sed -i '\|export LANG|a LANG=en_US.UTF-8|' ~/.vnc/xstartup
-fi
+
+sed -i "\|export LANG|a LANG=pt_BR.UTF-8|" ~/.vnc/xstartup
+
 bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc
@@ -881,24 +902,72 @@ chmod +x /usr/local/bin/startvncserver
 
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+rm -rf ~/.bash_profile' > $folder/root/.bash_profile
 
 else
-echo "#!/bin/bash
-sudo apt update
-sudo apt-get install keyboard-configuration -y
+echo '#!/bin/bash
+
+
+export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
+(
+    echo 0  # Inicia em 0%
+
+    echo ""
+    sudo apt update > /dev/null 2>&1
+    echo 25  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Looking for updates......" 0 0 0
+
+(
+    echo 26  # Inicia em 0%
+    sudo apt-get install dialog -y > /dev/null 2>&1
+
+    echo 50  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Installing tools..." 0 0 0
+
+(
+    echo 51  # Inicia em 0%
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1 
+
+    echo 75  # Atualiza para 100% após a atualização
+) | whiptail --gauge "Bringing the keyboard settings...." 0 0 0
+(
+    echo 76  # Inicia em 0%
+    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
+
+    echo 100  # Atualiza para 100% após a atualização
+	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
+) | whiptail --gauge "Trazendo as configurações de teclado e fuso horário...." 0 0 0
 clear
-sudo apt-get install tzdata -y
-clear
-sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
+
+
+sudo apt install whiptail -y > /dev/null 2>&1
+(
+    echo 0  # Inicia em 0%
+	echo ""
+    sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
+
+    echo 16 
+
+    sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 32
+    
+    sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
+    echo 48
+    
+    sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
+    echo 64
+    
+    sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
+
+    echo 100  # Finaliza em 100%
+    
+ ) | whiptail --gauge "Configuring the system..." 0 0 0
+
 
 bash ~/config-environment.sh
 
-if [ "$LANG" = "pt_BR.UTF-8" ]; then
-sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
-else
-sed -i '\|export LANG|a LANG=en_US.UTF-8|' ~/.vnc/xstartup
-fi
+sed -i "\|export LANG|a LANG=en_US.UTF-8|" ~/.vnc/xstartup
 
 bash ~/system-config.sh
 
@@ -910,8 +979,9 @@ chmod +x /usr/local/bin/startvncserver
 
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+rm -rf ~/.bash_profile' > $folder/root/.bash_profile
 fi
+
 
 
 bash $bin

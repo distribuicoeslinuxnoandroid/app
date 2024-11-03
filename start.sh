@@ -21,6 +21,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi
+sleep 1
 
 system_info="${label_system_info}
 

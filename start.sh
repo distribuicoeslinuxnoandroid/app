@@ -10,25 +10,18 @@ if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
 
-    (
-    # Inicia o download em segundo plano e captura o PID
-    wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:mega 2>&1 &
+  (
+				echo 0  # Inicia em 61%
+				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
 
-    # Captura o PID do wget
-    pid=$!
-
-    # Atualiza a barra de progresso enquanto o wget está em execução
-    while kill -0 $pid 2>/dev/null; do
-        # Aqui, você pode calcular a porcentagem ou apenas incrementar
-        for i in $(seq 0 100); do
-            echo $i
-            sleep 1  # Ajuste o tempo conforme necessário para simular progresso
-        done
-    done
-
-    # Quando o wget terminar, finalize a barra de progresso em 100%
-    echo 100
-) | whiptail --gauge " " 0 0 0
+				echo 50  # Finaliza em 80%
+			) | whiptail --gauge "         " 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -37,13 +30,23 @@ fi
 if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 	source l10n_$system_icu_locale_code.sh
 	else
-		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" > /dev/null 2>&1 &
+
+
+    (
+				echo 51  # Inicia em 61%
+				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 100  # Finaliza em 80%
+			) | whiptail --gauge "         " 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi
-
-source fixed_variables.sh
-source l10n_*.sh
 
 system_info="${label_system_info}
 

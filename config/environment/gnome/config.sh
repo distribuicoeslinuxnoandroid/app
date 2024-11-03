@@ -5,11 +5,23 @@ extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/mai
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
-	bash fixed_variables.sh
+	source fixed_variables.sh
 	else
-		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+		(
+				echo 0  # Inicia em 61%
+				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 50  # Finaliza em 80%
+			) | whiptail --gauge "         " 0 0 0
+
 		chmod +x fixed_variables.sh
-		bash fixed_variables.sh
+		source fixed_variables.sh
 fi
 
 if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
@@ -18,11 +30,22 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 	export LC_ALL=pt_BR.UTF-8
 	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
 		chmod +x l10n_pt-BR.sh
-		bash l10n_pt-BR.sh
+		source l10n_pt-BR.sh
 		else
-			wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+			(
+				echo 51  # Inicia em 61%
+				wget --tries=20 "${extralink}/config/locale/l10n_pt_BR.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 100  # Finaliza em 80%
+			) | whiptail --gauge "         " 0 0 0
 			chmod +x l10n_pt-BR.sh
-			bash l10n_pt-BR.sh
+			source l10n_pt-BR.sh
 	fi
 fi
 

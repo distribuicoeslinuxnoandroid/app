@@ -9,7 +9,29 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
-		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+
+    (
+    # Inicia o download em segundo plano e captura o PID
+    wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:mega 2>&1 &
+
+    # Captura o PID do wget
+    pid=$!
+
+    # Atualiza a barra de progresso enquanto o wget está em execução
+    while kill -0 $pid 2>/dev/null; do
+        # Aqui, você pode calcular a porcentagem ou apenas incrementar
+        for i in $(seq 0 100); do
+            echo $i
+            sleep 1  # Ajuste o tempo conforme necessário para simular progresso
+        done
+    done
+
+    # Quando o wget terminar, finalize a barra de progresso em 100%
+    echo 100
+) | whiptail --gauge " " 0 0 0
+
+
+
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi

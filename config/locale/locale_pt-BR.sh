@@ -16,20 +16,20 @@ extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/mai
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
-	bash fixed_variables.sh
+	source fixed_variables.sh
 	else
 		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
 		chmod +x fixed_variables.sh
-		bash fixed_variables.sh
+		source fixed_variables.sh
 fi
 
 if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
     chmod +x l10n_pt-BR.sh
-    bash l10n_pt-BR.sh
+    source l10n_pt-BR.sh
     else
         wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
         chmod +x l10n_pt-BR.sh
-        bash l10n_pt-BR.sh
+        source l10n_pt-BR.sh
 fi
 
 export NEWT_COLORS='window=,white border=black,white title=black,white textbox=black,white button=white,blue'

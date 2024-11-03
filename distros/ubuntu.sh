@@ -7,21 +7,19 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 
 
 if [ -f "fixed_variables.sh" ]; then
-	chmod +x fixed_variables.sh
-	bash fixed_variables.sh
+	source fixed_variables.sh
 	else
 		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
 		chmod +x fixed_variables.sh
-		bash fixed_variables.sh
+		source fixed_variables.sh
 fi
 
 if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
-	chmod +x l10n_$system_icu_locale_code.sh
-	bash l10n_$system_icu_locale_code.sh
+	source l10n_$system_icu_locale_code.sh
 	else
 		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" > /dev/null 2>&1 &
 		chmod +x l10n_$system_icu_locale_code.sh
-		bash l10n_$system_icu_locale_code.sh
+    source l10n_$system_icu_locale_code.sh
 fi
 
 
@@ -357,13 +355,13 @@ export PORT=1
 	clear
 	case $CHOICE in
 		1)
+
 			if [ -f "l10n_pt-BR.sh" ]; then
-				chmod +x l10n_pt-BR.sh
-				bash l10n_pt-BR.sh
-			else
-				wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
-				chmod +x l10n_pt-BR.sh
-				bash l10n_pt-BR.sh
+				source l10n_pt-BR.sh
+				else
+					wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+					chmod +x l10n_pt-BR.sh
+					source l10n_pt-BR.sh
 			fi
 
 			(
@@ -443,13 +441,13 @@ export PORT=1
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
-		if [ -f "l10n_en-US.sh" ]; then
-				chmod +x l10n_en-US.sh
-				bash l10n_en-US.sh
-			else
-				wget --tries=20 "${extralink}/config/locale/l10n_en-US.sh" > /dev/null 2>&1 &
-				chmod +x l10n_en-US.sh
-				bash l10n_en-US.sh
+
+			if [ -f "l10n_en-US.sh" ]; then
+				source l10n_en-US.sh
+				else
+					wget --tries=20 "${extralink}/config/locale/l10n_en-US.sh" > /dev/null 2>&1 &
+					chmod +x l10n_en-US.sh
+					source l10n_en-US.sh
 			fi
 		
 			(
@@ -666,13 +664,17 @@ touch $folder/root/.hushlogin
 echo '#!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
+
+
+
+
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
-	bash fixed_variables.sh
+	source fixed_variables.sh
 	else
 		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
 		chmod +x fixed_variables.sh
-		bash fixed_variables.sh
+		source fixed_variables.sh
 fi
 
 if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
@@ -681,11 +683,11 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 	export LC_ALL=pt_BR.UTF-8
 	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
 		chmod +x l10n_pt-BR.sh
-		bash l10n_pt-BR.sh
+		source l10n_pt-BR.sh
 		else
 			wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
 			chmod +x l10n_pt-BR.sh
-			bash l10n_pt-BR.sh
+			source l10n_pt-BR.sh
 	fi
 fi
 

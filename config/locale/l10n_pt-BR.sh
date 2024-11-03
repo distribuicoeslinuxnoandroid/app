@@ -2,6 +2,12 @@
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
+if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
+  export LANGUAGE=pt_BR.UTF-8
+  export LANG=pt_BR.UTF-8
+  export LC_ALL=pt_BR.UTF-8
+fi
+
 if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8" ]]; then
 
     label_system_info="Informações do seu sistema"
@@ -40,21 +46,13 @@ if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8" ]]; then
     label_ubuntu_download="Baixando o Ubuntu..."
 
     #TITULO DO MENU DE DIALOGO
-    MENU_operating_system_selectt="Escolha o sistema operacional que será instalado: "
+    MENU_operating_system_select="Escolha o sistema operacional que será instalado: "
     MENU_language_select="Idioma a instalar: "
     MENU_environments_select="Choose a desktop environments: "
 
-    export LC_ALL=pt_BR.UTF-8
-    export LANG=pt_BR.UTF-8
-    export LANGUAGE=pt_BR.UTF-8
-else
-    echo ""
 fi
 
 if [ "$system_country" = "Brazil" ]; then
   system_country="Brasil"
 fi
 
-export LANGUAGE=pt_BR.UTF-8
-export LANG=pt_BR.UTF-8
-export LC_ALL=pt_BR.UTF-8

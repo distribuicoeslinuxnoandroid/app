@@ -7,21 +7,19 @@ extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/mai
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 if [ -f "fixed_variables.sh" ]; then
-	chmod +x fixed_variables.sh
-	bash fixed_variables.sh
+	source fixed_variables.sh
 	else
 		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
 		chmod +x fixed_variables.sh
-		bash fixed_variables.sh
+		source fixed_variables.sh
 fi
 
 if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
-	chmod +x l10n_$system_icu_locale_code.sh
-	bash l10n_$system_icu_locale_code.sh
+	source l10n_$system_icu_locale_code.sh
 	else
 		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" > /dev/null 2>&1 &
 		chmod +x l10n_$system_icu_locale_code.sh
-		bash l10n_$system_icu_locale_code.sh
+    source l10n_$system_icu_locale_code.sh
 fi
 
 system_info="${label_system_info}
@@ -65,6 +63,7 @@ clear
 OPTIONS=(1 "Ubuntu")
 
 CHOICE=$(dialog --clear \
+                --title "$TITLE" \
                 --menu "$MENU_operating_system_select" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \

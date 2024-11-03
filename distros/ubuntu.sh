@@ -12,7 +12,7 @@ if [ -f "fixed_variables.sh" ]; then
 	else
 
   (
-				echo 0  # Inicia em 61%
+				echo 76  # Inicia em 0%
 				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -21,8 +21,8 @@ if [ -f "fixed_variables.sh" ]; then
 					fi
 				done
 
-				echo 50  # Finaliza em 80%
-			) | whiptail --gauge "         " 0 0 0
+				echo 80  # Finaliza em 50%
+			) | whiptail --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -34,7 +34,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 
 
     (
-				echo 51  # Inicia em 61%
+				echo 81  # Inicia em 51%
 				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -43,8 +43,8 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 					fi
 				done
 
-				echo 100  # Finaliza em 80%
-			) | whiptail --gauge "         " 0 0 0
+				echo 90  # Finaliza em 100%
+			) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi
@@ -54,7 +54,7 @@ fi
 (
   while [ "$(pidof apt)" ]; do
     sleep 0.1
-    echo "75"
+    echo "90"
   done
   echo "100"
   sleep 1

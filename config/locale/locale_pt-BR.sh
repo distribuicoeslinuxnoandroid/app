@@ -19,7 +19,7 @@ if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
     (
-        echo 0  # Inicia em 61%
+        echo 0  # Inicia em 0%
         wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
             # Extraindo a porcentagem do progresso do wget
             if [[ $line =~ ([0-9]+)% ]]; then
@@ -28,8 +28,8 @@ if [ -f "fixed_variables.sh" ]; then
             fi
         done
 
-        echo 50  # Finaliza em 80%
-    ) | whiptail --gauge "         " 0 0 0
+        echo 50  # Finaliza em 50%
+    ) | whiptail --gauge " " 40 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -41,7 +41,7 @@ if [ -f "l10n_pt-BR.sh" ]; then
 
 
     (
-        echo 51  # Inicia em 61%
+        echo 51  # Inicia em 51%
         wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" --progress=dot:giga 2>&1 | while read -r line; do
             # Extraindo a porcentagem do progresso do wget
             if [[ $line =~ ([0-9]+)% ]]; then
@@ -50,8 +50,8 @@ if [ -f "l10n_pt-BR.sh" ]; then
             fi
         done
 
-        echo 100  # Finaliza em 80%
-    ) | whiptail --gauge "         " 0 0 0
+        echo 100  # Finaliza em 100%
+    ) | whiptail --gauge " " 40 0 0
 		chmod +x l10n_pt-BR.sh
     source l10n_pt-BR.sh
 fi

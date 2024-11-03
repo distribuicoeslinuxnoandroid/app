@@ -67,7 +67,7 @@ OPTIONS=(1 "Jammy (22.04) [LTS]")
 
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
-				--menu "$MENU_operating_system" \
+				--menu "$MENU_operating_system_select" \
 				$HEIGHT $WIDTH $CHOICE_HEIGHT \
 				"${OPTIONS[@]}" \
 				2>&1 >/dev/tty)

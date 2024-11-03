@@ -48,7 +48,7 @@ if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8" ]]; then
     #TITULO DO MENU DE DIALOGO
     MENU_operating_system_select="Escolha o sistema operacional que será instalado: "
     MENU_language_select="Idioma a instalar: "
-    MENU_environments_select="Choose a desktop environments: "
+    MENU_environments_select="Escolha um ambientes de área de trabalho: "
 
 fi
 

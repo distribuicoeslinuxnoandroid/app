@@ -1,50 +1,45 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
-apt install wget curl proot tar dialog whiptail -y
+apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &
 clear
 #Logs do sistema
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-android_version=$(getprop ro.build.version.release) #versão do Android
-android_architecture=$(getprop ro.product.cpu.abi) #Arquitetura do aparelho
-device_manufacturer=$(getprop ro.product.manufacturer) #fabricante
-device_model=$(getprop ro.product.model) # modelo
-device_model_complete=$(getprop ril.product_code) #código do modelo
-
-device_hardware=$(getprop ro.hardware.chipname)
-system_country=$(getprop ro.csc.country_code)
-system_country_iso=$(getprop ro.csc.countryiso_code)
 system_icu_locale_code=$(getprop persist.sys.locale)
-system_timezone=$(getprop persist.sys.timezone)
-GMT_date=$(date +"%Z")
 
-#Whilptail dialogs
-whiptail_total_time=2
-## Configurar o intervalo de atualização da barra de progresso
-whiptail_intervalo=1
-## Número de etapas na barra de progresso
-steps=$((whiptail_total_time / whiptail_intervalo))
-
-if [ "$system_country" = "Brazil" ]; then
-  system_country="Brasil"
+if [ -f "fixed_variables.sh" ]; then
+	chmod +x fixed_variables.sh
+	bash fixed_variables.sh
+	else
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+		chmod +x fixed_variables.sh
+		bash fixed_variables.sh
 fi
-clear
 
-system_info="Informações do seu sistema
+if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
+	chmod +x l10n_$system_icu_locale_code.sh
+	bash l10n_$system_icu_locale_code.sh
+	else
+		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" > /dev/null 2>&1 &
+		chmod +x l10n_$system_icu_locale_code.sh
+		bash l10n_$system_icu_locale_code.sh
+fi
 
-Versão do Android: ${android_version}
+system_info="${label_system_info}
 
-Marca: ${device_manufacturer}
-Modelo: ${device_model} / ${device_model_complete}
+${label_android_version}: ${android_version}
 
-Chipset: ${device_hardware}
-Arquitetura: ${android_architecture}
+${label_device_manufacturer}: ${device_manufacturer}
+${label_device_model} / ${device_model_complete}
 
-Região: ${system_country}
-Abreviação: ${system_country_iso}
-Código do idioma: ${system_icu_locale_code}
-Seu fuso horário: (GMT${GMT_date}:00) ${system_timezone}
+${label_device_hardware}: ${device_hardware}
+${label_android_architecture}: ${android_architecture}
 
-Use o comando ./sys-info para poder ver essas informações novamente.
+${label_system_country}: ${system_country}
+${label_system_country_iso}: ${system_country_iso}
+${label_system_icu_locale_code}: ${system_icu_locale_code}
+${label_system_timezone}: (GMT${GMT_date}) ${system_timezone}
+
+${desc_system_info}
 "
 
 wget --tries=20 "${extralink}/sys-info" -O sys-info > /dev/null 2>&1 &
@@ -55,10 +50,10 @@ chmod +x sys-info
   progress=0
   while [ $progress -lt $steps ]; do
     sleep $whiptail_intervalo
-    echo "Em andamento..."
+    echo "${label_progress}"
     echo "$((++progress * 100 / steps))"
   done
-  echo "Em andamento..."
+  echo "${label_progress}"
   echo "100"
   sleep 2
   clear
@@ -67,25 +62,10 @@ chmod +x sys-info
 # Limpar a tela
 clear
 
-# Dialogs
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=70
-CHOICE_HEIGHT=5
-
-export PORT=1
-
-
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-MENU="Escolha o sistema operacional que será instalado: "
-else
-MENU="Choose the operating system to be installed: "
-fi
 OPTIONS=(1 "Ubuntu")
 
 CHOICE=$(dialog --clear \
-                --title "$TITLE" \
-                --menu "$MENU" \
+                --menu "$MENU_operating_system_select" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
@@ -93,42 +73,25 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
 1)
-echo "Ubuntu"
-wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 2>&1 &
+  echo "Ubuntu"
+  wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 2>&1 &
 
- if [ "$system_icu_locale_code" = "pt-BR" ]; then
-      (
-        while pkill -0 wget >/dev/null 2>&1; do
-          sleep $whiptail_intervalo
-          
-          echo "Em andamento..."
-          
-          echo "$((++percentage))"
-        done
+  (
+    while pkill -0 wget >/dev/null 2>&1; do
+      sleep $whiptail_intervalo
+      
+      echo "${label_progress}"
+      
+      echo "$((++percentage))"
+    done
 
-        echo "Em andamento..."
+    echo "${label_progress}"
 
-        echo "100"
-        sleep 2
-      ) | whiptail --gauge "Em andamento..." 0 0 0
-      else
-        (
-          while pkill -0 wget >/dev/null 2>&1; do
-            sleep $whiptail_intervalo
+    echo "75"
+    sleep 2
+  ) | whiptail --gauge "${label_progress}" 0 0 0
 
-            echo "In progress..."
-            
-            echo "$((++percentage))"
-          done
-          echo "In progress..."
-          echo "100"
-          sleep 2
-        ) | whiptail --gauge "In progress..." 0 0 0
-    fi
-
-# Limpar a tela
-clear
-clear
+  clear
 ;;
 
 esac

@@ -2,53 +2,50 @@
 
 apt install wget -y >/dev/null 2>&1
 
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_icu_locale_code=$(getprop persist.sys.locale)
+
+
+if [ -f "fixed_variables.sh" ]; then
+	chmod +x fixed_variables.sh
+	bash fixed_variables.sh
+	else
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+		chmod +x fixed_variables.sh
+		bash fixed_variables.sh
+fi
+
+if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
+	chmod +x l10n_$system_icu_locale_code.sh
+	bash l10n_$system_icu_locale_code.sh
+	else
+		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" > /dev/null 2>&1 &
+		chmod +x l10n_$system_icu_locale_code.sh
+		bash l10n_$system_icu_locale_code.sh
+fi
+
 
 # GUI
 (
   while [ "$(pidof apt)" ]; do
     sleep 0.1
-    echo "50"
+    echo "75"
   done
   echo "100"
   sleep 1
-) | whiptail --gauge "Aguarde..." 0 0 0
+) | whiptail --gauge "${label_progress}" 0 0 0
 clear
 
-#############
-
-system_icu_locale_code=$(getprop persist.sys.locale)
-GMT_date=$(date +"%Z":00)
-cur=`pwd`
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-
-#Whilptail dialogs
-whiptail_total_time=2
-## Configurar o intervalo de atualização da barra de progresso
-whiptail_intervalo=1
-## Número de etapas na barra de progresso
-steps=$((whiptail_total_time / whiptail_intervalo))
-
-
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
-
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-	MENU="Escolha o sistema operacional que será instalado: "
-	else
-		MENU="Choose the operating system to be installed: "
-fi
 
 export PORT=1
-	OPTIONS=(1 "Jammy (22.04) [LTS]")
+OPTIONS=(1 "Jammy (22.04) [LTS]")
 
-	CHOICE=$(dialog --clear \
-					--title "$TITLE" \
-					--menu "$MENU" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
+CHOICE=$(dialog --clear \
+				--title "$TITLE" \
+				--menu "$MENU_operating_system" \
+				$HEIGHT $WIDTH $CHOICE_HEIGHT \
+				"${OPTIONS[@]}" \
+				2>&1 >/dev/tty)
 
 clear
 case $CHOICE in
@@ -62,7 +59,7 @@ esac
 
 if [ -d "$folder" ]; then
 	first=1
-	echo "skipping downloading"
+	echo "${label_skip_download}"
 fi
 
 
@@ -74,20 +71,20 @@ if [ "$first" != 1 ];then
 		aarch64)
 			archurl="arm64" ;;
 		*)
-			echo "unknown architecture"; exit 1 ;;
+			echo "${label_android_architecture_unknow}"; exit 1 ;;
 		esac
         	wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename  >/dev/null 2>&1 &
 			#GUI
 			(
 				while pkill -0 wget >/dev/null 2>&1; do
 				sleep $whiptail_intervalo
-				echo "Baixando o Ubuntu..."
+				echo "${label_ubuntu_download}"
 				echo "$((++percentage))"
 				done
-				echo "Baixando o Ubuntu..."
+				echo "${label_ubuntu_download}"
 				echo "100"
 				sleep 2
-			) | whiptail --gauge "Baixando o Ubuntu..." 0 0 0
+			) | whiptail --gauge "${label_ubuntu_download}" 0 0 0
 			###
 
 	fi
@@ -97,13 +94,13 @@ if [ "$first" != 1 ];then
     mkdir -p "$folder"
     cd "$folder" || exit
     echo 10  # 10% após criar o diretório
-    echo "Decompressing Rootfs, please be patient." #Decompressing Rootfs, please be patient.
+    echo "${label_decopressing_rootfs}"
     
     # Executa a descompressão e atualiza a barra de progresso
     proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
     
     echo 33  # Finaliza em 33%
-	 ) | whiptail --gauge "Aguarde um instante..." 0 0 0
+	 ) | whiptail --gauge "${label_progress}" 0 0 0
 
 	cd "$cur"
 fi
@@ -304,7 +301,7 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 (
     echo 34  # Inicia em 34%
 
-    echo "Baixando script de instalação..."
+    echo "${label_install_script_download}"
     wget --tries=20 "${extralink}/config/system-config.sh" -O "$folder/root/system-config.sh" --progress=dot:giga 2>&1 | while read -r line; do
         # Extraindo a porcentagem do progresso do wget
         if [[ $line =~ ([0-9]+)% ]]; then
@@ -315,7 +312,7 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
     chmod +x "$folder/root/system-config.sh"
     echo 66  # Finaliza em 66%
-) | whiptail --gauge "Aguarde..." 0 0 0
+) | whiptail --gauge "${label_progress}" 0 0 0
 
 
 
@@ -332,7 +329,7 @@ fi
 (
     echo 67  # Inicia em 67%
 
-    echo "Baixando wallpaper..."
+    echo "${label_wallpaper_download}"
     wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
         # Extraindo a porcentagem do progresso do wget
         if [[ $line =~ ([0-9]+)% ]]; then
@@ -342,20 +339,17 @@ fi
     done
 
     echo 100  # Finaliza em 100%
-) | whiptail --gauge "Aguarde..." 0 0 0
+) | whiptail --gauge "${label_progress}" 0 0 0
 
 
 # Idioma
-export USER=$(whoami)
 export PORT=1
 #Definir o idioma
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-	MENU="Idioma a instalar: "
 	OPTIONS=(1 "Português do Brasil (pt-BR)"
-			 2 "Default (en-US)")
+			 2 "English (en-US)")
 	CHOICE=$(dialog --clear \
 					--title "$TITLE" \
-					--menu "$MENU" \
+					--menu "$MENU_language_select" \
 					$HEIGHT $WIDTH $CHOICE_HEIGHT \
 					"${OPTIONS[@]}" \
 					2>&1 >/dev/tty)
@@ -363,6 +357,14 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 	clear
 	case $CHOICE in
 		1)
+			if [ -f "l10n_pt-BR.sh" ]; then
+				chmod +x l10n_pt-BR.sh
+				bash l10n_pt-BR.sh
+			else
+				wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+				chmod +x l10n_pt-BR.sh
+				bash l10n_pt-BR.sh
+			fi
 
 			(
 				echo 0  # Inicia em 0%
@@ -375,7 +377,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 14  # Finaliza em 14%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 
 			(
 				echo 15  # Inicia em 15%
@@ -388,7 +390,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 29  # Finaliza em 29%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 30  # Inicia em 30%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -400,7 +402,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 44  # Finaliza em 44%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 45  # Inicia em 45%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -412,7 +414,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 59  # Finaliza em 59%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 60  # Inicia em 60%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -424,7 +426,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 74  # Finaliza em 74%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 75  # Inicia em 75%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -436,11 +438,20 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 		2)
+		if [ -f "l10n_en-US.sh" ]; then
+				chmod +x l10n_en-US.sh
+				bash l10n_en-US.sh
+			else
+				wget --tries=20 "${extralink}/config/locale/l10n_en-US.sh" > /dev/null 2>&1 &
+				chmod +x l10n_en-US.sh
+				bash l10n_en-US.sh
+			fi
+		
 			(
 				echo 0  # Inicia em 0%
 				wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -452,7 +463,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 20  # Finaliza em 20%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 
 			(
 				echo 21  # Inicia em 21%
@@ -465,7 +476,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 40  # Finaliza em 40%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 41  # Inicia em 41%
 				wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -477,7 +488,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 60  # Finaliza em 60%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 61  # Inicia em 61%
 				wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -489,7 +500,7 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 80  # Finaliza em 80%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			(
 				echo 81  # Inicia em 81%
 				wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -501,167 +512,11 @@ if [ "$system_icu_locale_code" = "pt-BR" ]; then
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 			
 		;;
 	esac
 
-	else
-		MENU="Language to install: "
-		OPTIONS=(1 "Default (en-US)"
-				2 "Português do Brasil (pt-BR)")
-				
-		CHOICE=$(dialog --clear \
-						--title "$TITLE" \
-						--menu "$MENU" \
-						$HEIGHT $WIDTH $CHOICE_HEIGHT \
-						"${OPTIONS[@]}" \
-						2>&1 >/dev/tty)
-
-		clear
-		case $CHOICE in
-			1)
-				(
-				echo 0  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 20  # Finaliza em 20%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
-
-			(
-				echo 21  # Inicia em 21%
-				wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 40  # Finaliza em 40%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
-			(
-				echo 41  # Inicia em 41%
-				wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 60  # Finaliza em 60%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
-			(
-				echo 61  # Inicia em 61%
-				wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 80  # Finaliza em 80%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
-			(
-				echo 81  # Inicia em 81%
-				wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "Downloading your language settings..." 0 0 0
-			;;
-			2)
-				(
-				echo 0  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 14  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-
-			(
-				echo 15  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 29  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-			(
-				echo 30  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 44  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-			(
-				echo 45  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 59  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-			(
-				echo 60  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 74  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-			(
-				echo 75  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "Baixando as configurações do seu idioma..." 0 0 0
-
-				chmod +x $folder/root/locale_pt-BR.sh
-			;;
-		esac
-fi
 clear
 
 
@@ -689,7 +544,7 @@ chmod +x $folder/usr/local/bin/startvncserver
 	rm $cloudimagename
     echo 100  # Finaliza em 100%
 	sleep 5
-) | whiptail --gauge "Criando a inicialização..." 0 0 0
+) | whiptail --gauge "${label_create_boot}" 0 0 0
 
 
 dialog --title "Aviso" --msgbox 'A seguir aparecerá uma tela preta, mas não se preocupe, é só para fazer umas configurações mega importantes para o funcionamento do sistema.\n \n \nEssa mensagem irá sumir em alguns instantes.' 0 0 &
@@ -701,16 +556,18 @@ sleep 15
 kill $!
 clear
 
+#Copiando arquivos para dentro do linux
+cp l10n_*.sh $folder/root/
+cp fixed_variables.sh $folder/root/
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
 echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
-echo 'Estou me atualizando para que o sistema que bom para você.'
+echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
 apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
@@ -720,28 +577,12 @@ bash ~/locale*.sh
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
-else # comando em ingles
-echo "#!/bin/bash
-rm -rf /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
-mkdir -p ~/.vnc
-apt update -y > /dev/null 2>&1
 
-apt install sudo wget -y > /dev/null 2>&1 
-clear
-rm -rf ~/.bash_profile
-exit" > $folder/root/.bash_profile 
-fi
 bash $bin
 
 # GUI
 
 export USER=$(whoami)
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
-	MENU="Escolha um ambientes de área de trabalho: "
-else
-	MENU="Choose a desktop environments: "
-fi
 export PORT=1
 OPTIONS=(1 "LXDE"
 		 2 "XFCE"
@@ -749,7 +590,7 @@ OPTIONS=(1 "LXDE"
 
 CHOICE=$(dialog --clear \
                 --title "$TITLE" \
-                --menu "$MENU" \
+                --menu "$MENU_environments_select" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
@@ -777,7 +618,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "Baixando as configurações necessárias para o Gnome..." 0 0 0
+	) | whiptail --gauge "${label_gnome_download_setup}" 0 0 0
 
 
 
@@ -822,11 +663,32 @@ sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/fi
 
 touch $folder/root/.hushlogin
 
-if [ "$system_icu_locale_code" = "pt-BR" ]; then
 echo '#!/bin/bash
-export LC_ALL=pt_BR.UTF-8
-export LANG=pt_BR.UTF-8
-export LANGUAGE=pt_BR.UTF-8
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
+if [ -f "fixed_variables.sh" ]; then
+	chmod +x fixed_variables.sh
+	bash fixed_variables.sh
+	else
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+		chmod +x fixed_variables.sh
+		bash fixed_variables.sh
+fi
+
+if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
+	export LANGUAGE=pt_BR.UTF-8
+	export LANG=pt_BR.UTF-8
+	export LC_ALL=pt_BR.UTF-8
+	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
+		chmod +x l10n_pt-BR.sh
+		bash l10n_pt-BR.sh
+		else
+			wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+			chmod +x l10n_pt-BR.sh
+			bash l10n_pt-BR.sh
+	fi
+fi
+
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 (
     echo 0  # Inicia em 0%
@@ -834,28 +696,28 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     echo "Aguarde, atualizando pacotes..."
     sudo apt update > /dev/null 2>&1
     echo 25  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Procurando atualizações..." 0 0 0
+) | whiptail --gauge "${label_find_update}" 0 0 0
 
 (
     echo 26  # Inicia em 0%
     sudo apt-get install dialog -y > /dev/null 2>&1
 
     echo 50  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Instalando ferramentas..." 0 0 0
+) | whiptail --gauge "${label_install_tools}" 0 0 0
 
 (
     echo 51  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1 
 
     echo 75  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Trazendo as configurações do teclado...." 0 0 0
+) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 76  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-) | whiptail --gauge "Trazendo as configurações de teclado e fuso horário...." 0 0 0
+) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
 
 
 sudo dpkg-reconfigure keyboard-configuration
@@ -885,7 +747,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%
     
- ) | whiptail --gauge "Configurando o sistema..." 0 0 0
+ ) | whiptail --gauge "${label_system_setup}" 0 0 0
 
 
 bash ~/config-environment.sh
@@ -903,85 +765,6 @@ chmod +x /usr/local/bin/startvncserver
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile' > $folder/root/.bash_profile
-
-else
-echo '#!/bin/bash
-
-
-export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
-(
-    echo 0  # Inicia em 0%
-
-    echo ""
-    sudo apt update > /dev/null 2>&1
-    echo 25  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Looking for updates......" 0 0 0
-
-(
-    echo 26  # Inicia em 0%
-    sudo apt-get install dialog -y > /dev/null 2>&1
-
-    echo 50  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Installing tools..." 0 0 0
-
-(
-    echo 51  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1 
-
-    echo 75  # Atualiza para 100% após a atualização
-) | whiptail --gauge "Bringing the keyboard settings...." 0 0 0
-(
-    echo 76  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
-
-    echo 100  # Atualiza para 100% após a atualização
-	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-) | whiptail --gauge "Trazendo as configurações de teclado e fuso horário...." 0 0 0
-clear
-
-
-sudo apt install whiptail -y > /dev/null 2>&1
-(
-    echo 0  # Inicia em 0%
-	echo ""
-    sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
-
-    echo 16 
-
-    sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
-    
-	echo 32
-    
-    sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
-    echo 48
-    
-    sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
-    echo 64
-    
-    sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
-
-    echo 100  # Finaliza em 100%
-    
- ) | whiptail --gauge "Configuring the system..." 0 0 0
-
-
-bash ~/config-environment.sh
-
-sed -i "\|export LANG|a LANG=en_US.UTF-8|" ~/.vnc/xstartup
-
-bash ~/system-config.sh
-
-chmod +x /usr/local/bin/vnc
-chmod +x /usr/local/bin/vncpasswd
-chmod +x /usr/local/bin/startvnc
-chmod +x /usr/local/bin/stopvnc
-chmod +x /usr/local/bin/startvncserver
-
-rm -rf ~/system-config.sh
-rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile' > $folder/root/.bash_profile
-fi
-
 
 
 bash $bin

@@ -12,6 +12,26 @@
 
 
 # Ajuste das cores da GUI
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
+if [ -f "fixed_variables.sh" ]; then
+	chmod +x fixed_variables.sh
+	bash fixed_variables.sh
+	else
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" > /dev/null 2>&1 &
+		chmod +x fixed_variables.sh
+		bash fixed_variables.sh
+fi
+
+if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
+    chmod +x l10n_pt-BR.sh
+    bash l10n_pt-BR.sh
+    else
+        wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+        chmod +x l10n_pt-BR.sh
+        bash l10n_pt-BR.sh
+fi
+
 export NEWT_COLORS='window=,white border=black,white title=black,white textbox=black,white button=white,blue'
 
 (
@@ -22,7 +42,7 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
     echo 16  # Atualiza para 25% após o update
 
     echo "Instalando pacotes de idioma..."
-    sudo apt-get install locales-y > /dev/null 2>&1
+    sudo apt-get install locales -y > /dev/null 2>&1
     echo 32
     
     sudo apt-get install language-pack-pt -y > /dev/null 2>&1
@@ -39,7 +59,7 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
     locale-gen > /dev/null 2>&1
     echo 100  # Finaliza em 100%
     
- ) | whiptail --gauge "Configurando idioma..." 0 0 0
+ ) | whiptail --gauge "${label_system_language}" 0 0 0
 
 
 ## Exportar os comandos de configuração de idioma para ~/.bashrc

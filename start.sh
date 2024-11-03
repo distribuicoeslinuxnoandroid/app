@@ -30,8 +30,6 @@ if [ -f "fixed_variables.sh" ]; then
     echo 100
 ) | whiptail --gauge " " 0 0 0
 
-
-
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi

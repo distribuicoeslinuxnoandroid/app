@@ -1,5 +1,21 @@
 #!/bin/bash
-read -sp 'Enter the new password for the VNC server: ' PASSWORD
+#read -sp 'Enter the new password for the VNC server: ' PASSWORD
+#/usr/bin/vncpasswd -f <<<"$PASSWORD"$'\n'"$PASSWORD" > $HOME/.vnc/passwd
+#echo ""
+#echo "VNC password has been changed"
+
+
+# Solicitar a senha do usuário usando dialog
+PASSWORD=$(dialog --title "Configuração do VNC" --passwordbox "Digite a nova senha para o servidor VNC:" 0 0 3>&1 1>&2 2>&3)
+
+# Verificar se o usuário cancelou a entrada
+if [ $? != 0 ]; then
+    echo "Entrada cancelada pelo usuário."
+    exit 1
+fi
+
+# Salvar a senha no arquivo apropriado
 /usr/bin/vncpasswd -f <<<"$PASSWORD"$'\n'"$PASSWORD" > $HOME/.vnc/passwd
-echo ""
-echo "VNC password has been changed"
+
+# Mensagem de confirmação
+dialog --title "Sucesso" --msgbox "A senha do VNC foi alterada com sucesso." 0 0

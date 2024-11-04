@@ -18,7 +18,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge " " 40 0 0
+			) | whiptail --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -43,7 +43,7 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge " " 40 0 0
+			) | whiptail --gauge "${label_progress}" 0 0 0
 			chmod +x l10n_pt-BR.sh
 			source l10n_pt-BR.sh
 	fi
@@ -63,6 +63,9 @@ clear
 
 (
     echo 0  # Inicia em 0%
+	sleep 2
+
+	echo 10
 	echo ""
     sudo apt-get install gnome-shell -y > /dev/null 2>&1
 

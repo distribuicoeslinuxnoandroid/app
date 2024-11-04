@@ -706,7 +706,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 80%
-			) | whiptail --gauge "         " 0 0 0
+			) | whiptail --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -731,7 +731,7 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 				done
 
 				echo 100  # Finaliza em 80%
-			) | whiptail --gauge "         " 0 0 0
+			) | whiptail --gauge "${label_progress}" 0 0 0
 			chmod +x l10n_pt-BR.sh
 			source l10n_pt-BR.sh
 	fi

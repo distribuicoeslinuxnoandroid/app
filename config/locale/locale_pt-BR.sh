@@ -100,3 +100,12 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
 echo 'export LC_ALL=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANG=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANGUAGE=pt_BR.UTF-8' >> ~/.bashrc
+
+dialog --title "Aviso" --msgbox 'teste2' 0 0 &
+
+# Aguarda 15 segundos
+sleep 2
+
+# Fecha a mensagem
+kill $!
+clear

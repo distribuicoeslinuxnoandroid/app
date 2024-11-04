@@ -47,8 +47,6 @@ fi
 if [ -f "l10n_pt-BR.sh" ]; then
 	source l10n_pt-BR.sh
 	else
-
-
     (
         echo 51  # Inicia em 51%
         wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" --progress=dot:giga 2>&1 | while read -r line; do

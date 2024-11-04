@@ -10,7 +10,7 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
     echo ""
 fi
 
-if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8" ]]; then
+if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8"|| "LANG" ~/.bashrc == "pt_BR.UTF-8" ]]; then
 
     label_system_info="Informações do seu sistema"
     label_android_version="Versão do Android"

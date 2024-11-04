@@ -20,12 +20,12 @@ export PORT=1
 android_version=$(getprop ro.build.version.release) #Versão do Android
 android_architecture=$(getprop ro.product.cpu.abi) #Arquitetura do aparelho
 device_manufacturer=$(getprop ro.product.manufacturer) #Fabricante
-device_model=$(getprop ro.product.model) # Modelo
+device_model=$(getprop ro.product.model) # Modelo getprop
 device_model_complete=$(getprop ril.product_code) #Código do modelo
 
-device_hardware=$(getprop ro.hardware.chipname) #Chipset
-system_country=$(getprop ro.csc.country_code) #Região
-system_country_iso=$(getprop ro.csc.countryiso_code) #Abreviação da região
+device_hardware=$(getprop ro.hardware.chipname) #Chipset Processador
+system_country=$(getprop ro.csc.country_code) #País
+system_country_iso=$(getprop ro.csc.countryiso_code) #Abreviação do País
 system_icu_locale_code=$(getprop persist.sys.locale) #
 system_timezone=$(getprop persist.sys.timezone)
 

@@ -111,3 +111,4 @@ gnome-extensions enable ubuntu-dock@ubuntu.com
 vncserver -kill
 rm -rf /tmp/.X$pt-lock
 rm -rf /tmp/.X11-unix/X$pt
+rm -rf ~/l10n*.sh

@@ -1,109 +1,234 @@
 #!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-# Garantindo a remoção snap
-sudo apt autoremove --purge chromium* -y
-sudo apt autoremove --purge firefox* -y
-sudo snap remove firefox
-sudo apt autoremove --purge snapd -y
 
-#Carregar os componentes necessários
-sudo apt-get update
-#Atualizando o sistema
-sudo apt-get full-upgrade -y
 
-sudo apt-get install exo-utils tigervnc-standalone-server tigervnc-common tigervnc-tools dbus-x11 --no-install-recommends -y
-sudo apt-get install sudo wget nano inetutils-tools dialog software-properties-common nautilus gpg curl -y
-# Configurar o teclado
-sudo apt-get install keyboard-configuration -y
-#Definir o fuso horário
-sudo apt-get install tzdata -y
-sudo apt-get install git gdebi font-manager evince -y
-sudo dpkg --configure -a
+
+(
+  echo 0  # Inicia em 0%
+	echo "Oi"
+
+	echo 10
+  sudo apt autoremove --purge chromium* -y > /dev/null 2>&1
+
+  echo 16 
+  sudo apt autoremove --purge firefox* -y > /dev/null 2>&1
+  
+	echo 32
+  sudo snap remove firefox
+    
+  echo 48
+  sudo apt autoremove --purge snapd -y
+
+  echo 64  # Finaliza em 64%
+  sudo apt-get clean
+ ) | whiptail --gauge "${label_progress}" 0 0 0
+
+
+(
+    echo 0  # Inicia em 0%
+
+    echo "Aguarde, atualizando pacotes..."
+    sudo apt-get update > /dev/null 2>&1
+    echo 25  # Atualiza para 25% após a atualização
+) | whiptail --gauge "${label_find_update}" 0 0 0
+
+(
+    echo 26  # Inicia em 26%
+
+    echo "Aguarde, atualizando pacotes..."
+    sudo apt-get full-upgrade -y > /dev/null 2>&1
+    echo 100  # Atualiza para 100% após a atualização
+) | whiptail --gauge "${label_update}" 0 0 0
+
+
+(
+
+	echo 0
+  sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
+
+  echo 2 
+  sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 4
+  sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
+  
+  echo 6
+  sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
+  
+  echo 8
+  sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
+
+  echo 10
+  sudo apt-get install sudo -y > /dev/null 2>&1
+
+  echo 12
+  sudo apt-get install wget -y > /dev/null 2>&1
+
+  echo 14
+  sudo apt-get install nano -y > /dev/null 2>&1
+
+  echo 16
+  sudo apt-get install inetutils-tools -y > /dev/null 2>&1
+
+  echo 18
+  sudo apt-get install dialog -y > /dev/null 2>&1
+
+  echo 20
+  sudo apt-get install software-properties-common -y > /dev/null 2>&1
+
+  echo 22
+  sudo apt-get install nautilus -y > /dev/null 2>&1
+
+  echo 24
+  sudo apt-get install gpg -y > /dev/null 2>&1
+
+  echo 26
+  sudo apt-get install curl -y > /dev/null 2>&1
+
+  echo 28
+  sudo apt-get install keyboard-configuration -y > /dev/null 2>&1
+
+  echo 30
+  sudo apt-get install tzdata -y > /dev/null 2>&1
+
+  echo 32
+  sudo apt-get install git -y > /dev/null 2>&1
+
+  echo 34
+  sudo apt-get install gdebi -y > /dev/null 2>&1
+
+  echo 36
+  sudo apt-get install font-manager -y > /dev/null 2>&1
+
+  echo 38
+  sudo apt-get install evince -y > /dev/null 2>&1
+
+  echo 40
+  sudo dpkg --configure -a  
+
+  echo 42
+  # Se não existir, será criado
+  if [ ! -d "/usr/share/backgrounds/" ];then
+    mkdir -p "/usr/share/backgrounds/"
+  fi
+
+  echo 44
+
+  if [ ! -d "/usr/share/icons/" ];then
+    mkdir -p "/usr/share/icons/"
+  fi
+
+  echo 46
+
+  if [ ! -d "~/.config/gtk-3.0" ];then
+    mkdir -p ~/.config/gtk-3.0/
+  fi
+
+  echo 48
+
+  echo 'file:///
+  file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+
+  echo 50
+  ## PPA do InkScape
+  sudo add-apt-repository ppa:inkscape.dev/stable -y > /dev/null 2>&1
+
+  echo 52
+  ## PPA do LibreOffice
+  sudo add-apt-repository ppa:libreoffice/ppa -y > /dev/null 2>&1
+
+  echo 54
+  ## PPA do Tema do ZorinOS
+  sudo add-apt-repository ppa:zorinos/stable -y > /dev/null 2>&1
+
+  echo 56
+  ## PPA do Firefox
+  sudo add-apt-repository ppa:mozillateam/ppa -y > /dev/null 2>&1
+
+  echo 58
+  # Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
+  echo 'Package: *
+  Pin: release o=LP-PPA-mozillateam
+  Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+  
+  echo 60
+  ## Dá a possibilidade do Firefox atualizar quando houver uma atualização
+  echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+
+  echo 62
+  # PPA do Chromium
+  sudo add-apt-repository ppa:chromium-team/beta -y
+
+  echo 64
+  ##Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd
+  echo 'Package: *
+  Pin: release o=LP-PPA-chromium-team-beta
+  Pin-Priority: 1001
+
+  Package: chromium*
+  Pin: origin "LP-PPA-chromium-team-beta"
+  Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/chromium
+
+  echo 66
+  ## O PPA não tem o suporte ao Chromium para Jammy, por isso será trocado pela versão bionic
+  rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
+
+  echo 68
+  ## Substituição pela lista do Bionix
+  echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
+  # deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
+
+  echo 70
+  # PPA do VSCode
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg > /dev/null 2>&1
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+
+  echo 72
+  # PPA do Brave Browser
+  sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+  echo 74
+  sudo apt-get update > /dev/null 2>&1
+
+  echo 76
+  sudo apt-get install firefox -y > /dev/null 2>&1
+
+  echo 78
+  sudo apt-get install code -y > /dev/null 2>&1
+  sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
+
+  echo 80
+  git clone https://github.com/ZorinOS/zorin-icon-themes.git > /dev/null 2>&1
+
+  echo 82
+  git clone https://github.com/ZorinOS/zorin-desktop-themes.git > /dev/null 2>&1
+
+  echo 84
+  cd zorin-icon-themes/
+  mv Zorin*/ /usr/share/icons/ > /dev/null 2>&1
+  cd $HOME
+
+  echo 90
+  cd zorin-desktop-themes/
+  mv Zorin*/ /usr/share/themes/
+  cd $HOME
+  rm -rf zorin-*-themes/
+
+  echo 100  # Finaliza em 100%
+
+  sudo apt-get clean
+ ) | whiptail --gauge "${label_install_script_download}" 0 0 0
+
+
+
 #sudo apt-get install xloadimage -y
 
 #if [ ! -d "${HOME}/Documents" ];then
 #  mkdir -p "${HOME}/Documents"
 #fi
 
-# Se não existir, será criado
-if [ ! -d "/usr/share/backgrounds/" ];then
-  mkdir -p "/usr/share/backgrounds/"
-fi
+#sed -i 's|Exec=chromium-browser|Exec=chromium-browser --no-sandbox|' /usr/share/applications/chromium-browser.desktop
 
-
-if [ ! -d "/usr/share/icons/" ];then
-  mkdir -p "/usr/share/icons/"
-fi
-
-if [ ! -d "~/.config/gtk-3.0" ];then
-  mkdir -p ~/.config/gtk-3.0/
-fi
-
-echo 'file:///
-file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
-
-sudo apt-get install software-properties-common -y
-# Adicionar as PPAs de repositórios
-# Caso não queira adicionar algum desses repositórios, apague a linha e o comentário (o texto que vem após o #) relacionado ao PPA do repositório 
-## PPA do Inkscape
-sudo add-apt-repository ppa:inkscape.dev/stable -y
-## PPA do LibreOffice
-sudo add-apt-repository ppa:libreoffice/ppa -y
-## PPA do Tema do ZorinOS
-sudo add-apt-repository ppa:zorinos/stable -y
-## PPA do Firefox
-sudo add-apt-repository ppa:mozillateam/ppa -y
-
-# Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
-echo 'Package: *
-Pin: release o=LP-PPA-mozillateam
-Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
-
-## Dá a possibilidade do Firefox atualizar quando houver uma atualização
-echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
-
-# PPA do Chromium
-sudo add-apt-repository ppa:chromium-team/beta -y
-
-##Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd
-echo 'Package: *
-Pin: release o=LP-PPA-chromium-team-beta
-Pin-Priority: 1001
-
-Package: chromium*
-Pin: origin "LP-PPA-chromium-team-beta"
-Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/chromium
-
-## O PPA não tem o suporte ao Chromium para Jammy, por isso será trocado pela versão bionic
-rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
-
-## Substituição pela lista do Bionix
-echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
-# deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
-
-# PPA do VSCode
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-
-# PPA do Brave Browser
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-sudo apt-get update
-sudo apt-get install firefox chromium-browser code -y
-sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
-sed -i 's|Exec=chromium-browser|Exec=chromium-browser --no-sandbox|' /usr/share/applications/chromium-browser.desktop
-
-git clone https://github.com/ZorinOS/zorin-icon-themes.git
-git clone https://github.com/ZorinOS/zorin-desktop-themes.git
-
-cd zorin-icon-themes/
-mv Zorin*/ /usr/share/icons/
-cd $HOME
-cd zorin-desktop-themes/
-mv Zorin*/ /usr/share/themes/
-cd $HOME
-
-rm -rf zorin-*-themes/

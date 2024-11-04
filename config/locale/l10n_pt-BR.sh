@@ -29,6 +29,7 @@ fi
     label_create_boot="Criando a inicialização..."
     label_alert_autoupdate_for_u="Estou me atualizando para que o sistema que bom para você."
     label_find_update="Procurando atualizações..."
+    label_update="Atualizando o sistema..."
     label_install_tools="Instalando ferramentas..."
     label_system_setup="Configurando o sistema..."
     label_system_language="Configurando idioma..."

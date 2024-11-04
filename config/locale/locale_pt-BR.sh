@@ -15,6 +15,15 @@
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
 
+dialog --title "Aviso" --msgbox 'teste' 0 0 &
+
+# Aguarda 15 segundos
+sleep 2
+
+# Fecha a mensagem
+kill $!
+clear
+
 if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else

@@ -6,6 +6,8 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
   export LANGUAGE=pt_BR.UTF-8
   export LANG=pt_BR.UTF-8
   export LC_ALL=pt_BR.UTF-8
+  else
+    echo ""
 fi
 
 if [[ "$system_icu_locale_code" == "pt-BR" || "$LANG" == "pt_BR.UTF-8" ]]; then

@@ -63,10 +63,9 @@ clear
 
 (
     echo 0  # Inicia em 0%
-	sleep 2
+	echo "Oi"
 
 	echo 10
-	echo ""
     sudo apt-get install gnome-shell -y > /dev/null 2>&1
 
     echo 16 

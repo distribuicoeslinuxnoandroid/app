@@ -776,7 +776,9 @@ clear
 sudo apt install whiptail -y > /dev/null 2>&1
 (
     echo 0  # Inicia em 0%
-	echo ""
+	echo "Oi"
+
+	echo 10
     sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
 
     echo 16 

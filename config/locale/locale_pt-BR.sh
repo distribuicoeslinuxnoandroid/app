@@ -14,16 +14,6 @@
 # Ajuste das cores da GUI
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
-
-dialog --title "Aviso" --msgbox 'teste' 0 0 &
-
-# Aguarda 15 segundos
-sleep 2
-
-# Fecha a mensagem
-kill $!
-clear
-
 if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
@@ -98,12 +88,3 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
 echo 'export LC_ALL=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANG=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANGUAGE=pt_BR.UTF-8' >> ~/.bashrc
-
-dialog --title "Aviso" --msgbox 'teste2' 0 0 &
-
-# Aguarda 15 segundos
-sleep 2
-
-# Fecha a mensagem
-kill $!
-clear

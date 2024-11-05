@@ -47,8 +47,6 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 fi
 
 
-
-
 (
   echo 0  # Inicia em 0%
 	echo "Oi"

@@ -21,7 +21,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge " " 0 40 0
+			) | whiptail --gauge " " 5 40 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -43,7 +43,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge " " 0 40 0
+			) | whiptail --gauge " " 5 40 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi

@@ -69,17 +69,15 @@ clear
     sudo apt-get install gnome-shell -y > /dev/null 2>&1
 
     echo 16 
-
     sudo apt-get install gnome-terminal -y > /dev/null 2>&1
     
 	echo 32
-    
     sudo apt-get install gnome-tweaks -y > /dev/null 2>&1
-    echo 48
     
+	echo 48
     sudo apt-get install gnome-shell-extensions -y > /dev/null 2>&1
-    echo 64
     
+	echo 64
     sudo apt-get install gnome-shell-extension-ubuntu-dock -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%

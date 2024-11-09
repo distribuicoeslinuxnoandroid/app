@@ -221,6 +221,9 @@ fi
   ## Substituição pela lista do Bionix
   echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
   # deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
+  # E78o: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.PackageKit was not provided by any .service files
+  #E: The repository 'https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu jammy Release' does not have a Release file.
+
 
   echo 70
   # PPA do VSCode

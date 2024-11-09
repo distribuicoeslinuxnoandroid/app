@@ -36,7 +36,7 @@ fi
     label_updating_packages="Aguarde, atualizando pacotes..."
     label_keyboard_settings="Trazendo as configurações do teclado...."
     label_tzdata_settings="Trazendo as configurações de teclado e fuso horário...."
-    label_config_environment_gui="Baixando as configurações necessárias para o Gnome..."
+    label_config_environment_gui="Baixando as configurações necessárias..."
 
     # Sobre downloads
     label_install_script_download="Baixando script de instalação..."

@@ -782,17 +782,15 @@ sudo apt install whiptail -y > /dev/null 2>&1
     sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
 
     echo 16 
-
     sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
     
 	echo 32
-    
     sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
-    echo 48
     
+	echo 48
     sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
-    echo 64
     
+	echo 64
     sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%

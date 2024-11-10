@@ -52,16 +52,15 @@ fi
 	echo "Oi"
 
 	echo 10
-  sudo apt autoremove --purge chromium* -y > /dev/null 2>&1
+  sudo apt autoremove --purge snapd -y > /dev/null 2>&1
+  sudo apt purge snapd -y > /dev/null 2>&1
+  sudo rm -rf /var/cache/snapd
+  sudo rm -rf ~/snap
 
   echo 16 
-  sudo apt autoremove --purge firefox* -y > /dev/null 2>&1
-  
-	echo 32
-  sudo snap remove firefox
-    
-  echo 48
-  sudo apt autoremove --purge snapd -y
+  sudo apt purge flatpak -y > /dev/null 2>&1
+  sudo apt autoremove --purge flatpak -y > /dev/null 2>&1
+  sudo rm -rf /var/cache/flatpak
 
   echo 64  # Finaliza em 64%
   sudo apt-get clean
@@ -147,6 +146,9 @@ fi
   echo 38
   sudo apt-get install evince -y > /dev/null 2>&1
 
+  echo 39
+  sudo apt-get install synaptic -y > /dev/null 2>&1
+
   echo 40
   sudo dpkg --configure -a  
 
@@ -178,28 +180,29 @@ fi
   sudo add-apt-repository ppa:inkscape.dev/stable -y > /dev/null 2>&1
 
   echo 52
-  ## PPA do LibreOffice
-  sudo add-apt-repository ppa:libreoffice/ppa -y > /dev/null 2>&1
-
-  echo 54
-  ## PPA do Tema do ZorinOS
-  sudo add-apt-repository ppa:zorinos/stable -y > /dev/null 2>&1
-
-  echo 56
   ## PPA do Firefox
   sudo add-apt-repository ppa:mozillateam/ppa -y > /dev/null 2>&1
 
-  echo 58
+  echo 53
   # Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
   echo 'Package: *
   Pin: release o=LP-PPA-mozillateam
   Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
   
-  echo 60
+  echo 54
   ## Dá a possibilidade do Firefox atualizar quando houver uma atualização
   echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
 
-  echo 62
+  echo 56
+  ## PPA do LibreOffice
+  sudo add-apt-repository ppa:libreoffice/ppa -y > /dev/null 2>&1
+
+  echo 60
+  ## PPA do Tema do ZorinOS
+  sudo add-apt-repository ppa:zorinos/stable -y > /dev/null 2>&1
+
+
+  echo 63
   # PPA do Chromium
   #sudo add-apt-repository ppa:chromium-team/beta -y
 

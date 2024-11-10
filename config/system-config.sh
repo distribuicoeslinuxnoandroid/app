@@ -201,25 +201,25 @@ fi
 
   echo 62
   # PPA do Chromium
-  sudo add-apt-repository ppa:chromium-team/beta -y
+  #sudo add-apt-repository ppa:chromium-team/beta -y
 
   echo 64
   ##Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd
-  echo 'Package: *
-  Pin: release o=LP-PPA-chromium-team-beta
-  Pin-Priority: 1001
+  #echo 'Package: *
+  #Pin: release o=LP-PPA-chromium-team-beta
+  #Pin-Priority: 1001
 
-  Package: chromium*
-  Pin: origin "LP-PPA-chromium-team-beta"
-  Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/chromium
+  ##Package: chromium*
+  #Pin: origin "LP-PPA-chromium-team-beta"
+  #Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/chromium
 
   echo 66
   ## O PPA não tem o suporte ao Chromium para Jammy, por isso será trocado pela versão bionic
-  rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
+  #rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
 
   echo 68
   ## Substituição pela lista do Bionix
-  echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
+  #echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
   # deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
   # E78o: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.PackageKit was not provided by any .service files
   #E: The repository 'https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu jammy Release' does not have a Release file.

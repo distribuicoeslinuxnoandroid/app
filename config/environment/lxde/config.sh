@@ -67,10 +67,8 @@ fi
 
   echo 32  # Finaliza em 100%
   sudo apt-get clean
- ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
-
-echo "#!/bin/bash
+  echo "#!/bin/bash
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 export PULSE_SERVER=127.0.0.1
 export LANG
@@ -81,9 +79,12 @@ dbus-launch --exit-with-session startlxde" > ~/.vnc/xstartup
 
 chmod +x ~/.vnc/xstartup
 
-
 echo "export DISPLAY=":1"" >> /etc/profile
 source /etc/profile
+ ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+
+
+
 
 vncpasswd
 

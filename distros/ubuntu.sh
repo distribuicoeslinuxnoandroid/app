@@ -825,7 +825,7 @@ bash ~/config-environment.sh
 
 sed -i "\|export LANG|a LANG=pt_BR.UTF-8|" ~/.vnc/xstartup
 
-bash ~/system-config.sh
+#bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

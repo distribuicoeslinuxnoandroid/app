@@ -66,19 +66,20 @@ fi
 
 
 (
-    echo 0  # Inicia em 0%
+    echo 72  # Inicia em 0%
 
     echo "Aguarde, atualizando pacotes..."
     sudo apt-get update > /dev/null 2>&1
-    echo 25  # Atualiza para 25% após a atualização
+    echo 80  # Atualiza para 25% após a atualização
+    sudo apt-get clean
 ) | whiptail --gauge "${label_find_update}" 0 0 0
 
 (
-    echo 26  # Inicia em 26%
-
+    echo 81  # Inicia em 26%
     echo "Aguarde, atualizando pacotes..."
     sudo apt-get full-upgrade -y > /dev/null 2>&1
     echo 100  # Atualiza para 100% após a atualização
+    sudo apt-get clean
 ) | whiptail --gauge "${label_update}" 0 0 0
 
 

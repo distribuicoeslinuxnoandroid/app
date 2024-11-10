@@ -46,13 +46,8 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 	fi
 fi
 
-
-echo "Oi"
-sleeps 10
-
 (
   echo 0  # Inicia em 0%
-	echo "Oi"
 
 	echo 10
   sudo apt autoremove --purge snapd -y > /dev/null 2>&1

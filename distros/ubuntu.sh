@@ -622,13 +622,35 @@ CHOICE=$(dialog --clear \
 
 clear
 case $CHOICE in
-1)
-	echo "LXDE UI"
-	wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null
+1)	
+		(
+		echo 0  # Inicia em 0%
+		echo "LXDE UI"
+		wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 ;;
-2)
-	echo "XFCE UI"
-	wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null
+2)	
+	(
+		echo 0  # Inicia em 0%
+		echo "XFCE UI"
+		wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 ;;
 3)
 	(
@@ -643,7 +665,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_gnome_download_setup}" 0 0 0
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
 
 

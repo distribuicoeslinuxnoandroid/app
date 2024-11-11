@@ -88,16 +88,15 @@ source /etc/profile
 
 vncpasswd
 
-vncserver -name remote-desktop -geometry 1920x1080 :1
-mkdir $HOME/.config/lxsession
-mkdir $HOME/.config/lxsession/LXDE
-mkdir $HOME/.config/gtk-3.0/
 
 
 (
 
 	echo 40
   vncserver -name remote-desktop -geometry 1920x1080 :1
+  mkdir $HOME/.config/lxsession
+  mkdir $HOME/.config/lxsession/LXDE
+  mkdir $HOME/.config/gtk-3.0/
 
   echo 48
   mkdir $HOME/.config/lxsession
@@ -287,9 +286,9 @@ gtk-xft-hintstyle=hintslight
 gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
 
 
-echo 96
-echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
-sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
+  echo 96
+  echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+  sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
 
   echo 100  # Finaliza em 100%
   sudo apt-get clean

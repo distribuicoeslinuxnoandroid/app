@@ -830,7 +830,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
 echo "Olá"
 sleep 10
-bash ~/config-environment.sh
+#bash ~/config-environment.sh
 
 sed -i "\|export LANG|a LANG=pt_BR.UTF-8|" ~/.vnc/xstartup
 

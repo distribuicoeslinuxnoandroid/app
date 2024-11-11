@@ -711,7 +711,7 @@ sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/fi
 
 touch $folder/root/.hushlogin
 
-echo '#!/bin/bash
+echo "#!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
 if [ -f "fixed_variables.sh" ]; then
@@ -778,7 +778,8 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 
 (
     echo 51  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1 
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
+	sed -i 's|XKBMODEL="*"|XKBMODEL="pc105"|' /etc/default/keyboard
 
     echo 75  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
@@ -789,7 +790,6 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
 ) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
-
 
 sudo dpkg-reconfigure keyboard-configuration
 sudo dpkg-reconfigure tzdata
@@ -829,11 +829,9 @@ sudo apt install whiptail -y > /dev/null 2>&1
     
  ) | whiptail --gauge "${label_system_setup}" 0 0 0
 
-echo "Olá"
-sleep 10
 #bash ~/config-environment.sh
 
-sed -i "\|export LANG|a LANG=pt_BR.UTF-8|" ~/.vnc/xstartup
+sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
 
 #bash ~/system-config.sh
 
@@ -845,7 +843,7 @@ chmod +x /usr/local/bin/startvncserver
 
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile' > $folder/root/.bash_profile
+rm -rf ~/.bash_profile" > $folder/root/.bash_profile
 
 rm -rf ~/l10n*.sh
 rm -rf ~/fixed_variables.sh

@@ -393,6 +393,7 @@ export PORT=1
 
 			(
 				echo 0  # Inicia em 0%
+				sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
 				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then

@@ -815,6 +815,15 @@ sudo apt install whiptail -y > /dev/null 2>&1
 	echo 64
     sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
 
+	echo 72
+	sudo apt install python3-gi -y > /dev/null 2>&1
+
+	echo 80
+	sudo apt install python3 -y > /dev/null 2>&1
+
+	echo 90
+	python3 -c "import gi; print(gi.__version__)" > /dev/null 2>&1
+
     echo 100  # Finaliza em 100%
     
  ) | whiptail --gauge "${label_system_setup}" 0 0 0

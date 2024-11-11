@@ -119,7 +119,7 @@ fi
   sudo apt-get install software-properties-common -y > /dev/null 2>&1
 
   echo 22
-  sudo apt-get install nautilus -y > /dev/null 2>&1
+  sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
 
   echo 24
   sudo apt-get install gpg -y > /dev/null 2>&1
@@ -134,10 +134,10 @@ fi
   sudo apt-get install tzdata -y > /dev/null 2>&1
 
   echo 32
-  sudo apt-get install git -y > /dev/null 2>&1
+  sudo apt-get install git --no-install-recommends -y > /dev/null 2>&1
 
   echo 34
-  sudo apt-get install gdebi -y > /dev/null 2>&1
+  sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
 
   echo 36
   sudo apt-get install font-manager -y > /dev/null 2>&1
@@ -180,17 +180,22 @@ fi
 
   echo 52
   ## PPA do Firefox
-  sudo add-apt-repository ppa:mozillateam/ppa -y > /dev/null 2>&1
+  #sudo add-apt-repository ppa:mozillateam/ppa -y > /dev/null 2>&1
+  
 
   echo 53
   # Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
-  echo 'Package: *
-  Pin: release o=LP-PPA-mozillateam
-  Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+  #echo 'Package: *
+  #Pin: release o=LP-PPA-mozillateam
+  #Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+
+  #echo 'Package: firefox*
+  #Pin: release o=Ubuntu
+  #Pin-Priority: -1' | sudo tee -a /etc/apt/preferences.d/mozillateam-firefox
   
   echo 54
   ## Dá a possibilidade do Firefox atualizar quando houver uma atualização
-  echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+  #echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
 
   echo 56
   ## PPA do LibreOffice
@@ -240,8 +245,10 @@ fi
   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 
   echo 74
+  sudo apt-get clean
   sudo apt-get update > /dev/null 2>&1
-
+  sudo dpkg --configure -a 
+  
   echo 76
   sudo apt-get install firefox -y > /dev/null 2>&1
 

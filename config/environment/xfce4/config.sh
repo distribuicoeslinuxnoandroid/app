@@ -65,7 +65,7 @@ fi
     sudo apt-get install xfce4-terminal --no-install-recommends -y > /dev/null 2>&1
 
     echo 32  # Finaliza em 100%
-    sudo apt-get install xfce4-panel-profiles --no-install-recommends -y > /dev/null 2>&1
+    sudo apt-get install xfce4-panel-profiles -y > /dev/null 2>&1
 
     echo 40  # Finaliza em 100%
     sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1

@@ -778,14 +778,14 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 
 (
     echo 51  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
+    sudo apt install keyboard-configuration -y > /dev/null 2>&1
 	sed -i 's|XKBMODEL="*"|XKBMODEL="pc105"|' /etc/default/keyboard
 
     echo 75  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 76  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
+    sudo apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
@@ -823,7 +823,6 @@ sudo apt install whiptail -y > /dev/null 2>&1
 	sudo apt install python3 -y > /dev/null 2>&1
 
 	echo 90
-	python3 -c "import gi; print(gi.__version__)" > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%
     

@@ -830,8 +830,6 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
 bash ~/config-environment.sh
 
-sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
-
 bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc

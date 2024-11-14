@@ -88,3 +88,5 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
 echo 'export LC_ALL=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANG=pt_BR.UTF-8' >> ~/.bashrc
 echo 'export LANGUAGE=pt_BR.UTF-8' >> ~/.bashrc
+
+sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup

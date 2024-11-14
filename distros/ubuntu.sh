@@ -828,11 +828,11 @@ sudo apt install whiptail -y > /dev/null 2>&1
     
  ) | whiptail --gauge "${label_system_setup}" 0 0 0
 
-#bash ~/config-environment.sh
+bash ~/config-environment.sh
 
 sed -i '\|export LANG|a LANG=pt_BR.UTF-8|' ~/.vnc/xstartup
 
-#bash ~/system-config.sh
+bash ~/system-config.sh
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

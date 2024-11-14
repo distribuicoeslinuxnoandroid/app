@@ -822,7 +822,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 	echo 80
 	sudo apt install python3 -y > /dev/null 2>&1
 
-	echo 90
+	#echo 90
 
     echo 100  # Finaliza em 100%
     

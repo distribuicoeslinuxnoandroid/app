@@ -713,7 +713,7 @@ sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/fi
 
 touch $folder/root/.hushlogin
 
-echo "#!/bin/bash
+echo '#!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
 if [ -f "fixed_variables.sh" ]; then
@@ -782,14 +782,13 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 
 (
     echo 51  # Inicia em 0%
-    sudo apt install keyboard-configuration -y > /dev/null 2>&1
-	sed -i 's|XKBMODEL="*"|XKBMODEL="pc105"|' /etc/default/keyboard
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
     echo 75  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 76  # Inicia em 0%
-    sudo apt install tzdata -y > /dev/null 2>&1 
+    sudo DEBIAN_FRONTEND=noninteractive  apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
@@ -844,7 +843,9 @@ chmod +x /usr/local/bin/startvncserver
 
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile" > $folder/root/.bash_profile
+rm -rf ~/.bash_profile' > $folder/root/.bash_profile
+
+sed -i "/sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > \/dev\/null 2>&1/a sed -i 's|XKBMODEL=\"*\"|XKBMODEL=\"pc105\"|' /etc/default/keyboard" $folder/root/.bash_profile
 
 rm -rf ~/l10n*.sh
 rm -rf ~/fixed_variables.sh

@@ -859,7 +859,7 @@ rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile' > $folder/root/.bash_profile
 
-sed -i "/sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > \/dev\/null 2>&1/a sed -i 's|XKBMODEL=\"*\"|XKBMODEL=\"pc105\"|' /etc/default/keyboard" $folder/root/.bash_profile
+#sed -i "/sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > \/dev\/null 2>&1/a sed -i 's|XKBMODEL=\"*\"|XKBMODEL=\"pc105\"|' /etc/default/keyboard" $folder/root/.bash_profile
 
 rm -rf ~/l10n*.sh
 rm -rf ~/fixed_variables.sh

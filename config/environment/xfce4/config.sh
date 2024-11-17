@@ -74,7 +74,6 @@ fi
     sudo apt-get clean
 
     mkdir -p ~/.vnc
-    sleep 2
 
     echo '#!/bin/bash
     export PULSE_SERVER=127.0.0.1
@@ -83,13 +82,10 @@ fi
     [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
     echo $$ > /tmp/xsession.pid
     dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup > /dev/null 2>&1
-    sleep 2
 
     chmod +x ~/.vnc/xstartup
-    sleep 2
 
-    echo "export DISPLAY=":1"" >> /etc/profile
-    sleep 15
+    echo "export DISPLAY=":1"" >> /etc/profile > /dev/null 2>&1
 
     source /etc/profile
 
@@ -114,7 +110,7 @@ sleep 2
     sleep 2
 
     echo 72   # Inicia em 0%
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
     sleep 2
 
     echo 80   # Inicia em 0%
@@ -127,7 +123,7 @@ sleep 2
     mkdir $HOME/.config/gtk-3.0/
 
     echo 89   # Inicia em 0%
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg
+    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
     sleep 2
 
     echo 96   # Inicia em 0%
@@ -146,7 +142,7 @@ sleep 2
 # Certificação para caso de erro
 
 
-#sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
+#sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
 vncserver -kill
 
 rm -rf /root/.vnc/localhost:5901.pid

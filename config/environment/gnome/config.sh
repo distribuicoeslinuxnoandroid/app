@@ -103,7 +103,7 @@ vncpasswd
 # Configuração do tema
 
 vncserver -name remote-desktop -geometry 1920x1080 :1
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg'
 gnome-extensions enable ubuntu-dock@ubuntu.com
 
 vncserver -kill

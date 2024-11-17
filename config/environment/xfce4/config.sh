@@ -82,7 +82,7 @@ fi
     [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
     [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
     echo $$ > /tmp/xsession.pid
-    dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup
+    dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup > /dev/null 2>&1
     sleep 2
 
     chmod +x ~/.vnc/xstartup

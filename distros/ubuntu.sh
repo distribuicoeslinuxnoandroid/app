@@ -363,6 +363,20 @@ fi
         fi
     done
 
+    echo 80  # Finaliza em 100%
+) | whiptail --gauge "${label_progress}" 0 0 0
+(
+    echo 81  # Inicia em 67%
+
+    echo "${label_wallpaper_download}"
+    wget --tries=20 "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi
+    done
+
     echo 100  # Finaliza em 100%
 ) | whiptail --gauge "${label_progress}" 0 0 0
 

@@ -75,7 +75,7 @@ export LANG
 [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 echo $$ > /tmp/xsession.pid
-dbus-launch --exit-with-session startlxde" > ~/.vnc/xstartup
+dbus-launch --exit-with-session startlxde" > ~/.vnc/xstartup > /dev/null 2>&1
 
 chmod +x ~/.vnc/xstartup
 

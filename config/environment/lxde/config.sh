@@ -68,18 +68,18 @@ fi
   echo 32  # Finaliza em 100%
   sudo apt-get clean
 
-  echo "#!/bin/bash
+  echo '#!/bin/bash
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 export PULSE_SERVER=127.0.0.1
 export LANG
 [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 echo $$ > /tmp/xsession.pid
-dbus-launch --exit-with-session startlxde" > ~/.vnc/xstartup > /dev/null 2>&1
+dbus-launch --exit-with-session startlxde' > ~/.vnc/xstartup > /dev/null 2>&1
 
 chmod +x ~/.vnc/xstartup
 
-echo "export DISPLAY=":1"" >> /etc/profile
+echo 'export DISPLAY=":1"' >> /etc/profile
 source /etc/profile
  ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 

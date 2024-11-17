@@ -99,7 +99,6 @@ source /etc/profile
 
 vncpasswd
 
-
 # Configuração do tema
 
 vncserver -name remote-desktop -geometry 1920x1080 :1

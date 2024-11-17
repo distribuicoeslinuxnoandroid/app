@@ -102,6 +102,7 @@ sleep 2
 
 (
     echo 56   # Inicia em 0%
+    apt update > /dev/null 2>&1
     xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
     sleep 2
 

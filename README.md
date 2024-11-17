@@ -24,4 +24,5 @@ Enquanto outras soluções trazem versões totalmente em inglês e sem a possibi
 # Escolha entre uma interface extremamente leve, leve e mais avançada
 
 ![Interfaces](/screenshots/environments.png)
+
 Três versões de ambiente disponíveis para uso.

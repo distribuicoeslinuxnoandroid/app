@@ -84,11 +84,7 @@ source /etc/profile
  ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
 
-
-
 vncpasswd
-
-
 
 (
 

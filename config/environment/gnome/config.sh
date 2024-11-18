@@ -90,7 +90,7 @@ mkdir -p ~/.vnc
 echo "#!/bin/bash
 export LANG
 export PULSE_SERVER=127.0.0.1
-gnome-shell --x11" > ~/.vnc/xstartup > /dev/null 2>&1
+gnome-shell --x11" > ~/.vnc/xstartup
 
 chmod +x ~/.vnc/xstartup
 

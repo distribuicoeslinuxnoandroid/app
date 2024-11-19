@@ -136,6 +136,7 @@ vncpasswd
 
     echo 100  # Finaliza em 100%
     sudo apt-get clean
+    sleep 15
 
  #) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 

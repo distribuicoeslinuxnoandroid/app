@@ -99,13 +99,14 @@ vncpasswd
 
 
 
-(
+#(
     echo 56   # Inicia em 0%
+    echo "vncserver start"
     vncserver -name remote-desktop -geometry 1920x1080 :1
     sleep 6
 
     echo 58
-    apt update > /dev/null 2>&1
+    apt update #> /dev/null 2>&1
     xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
     sleep 2
 
@@ -118,7 +119,7 @@ vncpasswd
     sleep 2
 
     echo 80   # Inicia em 0%
-    wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 > /dev/null 2>&1
+    wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 # > /dev/null 2>&1
     chmod +x ~/xfce4-panel.tar.bz2
     xfce4-panel-profiles load xfce4-panel.tar.bz2
     sleep 2
@@ -136,7 +137,7 @@ vncpasswd
     echo 100  # Finaliza em 100%
     sudo apt-get clean
 
- ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+ #) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
 
 #mkdir $HOME/.config/xfce4/

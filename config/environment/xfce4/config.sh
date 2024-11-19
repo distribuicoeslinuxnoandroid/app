@@ -97,11 +97,14 @@ fi
 
 vncpasswd
 
-vncserver -name remote-desktop -geometry 1920x1080 :1
-sleep 2
+
 
 (
     echo 56   # Inicia em 0%
+    vncserver -name remote-desktop -geometry 1920x1080 :1
+    sleep 6
+
+    echo 58
     apt update > /dev/null 2>&1
     xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
     sleep 2

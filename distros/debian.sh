@@ -461,6 +461,7 @@ echo "#!/bin/bash
 mkdir -p ~/.vnc
 
 echo '${label_alert_autoupdate_for_u}'
+sleep 15
 apt update -y > /dev/null 2>&1
 apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 

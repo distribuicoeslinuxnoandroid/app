@@ -181,7 +181,6 @@ EOM
 
     echo "${label_install_script_download}"
     wget --tries=20 "${extralink}/config/system-config.sh" -O "$folder/root/system-config.sh" --progress=dot:giga 2>&1 | while read -r line; do
-    sleep 15
         # Extraindo a porcentagem do progresso do wget
         if [[ $line =~ ([0-9]+)% ]]; then
             percent=${BASH_REMATCH[1]}

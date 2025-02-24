@@ -270,7 +270,7 @@ if [ ! -f "${cur}/${folder}/proc/fakethings/vmstat" ]; then
 fi
 
 bin=start-ubuntu.sh
-echo "writing launch script"
+echo "${label_start_script}"
 cat > $bin <<- EOM
 #!/bin/bash
 cd \$(dirname \$0)

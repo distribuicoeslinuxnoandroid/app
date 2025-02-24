@@ -37,6 +37,7 @@ fi
     label_keyboard_settings="Trazendo as configurações do teclado...."
     label_tzdata_settings="Trazendo as configurações de teclado e fuso horário...."
     label_config_environment_gui="Baixando as configurações necessárias..."
+    label_start_script="Escrevendo script de inicialização"
 
     # Sobre downloads
     label_install_script_download="Baixando script de instalação..."

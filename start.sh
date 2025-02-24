@@ -86,7 +86,8 @@ chmod +x sys-info
 # Limpar a tela
 clear
 
-OPTIONS=(1 "Ubuntu")
+OPTIONS=(1 "Ubuntu"
+         2  "Debian")
 
 CHOICE=$(dialog --clear \
                 --title "$TITLE" \
@@ -100,6 +101,27 @@ case $CHOICE in
 1)
   echo "Ubuntu"
   wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 2>&1 &
+
+  (
+    while pkill -0 wget >/dev/null 2>&1; do
+      sleep $whiptail_intervalo
+      
+      echo "${label_progress}"
+      
+      echo "$((++percentage))"
+    done
+
+    echo "${label_progress}"
+
+    echo "75"
+    sleep 2
+  ) | whiptail --gauge "${label_progress}" 0 0 0
+
+  clear
+;;
+2)
+  echo "Debian [Teste]"
+  wget --tries=20 "${extralink}/distros/debian.sh" -O start-distro.sh > /dev/null 2>&1 &
 
   (
     while pkill -0 wget >/dev/null 2>&1; do

@@ -609,9 +609,46 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
 echo '${label_alert_autoupdate_for_u}'
-apt update -y > /dev/null 2>&1
-apt install dialog whiptail -y > /dev/null 2>&1
-apt install sudo wget -y > /dev/null 2>&1 
+
+# Função para exibir a barra de progresso
+progress_bar() {
+    local duration=$1
+    local elapsed=0
+    local width=50
+
+    while [ $elapsed -le $duration ]; do
+        local progress=$((elapsed * width / duration))
+        local remaining=$((width - progress))
+
+        # Desenha a barra sem mensagens adicionais
+        printf "\r["
+        printf "%0.s#" $(seq 1 $progress)
+        printf "%0.s-" $(seq 1 $remaining)
+        printf "] %d%%" $((elapsed * 100 / duration))
+
+        sleep 1
+        ((elapsed++))
+    done
+
+    echo
+}
+
+# Instalação completa com barra de progresso única
+clear
+
+(
+    apt update -y  &
+    apt install dialog whiptail sudo wget -y & 
+    wait
+) >/dev/null 2>&1
+
+# Barra de progresso durante a instalação
+progress_bar 50
+wait
+
+# Conclusão
+clear
+printf "[##################################################] 100%%\n"
 
 bash ~/locale*.sh
 

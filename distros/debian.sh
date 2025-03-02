@@ -52,7 +52,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				echo 90  # Finaliza
 			) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
-    source l10n_$system_icu_locale_code.sh
+    source "l10n_${system_icu_locale_code}.sh"
 fi
 
 # Carregamento de inicialização do instalador
@@ -369,8 +369,12 @@ export PORT=1
 	esac
 
 #Copiando arquivos para dentro do linux
+
+
 cp l10n_*.sh $folder/root/
+chmod +x $folder/root/l10n_*.sh
 cp fixed_variables.sh $folder/root/
+chmod +x $folder/root/fixed_variables.sh
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -383,59 +387,11 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
-if [ -f "fixed_variables.sh" ]; then
-	chmod +x fixed_variables.sh
-	source fixed_variables.sh
-	else
-
-		(
-			echo 0  # Inicia em 0%
-			wget --tries=20  "${extralink}/config/fixed_variables.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
-			sleep 1
-			echo 50  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
-
-		chmod +x fixed_variables.sh
-		source fixed_variables.sh
-fi
-
-if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
-	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
-		chmod +x l10n_pt-BR.sh
-		source l10n_pt-BR.sh
-		else
-
-
-			(
-			echo 51  # Inicia em 0%
-			wget --tries=20  "${extralink}/config/locale/l10n_pt_BR.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
-			sleep 1
-			echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
-
-
-			chmod +x l10n_pt-BR.sh
-			source l10n_pt-BR.sh
-	fi
-fi
 
 echo '${label_alert_autoupdate_for_u}'
-
-apt update -y >/dev/null 2>&1
-apt install dialog whiptail sudo wget -y >/dev/null 2>&1
-
+apt update -y > /dev/null 2>&1
+apt install dialog whiptail -y > /dev/null 2>&1
+apt install sudo wget -y > /dev/null 2>&1 
 
 bash ~/locale*.sh
 
@@ -447,7 +403,8 @@ exit" > $folder/root/.bash_profile
 
 #bash $bin
 
-# Interface
+# Interface de Download do
+
 export USER=$(whoami)
 export PORT=1
 OPTIONS=(1 "LXDE"
@@ -504,11 +461,9 @@ case $CHOICE in
 				echo $percent  # Atualiza a barra de progresso
 			fi
 		done
-		
 		sleep 1
 		echo 100  # Finaliza em 100%
 	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
-
 	# Sem isso o gnome não funciona
 	apt install dbus -y > /dev/null 2>&1
 
@@ -544,7 +499,8 @@ esac
 
 chmod +x $folder/root/config-environment.sh
 
-#sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
+# Cria uma gui de inicialização
+sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
 
 touch $folder/root/.hushlogin
 
@@ -601,7 +557,7 @@ fi
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 (
-    echo 0  # Inicia
+    echo 0  # Inicia em 0%
 
     echo "Aguarde, atualizando pacotes..."
     sudo apt update > /dev/null 2>&1
@@ -609,23 +565,23 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 ) | whiptail --gauge "${label_find_update}" 0 0 0
 
 (
-    echo 26  # Inicia
+    echo 26  # Inicia em 0%
     sudo apt-get install dialog -y > /dev/null 2>&1
 
-    echo 50  # Atualiza 
+    echo 50  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_install_tools}" 0 0 0
 
 (
-    echo 51  # Inicia
+    echo 51  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
-    echo 75  # Atualiza
+    echo 75  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
-    echo 76  # Inicia
+    echo 76  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive  apt install tzdata -y > /dev/null 2>&1 
 
-    echo 100  # Atualiza
+    echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
 ) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
 
@@ -636,7 +592,7 @@ clear
 
 sudo apt install whiptail -y > /dev/null 2>&1
 (
-    echo 0  # Inicia
+    echo 0  # Inicia em 0%
 	echo "Oi"
 
 	echo 10
@@ -662,7 +618,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
 	#echo 90
 
-    echo 100  # Finaliza
+    echo 100  # Finaliza em 100%
     
  ) | whiptail --gauge "${label_system_setup}" 0 0 0
 
@@ -682,7 +638,6 @@ rm -rf ~/.bash_profile' > $folder/root/.bash_profile
 
 #sed -i "/sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > \/dev\/null 2>&1/a sed -i 's|XKBMODEL=\"*\"|XKBMODEL=\"pc105\"|' /etc/default/keyboard" $folder/root/.bash_profile
 
-rm -rf ~/l10n*.sh
-rm -rf ~/fixed_variables.sh
+#rm -rf ~/l10n*.sh
+#rm -rf ~/fixed_variables.sh
 bash $bin
-

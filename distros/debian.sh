@@ -241,21 +241,81 @@ export PORT=1
 					source l10n_pt-BR.sh
 			fi
 			(
-			echo 0  # Inicia
+				echo 0  # Inicia 
+				sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
 
-			echo "${label_wallpaper_download}"
-			wget --tries=20 "${extralink}/config/locale/lang_pt-BR.sh" --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
+				echo 14  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 
-			echo 2  # Finaliza
-		) | whiptail --gauge "${label_progress}" 0 0 0
-		bash lang_pt-BR.sh
+			(
+				echo 15  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
 
+				echo 29  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 30  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 44  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 45  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 59  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 60  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 74  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 75  # Inicia 
+				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 100  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+
+			chmod +x $folder/root/locale_pt-BR.sh
 		;;
 
 		2)
@@ -267,23 +327,72 @@ export PORT=1
 					source l10n_en-US.sh
 			fi
 			(
-			echo 0  # Inicia
+				echo 0  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
 
-			echo "${label_wallpaper_download}"
-			wget --tries=20 "${extralink}/config/locale/lang_en-US.sh" --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
+				echo 20  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 
-			echo 2  # Finaliza
-		) | whiptail --gauge "${label_progress}" 0 0 0
-		bash lang_en-US.sh
+			(
+				echo 21  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 40  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 41  # Inicia
+				wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 60  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 61  # Inicia 
+				wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 80  # Finaliza 
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			(
+				echo 81  # Inicia 
+				wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 100  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
 		;;
 	esac
 
+#Copiando arquivos para dentro do linux
+cp l10n_*.sh $folder/root/
+cp fixed_variables.sh $folder/root/
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -291,10 +400,23 @@ echo "making $bin executable"
 chmod +x $bin
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
-
+touch $folder/root/.hushlogin
 echo "#!/bin/bash
-apt update -y && apt install wget sudo -y
-clear
-rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
+rm -rf /etc/resolv.conf
+echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+mkdir -p ~/.vnc
+
+echo '${label_alert_autoupdate_for_u}'
+apt update -y > /dev/null 2>&1
+apt install dialog whiptail -y > /dev/null 2>&1
+apt install sudo wget -y > /dev/null 2>&1 
+
+bash ~/locale*.sh
+
+apt update
+
+rm -rf ~/locale*.sh
+rm -rf ~/.bash_profile
+exit" > $folder/root/.bash_profile 
 
 bash $bin

@@ -109,9 +109,9 @@ if [ "$first" != 1 ];then
 			) | whiptail --gauge "$label_debian_download" 0 0 0
 			###
 			if wait $debootstrap_pid; then
-				whiptail --msgbox "Instalação concluída com sucesso!" 10 70
+				echo "Instalação concluída com sucesso!"
 			else
-				whiptail --msgbox "Erro durante a instalação do Debian!" 10 70
+				echo "Erro durante a instalação do Debian!"
 			fi
 
 fi
@@ -166,8 +166,6 @@ echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Set
 echo "#!/bin/bash
 apt update -y && apt install wget sudo -y
 clear
-
-echo ' Welcome to Andronix | Debian '
 rm -rf ~/.bash_profile" > $folder/root/.bash_profile 
 
 bash $bin

@@ -2,6 +2,7 @@
 
 apt install wget -y >/dev/null 2>&1
 
+
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 

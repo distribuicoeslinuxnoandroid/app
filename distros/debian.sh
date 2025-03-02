@@ -158,7 +158,15 @@ EOM
 
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
+# Se não existir, será criado
+if [ ! -d "$folder/usr/share/backgrounds/" ];then
+  mkdir -p "$folder/usr/share/backgrounds/"
+fi
 
+
+if [ ! -d "$folder/usr/share/icons/" ];then
+  mkdir -p "$folder/usr/share/icons/"
+fi
 # Baixando o arquivo de configuração do sistema
 (
     echo 0  # Inicia
@@ -176,16 +184,6 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
     echo 34  # Finaliza
 ) | whiptail --gauge "${label_progress}" 0 0 0
 
-# Se não existir, será criado
-if [ ! -d "$folder/usr/share/backgrounds/" ];then
-  mkdir -p "$folder/usr/share/backgrounds/"
-fi
-
-
-if [ ! -d "$folder/usr/share/icons/" ];then
-  mkdir -p "$folder/usr/share/icons/"
-fi
-
 # Baixar dois papei de parede
 (
     echo 35 # Inicia
@@ -199,11 +197,7 @@ fi
         fi
     done
 
-    echo 65 # Finaliza
-) | whiptail --gauge "${label_progress}" 0 0 0
-(
-    echo 66  # Inicia
-
+    echo 65
     echo "${label_wallpaper_download}"
     wget --tries=20 "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
         # Extraindo a porcentagem do progresso do wget
@@ -251,10 +245,6 @@ export PORT=1
 					fi
 				done
 
-				echo 14  # Finaliza 
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-
-			(
 				echo 15  # Inicia
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
@@ -264,9 +254,6 @@ export PORT=1
 					fi
 				done
 
-				echo 29  # Finaliza 
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-			(
 				echo 30  # Inicia
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
@@ -276,9 +263,6 @@ export PORT=1
 					fi
 				done
 
-				echo 44  # Finaliza 
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-			(
 				echo 45  # Inicia
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
@@ -288,9 +272,6 @@ export PORT=1
 					fi
 				done
 
-				echo 59  # Finaliza 
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-			(
 				echo 60  # Inicia
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
@@ -300,9 +281,6 @@ export PORT=1
 					fi
 				done
 
-				echo 74  # Finaliza 
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-			(
 				echo 75  # Inicia 
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
@@ -407,9 +385,45 @@ echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
 echo '${label_alert_autoupdate_for_u}'
-apt update -y > /dev/null 2>&1
-apt install dialog whiptail -y > /dev/null 2>&1
-apt install sudo wget -y > /dev/null 2>&1 
+# Função para exibir a barra de progresso
+progress_bar() {
+    local duration=$1
+    local elapsed=0
+    local width=50
+
+    while [ $elapsed -le $duration ]; do
+        local progress=$((elapsed * width / duration))
+        local remaining=$((width - progress))
+
+        # Desenha a barra sem mensagens adicionais
+        printf "\r["
+        printf "%0.s#" $(seq 1 $progress)
+        printf "%0.s-" $(seq 1 $remaining)
+        printf "] %d%%" $((elapsed * 100 / duration))
+
+        sleep 1
+        ((elapsed++))
+    done
+
+    echo
+}
+
+# Instalação completa com barra de progresso única
+clear
+
+(
+    apt update -y  &
+    apt install dialog whiptail sudo wget -y & 
+    wait
+) >/dev/null 2>&1
+
+# Barra de progresso durante a instalação
+progress_bar 50
+wait
+
+# Conclusão
+clear
+printf "[##################################################] 100%%\n"
 
 bash ~/locale*.sh
 
@@ -420,3 +434,243 @@ rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 
 bash $bin
+
+# Interface
+export USER=$(whoami)
+export PORT=1
+OPTIONS=(1 "LXDE"
+		 2 "XFCE"
+		 3 "Gnome")
+
+CHOICE=$(dialog --clear \
+                --title "$TITLE" \
+                --menu "$MENU_environments_select" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)	
+		(
+		echo 0  # Inicia em 0%
+		echo "LXDE UI"
+		wget --tries=20  "${extralink}/config/environment/lxde/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+;;
+2)	
+	(
+		echo 0  # Inicia em 0%
+		echo "XFCE UI"
+		wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+;;
+3)
+	(
+		echo 0  # Inicia em 0%
+		echo "Gnome UI"
+		wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		
+		sleep 1
+		echo 100  # Finaliza em 100%
+	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+
+	# Sem isso o gnome não funciona
+	apt install dbus -y > /dev/null 2>&1
+
+
+	# Parte da resolução do problema do gnome e do systemd
+	mkdir /data/data/com.termux/files/usr/var/run/dbus > /dev/null 2>&1 # criar a pasta que o dbus funcionará
+	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
+	rm -rf system_bus_socket
+
+	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket > /dev/null 2>&1 #cria o arquivo
+
+	if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+	grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+	grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
+	grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null ; then # verifica se existe a linha com esse texto
+		echo ""
+		else
+		echo "" # caso não exista as linhas verificadas, alterar e adicionar as linhas no arquivo usando o sed
+		sed -i 's|<auth>EXTERNAL</auth>|<listen>tcp:host=localhost,bind=*,port=6667,family=ipv4</listen>\
+	<listen>unix:tmpdir=/tmp</listen>\
+	<auth>EXTERNAL</auth>\
+	<auth>ANONYMOUS</auth>\
+	<allow_anonymous/>|' /data/data/com.termux/files/usr/share/dbus-1/system.conf
+	fi
+
+	# É necessário repetir o processo toda vez que alterar o system.conf
+	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
+	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
+	sed -i '\|command+=" -b /proc/self/fd:/dev/fd"|a command+=" -b system_bus_socket:/run/dbus/system_bus_socket"' $bin
+	sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
+;;
+esac
+
+chmod +x $folder/root/config-environment.sh
+
+sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
+
+touch $folder/root/.hushlogin
+
+echo '#!/bin/bash
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
+if [ -f "fixed_variables.sh" ]; then
+	chmod +x fixed_variables.sh
+	source fixed_variables.sh
+	else
+
+		(
+			echo 0  # Inicia 
+			wget --tries=20  "${extralink}/config/fixed_variables.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+			sleep 1
+			echo 50  # Finaliza
+		) | whiptail --gauge "${label_progress}" 0 0 0
+
+		chmod +x fixed_variables.sh
+		source fixed_variables.sh
+fi
+
+if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
+	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
+		chmod +x l10n_pt-BR.sh
+		source l10n_pt-BR.sh
+		else
+
+
+			(
+			echo 51  # Inicia
+			wget --tries=20  "${extralink}/config/locale/l10n_pt_BR.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+			sleep 1
+			echo 100  # Finaliza
+		) | whiptail --gauge "${label_progress}" 0 0 0
+
+
+			chmod +x l10n_pt-BR.sh
+			source l10n_pt-BR.sh
+	fi
+fi
+
+export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
+(
+    echo 0  # Inicia
+
+    echo "Aguarde, atualizando pacotes..."
+    sudo apt update > /dev/null 2>&1
+    echo 25  # Atualiza para 100% após a atualização
+) | whiptail --gauge "${label_find_update}" 0 0 0
+
+(
+    echo 26  # Inicia
+    sudo apt-get install dialog -y > /dev/null 2>&1
+
+    echo 50  # Atualiza 
+) | whiptail --gauge "${label_install_tools}" 0 0 0
+
+(
+    echo 51  # Inicia
+    sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
+
+    echo 75  # Atualiza
+) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
+(
+    echo 76  # Inicia
+    sudo DEBIAN_FRONTEND=noninteractive  apt install tzdata -y > /dev/null 2>&1 
+
+    echo 100  # Atualiza
+	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
+) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
+
+sudo dpkg-reconfigure keyboard-configuration
+sudo dpkg-reconfigure tzdata
+
+clear
+
+sudo apt install whiptail -y > /dev/null 2>&1
+(
+    echo 0  # Inicia
+	echo "Oi"
+
+	echo 10
+    sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
+
+    echo 16 
+    sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 32
+    sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 48
+    sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
+    
+	echo 64
+    sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
+
+	echo 72
+	sudo apt install python3-gi -y > /dev/null 2>&1
+
+	echo 80
+	sudo apt install python3 -y > /dev/null 2>&1
+
+	#echo 90
+
+    echo 100  # Finaliza
+    
+ ) | whiptail --gauge "${label_system_setup}" 0 0 0
+
+bash ~/config-environment.sh
+
+bash ~/system-config.sh
+
+chmod +x /usr/local/bin/vnc
+chmod +x /usr/local/bin/vncpasswd
+chmod +x /usr/local/bin/startvnc
+chmod +x /usr/local/bin/stopvnc
+chmod +x /usr/local/bin/startvncserver
+
+rm -rf ~/system-config.sh
+#rm -rf ~/config-environment.sh
+rm -rf ~/.bash_profile' > $folder/root/.bash_profile
+
+#sed -i "/sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > \/dev\/null 2>&1/a sed -i 's|XKBMODEL=\"*\"|XKBMODEL=\"pc105\"|' /etc/default/keyboard" $folder/root/.bash_profile
+
+rm -rf ~/l10n*.sh
+rm -rf ~/fixed_variables.sh
+bash $bin
+

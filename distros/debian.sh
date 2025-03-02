@@ -17,7 +17,7 @@ if [ -f "fixed_variables.sh" ]; then
 	else
 
   (
-				echo 76  # Inicia em 76%
+				echo 76  # Inicia
 				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -26,7 +26,7 @@ if [ -f "fixed_variables.sh" ]; then
 					fi
 				done
 
-				echo 80  # Finaliza em 80%
+				echo 80  # Finaliza
 			) | whiptail --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
@@ -40,7 +40,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 
 
     (
-				echo 81  # Inicia em 81%
+				echo 81  # Inicia
 				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -49,7 +49,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 					fi
 				done
 
-				echo 90  # Finaliza em 90%
+				echo 90  # Finaliza
 			) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
@@ -101,7 +101,7 @@ if [ "$first" != 1 ];then
 					echo "$percentage"
 				done
 
-				# Finaliza a barra em 100%
+				# Finaliza a barra 
 				echo "$label_debian_download"
 				echo "100"
 				sleep 2
@@ -155,6 +155,135 @@ else
     \$command -c "\$com"
 fi
 EOM
+
+echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
+
+
+# Baixando o arquivo de configuração do sistema
+(
+    echo 0  # Inicia
+
+    echo "${label_install_script_download}"
+    wget --tries=20 "${extralink}/config/system-config.sh" -O "$folder/root/system-config.sh" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi 
+    done
+
+    chmod +x "$folder/root/system-config.sh"
+    echo 34  # Finaliza
+) | whiptail --gauge "${label_progress}" 0 0 0
+
+# Se não existir, será criado
+if [ ! -d "$folder/usr/share/backgrounds/" ];then
+  mkdir -p "$folder/usr/share/backgrounds/"
+fi
+
+
+if [ ! -d "$folder/usr/share/icons/" ];then
+  mkdir -p "$folder/usr/share/icons/"
+fi
+
+# Baixar dois papei de parede
+(
+    echo 35 # Inicia
+
+    echo "${label_wallpaper_download}"
+    wget --tries=20 "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi
+    done
+
+    echo 65 # Finaliza
+) | whiptail --gauge "${label_progress}" 0 0 0
+(
+    echo 66  # Inicia
+
+    echo "${label_wallpaper_download}"
+    wget --tries=20 "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg" -P "$folder/usr/share/backgrounds" --progress=dot:giga 2>&1 | while read -r line; do
+        # Extraindo a porcentagem do progresso do wget
+        if [[ $line =~ ([0-9]+)% ]]; then
+            percent=${BASH_REMATCH[1]}
+            echo $percent  # Atualiza a barra de progresso
+        fi
+    done
+
+    echo 100  # Finaliza
+) | whiptail --gauge "${label_progress}" 0 0 0
+
+
+# Idioma
+export PORT=1
+#Definir o idioma
+	OPTIONS=(1 "Português do Brasil (pt-BR)"
+			 2 "English (en-US)")
+	CHOICE=$(dialog --clear \
+					--title "$TITLE" \
+					--menu "$MENU_language_select" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+	clear
+	case $CHOICE in
+		1)
+
+			if [ -f "l10n_pt-BR.sh" ]; then
+				source l10n_pt-BR.sh
+				else
+					wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
+					chmod +x l10n_pt-BR.sh
+					source l10n_pt-BR.sh
+			fi
+			(
+			echo 0  # Inicia
+
+			echo "${label_wallpaper_download}"
+			wget --tries=20 "${extralink}/config/locale/lang_pt-BR.sh" --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+
+			echo 2  # Finaliza
+		) | whiptail --gauge "${label_progress}" 0 0 0
+		bash lang_pt-BR.sh
+
+		;;
+
+		2)
+		if [ -f "l10n_en-US.sh" ]; then
+				source l10n_en-US.sh
+				else
+					wget --tries=20 "${extralink}/config/locale/l10n_en-US.sh" > /dev/null 2>&1 &
+					chmod +x l10n_en-US.sh
+					source l10n_en-US.sh
+			fi
+			(
+			echo 0  # Inicia
+
+			echo "${label_wallpaper_download}"
+			wget --tries=20 "${extralink}/config/locale/lang_en-US.sh" --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+
+			echo 2  # Finaliza
+		) | whiptail --gauge "${label_progress}" 0 0 0
+		bash lang_en-US.sh
+		;;
+	esac
+
 
 echo "fixing shebang of $bin"
 termux-fix-shebang $bin

@@ -48,6 +48,7 @@ fi
 
     #Download do sistema
     label_ubuntu_download="Baixando o Ubuntu..."
+    label_debian_download="Baixando o Debian..."
 
     #TITULO DO MENU DE DIALOGO
     MENU_operating_system_select="Escolha o sistema operacional que será instalado: "

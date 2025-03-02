@@ -6,6 +6,7 @@ extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/mai
 whiptail_total_time=2 ## Configurar o intervalo de atualização da barra de progresso
 whiptail_intervalo=1 ## Número de etapas na barra de progresso
 steps=$((whiptail_total_time / whiptail_intervalo))
+percentage=0
 
 export USER=$(whoami)
 HEIGHT=0

@@ -401,7 +401,7 @@ rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 exit" > $folder/root/.bash_profile 
 
-#bash $bin
+bash $bin
 
 # Interface de Download do
 

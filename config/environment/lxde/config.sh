@@ -1,5 +1,5 @@
 #!/bin/bash
-echo -e  "\033[0;32mGnome UI\033[0m"
+echo -e  "\033[0;32mLXDE UI\033[0m"
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 

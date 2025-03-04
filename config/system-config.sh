@@ -44,6 +44,8 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
     source "l10n_${system_icu_locale_code}.sh"
 fi
 
+
+
 (
   echo 0  # Inicia em 0%
 
@@ -168,71 +170,38 @@ fi
 
   echo 50
   ## PPA do InkScape
-  sudo add-apt-repository ppa:inkscape.dev/stable -y > /dev/null 2>&1
+  #sudo add-apt-repository ppa:inkscape.dev/stable -y > /dev/null 2>&1
 
   echo 52
-  ## PPA do Firefox
-  #sudo add-apt-repository ppa:mozillateam/ppa -y > /dev/null 2>&1
-  
+  # Respositório do Firefox
+  sudo install -d -m 0755 /etc/apt/keyrings
+  wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
 
   echo 53
-  # Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd e faz com que seja possível baixar o Firefox mais recente
-  #echo 'Package: *
-  #Pin: release o=LP-PPA-mozillateam
-  #Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/mozilla-firefox
-
-  #echo 'Package: firefox*
-  #Pin: release o=Ubuntu
-  #Pin-Priority: -1' | sudo tee -a /etc/apt/preferences.d/mozillateam-firefox
+  # Verifica o fingerprint
+  gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nO fingerprint da chave corresponde ("$0").\n"; else print "\nFalha na verificação: o fingerprint ("$0") não corresponde ao esperado.\n"}'
   
   echo 54
-  ## Dá a possibilidade do Firefox atualizar quando houver uma atualização
-  #echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+  # Adiciona repositório APT da Mozilla à sua lista de origens
+  echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
 
-  echo 56
-  ## PPA do LibreOffice
-  sudo add-apt-repository ppa:libreoffice/ppa -y > /dev/null 2>&1
-
-  echo 60
-  ## PPA do Tema do ZorinOS
-  sudo add-apt-repository ppa:zorinos/stable -y > /dev/null 2>&1
-
-
-  echo 63
-  # PPA do Chromium
-  #sudo add-apt-repository ppa:chromium-team/beta -y
-
-  echo 64
-  ##Esse comando dá a prioridade de uso para a PPA ao invés do instalador snapd
-  #echo 'Package: *
-  #Pin: release o=LP-PPA-chromium-team-beta
-  #Pin-Priority: 1001
-
-  ##Package: chromium*
-  #Pin: origin "LP-PPA-chromium-team-beta"
-  #Pin-Priority: 1001' | sudo tee /etc/apt/preferences.d/chromium
-
-  echo 66
-  ## O PPA não tem o suporte ao Chromium para Jammy, por isso será trocado pela versão bionic
-  #rm -rf /etc/apt/sources.list.d/chromium-team-ubuntu-beta-jammy.list
-
-  echo 68
-  ## Substituição pela lista do Bionix
-  #echo 'deb https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic main
-  # deb-src https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu/ bionic  main' | sudo tee /etc/apt/sources.list.d/chromium-team-ubuntu-beta-bionic.list
-  # E78o: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.PackageKit was not provided by any .service files
-  #E: The repository 'https://ppa.launchpadcontent.net/chromium-team/beta/ubuntu jammy Release' does not have a Release file.
-
+  echo 55
+  # Dar prioridade a pacotes do repositório da Mozilla:
+  echo '
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+' | sudo tee /etc/apt/preferences.d/mozilla
 
   echo 70
-  # PPA do VSCode
+  # APT do VSCode
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg > /dev/null 2>&1
   sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
 
   echo 72
-  # PPA do Brave Browser
+  # APT do brave browser
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 
@@ -243,6 +212,10 @@ fi
   
   echo 76
   sudo apt-get install firefox -y > /dev/null 2>&1
+  apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
+  sudo apt-get install firefox-l10n-$apt_system_icu_locale_code
+  sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
+  echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
 
   echo 78
   sudo apt-get install code -y > /dev/null 2>&1

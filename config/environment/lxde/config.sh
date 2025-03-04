@@ -96,7 +96,7 @@ bash /usr/local/bin/vncpasswd
     
 	echo 56
   echo '[Command]
-Logout=lxde-logout' | sudo tee $HOME/.config/lxpanel/LXDE/config
+Logout=vncserver -kill' | sudo tee $HOME/.config/lxpanel/LXDE/config
 
   echo 64
 echo '# lxpanel <profile> config file. Manually editing is not recommended.
@@ -215,8 +215,8 @@ clipboard/command=lxclipboard
 xsettings_manager/command=build-in
 proxy_manager/command=build-in
 keyring/command=ssh-agent
-quit_manager/command=lxsession-logout
-lock_manager/command=
+quit_manager/command=vncserver -kill
+lock_manager/command=vncserver -kill
 terminal_manager/command=lxterminal
 quit_manager/image=/usr/share/lxde/images/logout-banner.png
 quit_manager/layout=top

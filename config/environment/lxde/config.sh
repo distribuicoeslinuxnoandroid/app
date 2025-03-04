@@ -84,8 +84,6 @@ source /etc/profile
 
 bash /usr/local/bin/vncpasswd
 
-
-# Aqui inicia a configuração do tema
 (
 	echo 40
   vncserver -name remote-desktop -geometry 1920x1080 :1

@@ -43,6 +43,13 @@ label_keyboard_settings="Trazendo as configurações do teclado...."
 label_tzdata_settings="Trazendo as configurações de teclado e fuso horário...."
 label_config_environment_gui="Baixando as configurações necessárias..."
 label_start_script="Escrevendo script de inicialização"
+label_entry_canceled="Entrada cancelada pelo usuário."
+label_sucess="Sucesso!"
+label_change_password="A senha do VNC foi alterada com sucesso. "
+
+#VNC
+label_vnc_setup="Configuração do VNC"
+label_vnc_password_input="Digite a nova senha para o servidor VNC: "
 
 # Sobre downloads
 label_install_script_download="Baixando script de instalação..."

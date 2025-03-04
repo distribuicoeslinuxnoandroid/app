@@ -50,6 +50,28 @@ label_change_password="A senha do VNC foi alterada com sucesso. "
 #VNC
 label_vnc_setup="Configuração do VNC"
 label_vnc_password_input="Digite a nova senha para o servidor VNC: "
+label_startvnc_desc="O servidor VNC foi iniciado. A senha padrão é a senha da conta "
+label_vncserver_kill="Desligando o servidor VNC..."
+label_vncserver_kill_port="Digite o número da porta que deseja fechar (exemplo: 1): "
+label_vncserver_killed="Desligando o VNC da porta"
+label_vncserver_resolution_title="Seleção de resolução"
+label_vncserver_resolution_option="Escolha uma das opções abaixo:"
+label_vncserver_resolution_option_uwhd="Iniciar o vncserver na resolução Ultrawide HD"
+label_vncserver_resolution_option_qdhd="Iniciar o vncserver na resolução Quad-HD"
+label_vncserver_resolution_option_fhd="Iniciar o vncserver na resolução Full-HD"
+label_vncserver_resolution_option_hd="Iniciar o vncserver na resolução HD"
+label_vncserver_resolution_option_custom="Iniciar o vncserver com resolução e porta customizada"
+
+label_vncserver_chose_resolution_uwhd="Você escolheu a resolução Ultra Wide HD"
+label_vncserver_chose_resolution_qdhd="Você escolheu a resolução Quad-HD"
+label_vncserver_chose_resolution_fhd="Você escolheu a resolução Full HD"
+label_vncserver_chose_resolution_hd="Você escolheu a resolução HD"
+label_vncserver_chose_resolution_custom="Você escolheu definir a resolução e porta manualmente"
+label_vncserver_chose_resolution_custom_desc="Insira a resolução personalizada no formato LARGURAxALTURA. Exemplo: 1920x1200"
+label_vncserver_chose_resolution_custom_desc_port="Insira o número da porta. Exemplo: 2. A porta padrão é 1"
+
+
+
 
 # Sobre downloads
 label_install_script_download="Baixando script de instalação..."

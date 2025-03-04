@@ -582,12 +582,12 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
-	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
+	sudo apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
 ) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
 
 sudo dpkg-reconfigure keyboard-configuration
+clear
 sudo dpkg-reconfigure tzdata
-
 clear
 
 sudo apt install whiptail -y > /dev/null 2>&1

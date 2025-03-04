@@ -28,7 +28,7 @@ if command -v getprop > /dev/null 2>&1; then
     system_icu_locale_code=$(getprop persist.sys.locale 2>/dev/null)       # Locale
     system_timezone=$(getprop persist.sys.timezone 2>/dev/null)            # Timezone
 else
-    echo ""
+    system_icu_locale_code=$(echo $LANG | sed 's/\..*//')
 fi
 
 

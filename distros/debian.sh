@@ -579,7 +579,7 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 76  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive  apt install tzdata -y > /dev/null 2>&1 
+    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário

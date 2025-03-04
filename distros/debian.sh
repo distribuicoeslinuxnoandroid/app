@@ -67,8 +67,6 @@ fi
 ) | whiptail --gauge "${label_progress}" 0 0 0
 clear
 
-termux-setup-storage
-
 if [ -d "$folder" ]; then
 	first=1
 	echo "${label_skip_download}"

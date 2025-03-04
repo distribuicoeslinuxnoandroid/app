@@ -441,7 +441,7 @@ esac
 chmod +x $folder/root/config-environment.sh
 
 # Cria uma gui de inicialização
-sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/debian-stable/usr/local/bin/startvncserver"' $bin
+#sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/debian-stable/usr/local/bin/startvncserver"' $bin
 
 touch $folder/root/.hushlogin
 

@@ -5,7 +5,8 @@
 #echo "VNC password has been changed"
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-system_icu_locale_code=$(echo $LANG | sed 's/\..*//')
+system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
+
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
@@ -33,9 +34,8 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 	source l10n_$system_icu_locale_code.sh
 	else
 
-
     (
-				echo 81  # Inicia
+				echo 51  # Inicia
 				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -44,7 +44,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 					fi
 				done
 
-				echo 90  # Finaliza
+				echo 100  # Finaliza
 			) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"

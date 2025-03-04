@@ -1,6 +1,6 @@
 #!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-system_icu_locale_code=$(echo $LANG | sed 's/\..*//')
+system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
@@ -21,12 +21,6 @@ if [ -f "fixed_variables.sh" ]; then
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
-fi
-
-if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
-	export LANGUAGE=pt_BR.UTF-8
-	export LANG=pt_BR.UTF-8
-	export LC_ALL=pt_BR.UTF-8
 fi
 
 ## Variáveis de idioma. Que irão se adequar ao idioma escolhido

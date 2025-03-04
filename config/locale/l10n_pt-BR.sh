@@ -55,7 +55,7 @@ MENU_operating_system_select="Escolha o sistema operacional que será instalado:
 MENU_language_select="Escolha o idioma "
 MENU_environments_select="Escolha um ambientes de área de trabalho: "
 
-
+# Troca o nome "Brazil" por "Brasil"
 if [ "$system_country" = "Brazil" ]; then
   system_country="Brasil"
 fi

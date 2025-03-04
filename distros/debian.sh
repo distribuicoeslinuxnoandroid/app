@@ -333,16 +333,11 @@ rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
-# Adicionar novos repositórios Debian
-sudo tee -a /etc/apt/sources.list <<EOF
-deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
+echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security stable-security main contrib non-free
 deb http://deb.debian.org/debian stable-updates main contrib non-free
-EOF
-clear
-
-echo "deb http://ftp.debian.org/debian buster main
-deb http://ftp.debian.org/debian buster-updates main" >> /etc/apt/sources.list
+deb http://ftp.debian.org/debian buster main
+deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
 
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1

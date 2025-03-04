@@ -443,59 +443,55 @@ esac
 chmod +x $folder/root/config-environment.sh
 
 # Cria uma gui de inicialização
-sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/ubuntu22-fs/usr/local/bin/startvncserver"' $bin
+sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/debian-stable/usr/local/bin/startvncserver"' $bin
 
 touch $folder/root/.hushlogin
 
 echo '#!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
+
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
 	source fixed_variables.sh
 	else
-
 		(
-			echo 0  # Inicia em 0%
-			wget --tries=20  "${extralink}/config/fixed_variables.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
-			sleep 1
-			echo 50  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
+				echo 0  # Inicia em 0%
+				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 50  # Finaliza em 50%
+			) | whiptail --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi
 
-if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentro do bashrc
-	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
-		chmod +x l10n_pt-BR.sh
-		source l10n_pt-BR.sh
-		else
+## Variáveis de idioma. Que irão se adequar ao idioma escolhido
+if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
+	source l10n_$system_icu_locale_code.sh
+	else
 
+    (
+				echo 51  # Inicia
+				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
 
-			(
-			echo 51  # Inicia em 0%
-			wget --tries=20  "${extralink}/config/locale/l10n_pt_BR.sh" -O > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-				# Extraindo a porcentagem do progresso do wget
-				if [[ $line =~ ([0-9]+)% ]]; then
-					percent=${BASH_REMATCH[1]}
-					echo $percent  # Atualiza a barra de progresso
-				fi
-			done
-			sleep 1
-			echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
-
-
-			chmod +x l10n_pt-BR.sh
-			source l10n_pt-BR.sh
-	fi
+				echo 100  # Finaliza
+			) | whiptail --gauge "${label_progress}" 0 0 0
+		chmod +x l10n_$system_icu_locale_code.sh
+    source "l10n_${system_icu_locale_code}.sh"
 fi
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"

@@ -97,8 +97,6 @@ fi
 
 vncpasswd
 
-
-
 #(
     echo 56   # Inicia em 0%
     echo "vncserver start"

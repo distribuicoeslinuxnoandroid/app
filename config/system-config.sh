@@ -119,7 +119,7 @@ fi
   sudo apt-get install software-properties-common -y > /dev/null 2>&1
 
   echo 22
-  sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
+  #sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
 
   echo 24
   sudo apt-get install gpg -y > /dev/null 2>&1
@@ -137,7 +137,7 @@ fi
   sudo apt-get install git --no-install-recommends -y > /dev/null 2>&1
 
   echo 34
-  sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
+  #sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
 
   echo 36
   sudo apt-get install font-manager -y > /dev/null 2>&1

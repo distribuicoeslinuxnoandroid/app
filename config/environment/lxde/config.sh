@@ -65,6 +65,9 @@ fi
 	echo 24
   sudo apt-get install lxappearance --no-install-recommends -y > /dev/null 2>&1
 
+  echo 27
+  apt remove lxlock lightdm light-locker -y
+
   echo 32  # Finaliza em 100%
   sudo apt-get clean
 

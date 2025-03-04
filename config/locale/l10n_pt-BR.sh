@@ -2,12 +2,14 @@
 
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
-if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
-  export LANGUAGE=pt_BR.UTF-8
-  export LANG=pt_BR.UTF-8
-  export LC_ALL=pt_BR.UTF-8
-  else
-    echo ""
+# Se existir a pasta ~/.bashrc
+if [ ! -d "~/.bashrc" ];then
+  # Se existir a linha LANG=pt_BR.UTF-8 dentro de ~/.bashrc
+  if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
+    export LANGUAGE=pt_BR.UTF-8
+    export LANG=pt_BR.UTF-8
+    export LC_ALL=pt_BR.UTF-8
+  fi
 fi
 
 label_system_info="Informações do seu sistema"

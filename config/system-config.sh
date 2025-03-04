@@ -1,5 +1,7 @@
 #!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_icu_locale_code=$(echo $LANG | sed 's/\..*//')
+
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh
 	source fixed_variables.sh
@@ -25,13 +27,16 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 	export LANGUAGE=pt_BR.UTF-8
 	export LANG=pt_BR.UTF-8
 	export LC_ALL=pt_BR.UTF-8
-	if [ -f "l10n_pt-BR.sh" ]; then # verifica se existe o arquivo
-		chmod +x l10n_pt-BR.sh
-		source l10n_pt-BR.sh
-		else
-			(
-				echo 51  # Inicia em 51%
-				wget --tries=20 "${extralink}/config/locale/l10n_pt_BR.sh" --progress=dot:giga 2>&1 | while read -r line; do
+fi
+
+## Variáveis de idioma. Que irão se adequar ao idioma escolhido
+if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
+	source l10n_$system_icu_locale_code.sh
+	else
+
+    (
+				echo 51  # Inicia
+				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
 					# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
 						percent=${BASH_REMATCH[1]}
@@ -39,11 +44,10 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 					fi
 				done
 
-				echo 100  # Finaliza em 100%
+				echo 100  # Finaliza
 			) | whiptail --gauge "${label_progress}" 0 0 0
-			chmod +x l10n_pt-BR.sh
-			source l10n_pt-BR.sh
-	fi
+		chmod +x l10n_$system_icu_locale_code.sh
+    source "l10n_${system_icu_locale_code}.sh"
 fi
 
 (

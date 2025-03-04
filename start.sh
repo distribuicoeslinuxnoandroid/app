@@ -3,6 +3,12 @@
 apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &
 clear
 
+#~/.termux/termux.properties
+# enforce-char-based-input = true
+
+sed -i 's/# enforce-char-based-input = true/enforce-char-based-input = true/' ~/.termux/termux.properties
+termux-reload-settings
+
 # Vai pedir o acesso a memória do celular
 termux-setup-storage
 #Logs do sistema

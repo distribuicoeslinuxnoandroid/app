@@ -336,7 +336,7 @@ apt install sudo wget -y > /dev/null 2>&1
 
 bash ~/locale*.sh
 
-apt update
+apt update > /dev/null 2>&1
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile

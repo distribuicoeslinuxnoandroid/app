@@ -82,13 +82,15 @@ source /etc/profile
  ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
 
-vncpasswd
+bash /usr/local/bin/vncpasswd
 
+
+# Aqui inicia a configuração do tema
 (
-
 	echo 40
   vncserver -name remote-desktop -geometry 1920x1080 :1
 
+# Aqui inicia a configuração do tema
   echo 48
   mkdir $HOME/.config/lxsession
   mkdir $HOME/.config/lxsession/LXDE
@@ -216,7 +218,7 @@ xsettings_manager/command=build-in
 proxy_manager/command=build-in
 keyring/command=ssh-agent
 quit_manager/command=lxsession-logout
-lock_manager/command=lxlock
+lock_manager/command=
 terminal_manager/command=lxterminal
 quit_manager/image=/usr/share/lxde/images/logout-banner.png
 quit_manager/layout=top
@@ -283,6 +285,8 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
 
   echo 100  # Finaliza em 100%
   sudo apt-get clean
+
+  # Aqui finaliza a configuração do tema
   vncserver -kill
  ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 

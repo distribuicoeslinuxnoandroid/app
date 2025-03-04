@@ -16,21 +16,21 @@ if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
 
-  (
-				echo 76  # Inicia
-				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
+	(
+		echo 76  # Inicia
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
 
-				echo 80  # Finaliza
-			) | whiptail --gauge "${label_progress}" 0 0 0
+		echo 80  # Finaliza
+	) | whiptail --gauge "${label_progress}" 0 0 0
 
-		chmod +x fixed_variables.sh
-		source fixed_variables.sh
+	chmod +x fixed_variables.sh
+	source fixed_variables.sh
 fi
 
 ## Variáveis de idioma. Que irão se adequar ao idioma escolhido
@@ -38,20 +38,19 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 	source l10n_$system_icu_locale_code.sh
 	else
 
-
     (
-				echo 81  # Inicia
-				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
+		echo 81  # Inicia
+		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
 
-				echo 90  # Finaliza
-			) | whiptail --gauge "${label_progress}" 0 0 0
-		chmod +x l10n_$system_icu_locale_code.sh
+		echo 90  # Finaliza
+	) | whiptail --gauge "${label_progress}" 0 0 0
+	chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"
 fi
 
@@ -73,44 +72,44 @@ if [ -d "$folder" ]; then
 fi
 
 if [ "$first" != 1 ];then
-		case `dpkg --print-architecture` in
-		aarch64)
-			archurl="arm64" ;;
-		arm)
-			archurl="armhf" ;;
-		*)
-			echo "unknown architecture"; exit 1 ;;
-		esac
-        	debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
-			debootstrap_pid=$!
-			
-			#GUI
-			(
-				while kill -0 $debootstrap_pid >/dev/null 2>&1; do
-					sleep $whiptail_intervalo
-					((percentage+=2))
+	case `dpkg --print-architecture` in
+	aarch64)
+		archurl="arm64" ;;
+	arm)
+		archurl="armhf" ;;
+	*)
+		echo "unknown architecture"; exit 1 ;;
+	esac
+	debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
+	debootstrap_pid=$!
+	
+	#GUI
+	(
+		while kill -0 $debootstrap_pid >/dev/null 2>&1; do
+			sleep $whiptail_intervalo
+			((percentage+=2))
 
-					# Limita a barra a 95% até a conclusão
-					if [ $percentage -gt 95 ]; then
-					percentage=95
-					fi
-
-					echo "$label_debian_download"
-					echo "$percentage"
-				done
-
-				# Finaliza a barra 
-				echo "$label_debian_download"
-				echo "100"
-				sleep 2
-
-			) | whiptail --gauge "$label_debian_download" 0 0 0
-			###
-			if wait $debootstrap_pid; then
-				echo "Instalação concluída com sucesso!"
-			else
-				echo "Erro durante a instalação do Debian!"
+			# Limita a barra a 95% até a conclusão
+			if [ $percentage -gt 95 ]; then
+			percentage=95
 			fi
+
+			echo "$label_debian_download"
+			echo "$percentage"
+		done
+
+		# Finaliza a barra 
+		echo "$label_debian_download"
+		echo "100"
+		sleep 2
+
+	) | whiptail --gauge "$label_debian_download" 0 0 0
+	###
+	if wait $debootstrap_pid; then
+		echo "Instalação concluída com sucesso!"
+	else
+		echo "Erro durante a instalação do Debian!"
+	fi
 
 fi
 
@@ -311,15 +310,20 @@ export PORT=1
 
 #Copiando arquivos para dentro do linux
 
+chmod +x $folder/usr/local/bin/startvncserver
+chmod +x $folder/usr/local/bin/stopvnc
+chmod +x $folder/usr/local/bin/startvnc
+chmod +x $folder/usr/local/bin/vncpasswd
+chmod +x $folder/usr/local/bin/vnc
 
 cp l10n_*.sh $folder/root/
 chmod +x $folder/root/l10n_*.sh
 cp fixed_variables.sh $folder/root/
 chmod +x $folder/root/fixed_variables.sh
 
-echo "fixing shebang of $bin"
+#echo "fixing shebang of $bin"
 termux-fix-shebang $bin
-echo "making $bin executable"
+#echo "making $bin executable"
 chmod +x $bin
 
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
@@ -328,6 +332,17 @@ echo "#!/bin/bash
 rm -rf /etc/resolv.conf
 echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
+
+# Adicionar novos repositórios Debian
+sudo tee -a /etc/apt/sources.list <<EOF
+deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security stable-security main contrib non-free
+deb http://deb.debian.org/debian stable-updates main contrib non-free
+EOF
+clear
+
+echo "deb http://ftp.debian.org/debian buster main
+deb http://ftp.debian.org/debian buster-updates main" >> /etc/apt/sources.list
 
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
@@ -340,6 +355,7 @@ apt update > /dev/null 2>&1
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
+rm -rf ~/.hushlogin
 exit" > $folder/root/.bash_profile 
 
 bash $bin
@@ -441,7 +457,7 @@ esac
 chmod +x $folder/root/config-environment.sh
 
 # Cria uma gui de inicialização
-#sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/debian-stable/usr/local/bin/startvncserver"' $bin
+sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/files/home/debian-stable/usr/local/bin/startvncserver"' $bin
 
 touch $folder/root/.hushlogin
 
@@ -502,20 +518,13 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 ) | whiptail --gauge "${label_find_update}" 0 0 0
 
 (
-    echo 26  # Inicia em 0%
-    sudo apt-get install dialog -y > /dev/null 2>&1
-
-    echo 50  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_install_tools}" 0 0 0
-
-(
-    echo 51  # Inicia em 0%
+    echo 34  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
-    echo 75  # Atualiza para 100% após a atualização
+    echo 68  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
-    echo 76  # Inicia em 0%
+    echo 69  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
@@ -559,15 +568,17 @@ sudo apt install whiptail -y > /dev/null 2>&1
     
  ) | whiptail --gauge "${label_system_setup}" 0 0 0
 
-bash ~/config-environment.sh
-
-bash ~/system-config.sh
-
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd
 chmod +x /usr/local/bin/startvnc
 chmod +x /usr/local/bin/stopvnc
 chmod +x /usr/local/bin/startvncserver
+
+bash ~/config-environment.sh
+
+bash ~/system-config.sh
+
+
 
 rm -rf ~/system-config.sh
 #rm -rf ~/config-environment.sh

@@ -63,7 +63,7 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
     echo 16  # Atualiza para 25% após o update
 
     echo "Instalando pacotes de idioma..."
-    sudo apt-get install locales -y > /dev/null 2>&1
+    sudo apt-get install locales -y > /dev/null 2>&1 # Instala o libc-l10n locales
     echo 32
     
     sudo apt-get install language-pack-pt -y > /dev/null 2>&1

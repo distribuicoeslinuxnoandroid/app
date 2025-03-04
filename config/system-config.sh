@@ -98,12 +98,6 @@ fi
   echo 8
   sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
 
-  echo 10
-  sudo apt-get install sudo -y > /dev/null 2>&1
-
-  echo 12
-  sudo apt-get install wget -y > /dev/null 2>&1
-
   echo 14
   sudo apt-get install nano -y > /dev/null 2>&1
 
@@ -138,13 +132,13 @@ fi
   #sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
 
   echo 36
-  sudo apt-get install font-manager -y > /dev/null 2>&1
+  sudo apt-get install font-manager --no-install-recommends -y > /dev/null 2>&1
 
   echo 38
   sudo apt-get install evince -y > /dev/null 2>&1
 
   echo 39
-  sudo apt-get install synaptic -y > /dev/null 2>&1
+  sudo apt-get install synaptic --no-install-recommends -y > /dev/null 2>&1
 
   echo 40
   sudo dpkg --configure -a  

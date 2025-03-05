@@ -73,7 +73,7 @@ export LANG
 [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
 [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
 echo $$ > /tmp/xsession.pid
-dbus-launch --exit-with-session startlxde' > ~/.vnc/xstartup > /dev/null 2>&1
+dbus-launch --exit-with-session startlxde' > ~/.vnc/xstartup
 
 chmod +x ~/.vnc/xstartup
 
@@ -96,7 +96,7 @@ bash /usr/local/bin/vncpasswd
     
 	echo 56
   echo '[Command]
-Logout=vncserver -kill' | sudo tee $HOME/.config/lxpanel/LXDE/config > /dev/null 2>&1
+Logout=vncserver -kill' | sudo tee $HOME/.config/lxpanel/LXDE/config
 
   echo 64
 echo '# lxpanel <profile> config file. Manually editing is not recommended.
@@ -199,7 +199,7 @@ Plugin {
   Config {
     Size=20
   }
-}' | sudo tee $HOME/.config/lxpanel/LXDE/panels/panel > /dev/null 2>&1
+}' | sudo tee $HOME/.config/lxpanel/LXDE/panels/panel
 
 echo 72
 echo '@lxpanel --profile LXDE
@@ -256,7 +256,7 @@ guess_default=true
 lxde=true
 
 [Environment]
-menu_prefix=lxde-' | sudo tee $HOME/.config/lxsession/LXDE/desktop.conf > /dev/null 2>&1
+menu_prefix=lxde-' | sudo tee $HOME/.config/lxsession/LXDE/desktop.conf
 
 
 echo 88
@@ -274,7 +274,7 @@ gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle=hintslight
-gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini > /dev/null 2>&1
+gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
 
 
   echo 96

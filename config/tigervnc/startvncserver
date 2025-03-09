@@ -100,9 +100,9 @@ GEO="-geometry $custom" PORT=$port vnc
 esac
 
 
-if [ ! -d "/root/start-environment.sh" ];then
- bash /root/start-environment.sh
-fi
+#if [ ! -d "/root/start-environment.sh" ];then
+# bash /root/start-environment.sh
+#fi
 
 bash --login
 

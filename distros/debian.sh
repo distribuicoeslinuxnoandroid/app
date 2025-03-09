@@ -268,6 +268,7 @@ export PORT=1
 			echo $percent  # Atualiza a barra de progresso
 		fi
 	done
+	chmod +x $folder/usr/local/bin/vnc
 
 	echo 30  # Inicia
 	wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -277,6 +278,7 @@ export PORT=1
 			echo $percent  # Atualiza a barra de progresso
 		fi
 	done
+	chmod +x $folder/usr/local/bin/vncpasswd
 
 	echo 45  # Inicia
 	wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -286,6 +288,7 @@ export PORT=1
 			echo $percent  # Atualiza a barra de progresso
 		fi
 	done
+	chmod +x $folder/usr/local/bin/startvnc
 
 	echo 60  # Inicia
 	wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -295,6 +298,7 @@ export PORT=1
 			echo $percent  # Atualiza a barra de progresso
 		fi
 	done
+	chmod +x $folder/usr/local/bin/stopvnc
 
 	echo 75  # Inicia 
 	wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -304,18 +308,12 @@ export PORT=1
 			echo $percent  # Atualiza a barra de progresso
 		fi
 	done
+	chmod +x $folder/usr/local/bin/startvncserver
 
 	echo 100  # Finaliza
 ) | whiptail --gauge "${label_language_download}" 0 0 0
 
 #Copiando arquivos para dentro do linux
-
-chmod +x $folder/usr/local/bin/startvncserver
-chmod +x $folder/usr/local/bin/stopvnc
-chmod +x $folder/usr/local/bin/startvnc
-chmod +x $folder/usr/local/bin/vncpasswd
-chmod +x $folder/usr/local/bin/vnc
-
 cp l10n_*.sh $folder/root/
 chmod +x $folder/root/l10n_*.sh
 cp fixed_variables.sh $folder/root/
@@ -573,8 +571,9 @@ bash ~/system-config.sh
 
 
 rm -rf ~/system-config.sh
-#rm -rf ~/config-environment.sh
-rm -rf ~/.bash_profile' > $folder/root/.bash_profile
+rm -rf ~/config-environment.sh
+rm -rf ~/.bash_profile
+exit' > $folder/root/.bash_profile
 
 #rm -rf ~/l10n*.sh
 #rm -rf ~/fixed_variables.sh

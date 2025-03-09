@@ -67,3 +67,4 @@ fi
         echo $i
     done
 } | whiptail --gauge "${label_change_password}" 6 50 0
+clear

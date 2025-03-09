@@ -102,12 +102,12 @@ esac
 bash --login
 
 # Código para pegar e executar o trecho do config-environment.sh
-#if ! grep -q "tema_config_executado=true" "$0"; then
-#    echo "Executando configuração do tema..."
-#
-#    # Extrair e executar o trecho do tema do config-environment.sh
-#    sed -n '/# Aqui inicia a configuração do tema/,/# Aqui finaliza a configuração do tema/p' config-environment.sh | bash
-#
-#    # Marcar que o trecho foi executado para que o código não se repita
-#    echo "tema_config_executado=true" >> "$0"
-#fi
+if ! grep -q "tema_config_executado=true" "$0"; then
+    echo "Executando configuração do tema..."
+
+    # Extrair e executar o trecho do tema do config-environment.sh
+    bash ~/config_environment.sh
+
+    # Marcar que o trecho foi executado para que o código não se repita
+    echo "tema_config_executado=true" >> "$0"
+fi

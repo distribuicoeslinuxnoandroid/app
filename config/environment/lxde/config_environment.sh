@@ -238,6 +238,14 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
   echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
   sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
 
+  echo 90
+   firefox &
+  PID=$(pidof firefox)
+  sleep 5
+  kill $PID
+  sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
+  echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
+
   echo 100  # Finaliza em 100%
   sudo apt-get clean
 

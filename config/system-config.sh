@@ -207,19 +207,14 @@ Pin-Priority: 1000
 
   echo 74
   sudo apt-get clean
-  sudo apt-get update > /dev/null 2>&1
+  sudo apt-get update
   sudo dpkg --configure -a 
+  clear
   
   echo 76
   sudo apt-get install firefox -y > /dev/null 2>&1
   apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
-  sudo apt-get install firefox-l10n-$apt_system_icu_locale_code -y
-  firefox &
-  PID=$(pidof firefox)
-  sleep 5
-  kill $PID
-  sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
-  echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
+  sudo apt-get install firefox-l10n-$apt_system_icu_locale_code -y > /dev/null 2>&1
 
   echo 78
   sudo apt-get install code -y > /dev/null 2>&1

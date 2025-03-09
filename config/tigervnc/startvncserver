@@ -101,13 +101,6 @@ esac
 
 bash --login
 
-# Código para pegar e executar o trecho do config-environment.sh
-if ! grep -q "tema_config_executado=true" "$0"; then
-    echo "Executando configuração do tema..."
-
-    # Extrair e executar o trecho do tema do config-environment.sh
-    bash ~/start-environment.sh
-
-    # Marcar que o trecho foi executado para que o código não se repita
-    echo "tema_config_executado=true" >> "$0"
+if [ ! -d "/root/start-environment" ];then
+ bash /root/start-environment.sh
 fi

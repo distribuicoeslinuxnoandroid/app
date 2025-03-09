@@ -101,6 +101,6 @@ esac
 
 bash --login
 
-if [ ! -d "/root/start-environment" ];then
+if [ ! -d "/root/start-environment.sh" ];then
  bash /root/start-environment.sh
 fi

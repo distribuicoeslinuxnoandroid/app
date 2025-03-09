@@ -564,10 +564,9 @@ chmod +x /usr/local/bin/startvnc
 chmod +x /usr/local/bin/stopvnc
 chmod +x /usr/local/bin/startvncserver
 
-bash ~/config-environment.sh
-
 bash ~/system-config.sh
 
+bash ~/config-environment.sh
 
 
 rm -rf ~/system-config.sh

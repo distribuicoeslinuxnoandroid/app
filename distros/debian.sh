@@ -572,7 +572,7 @@ bash ~/config-environment.sh
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile
-exit' > $folder/root/.bash_profile
+' > $folder/root/.bash_profile
 
 #rm -rf ~/l10n*.sh
 #rm -rf ~/fixed_variables.sh

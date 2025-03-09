@@ -99,7 +99,7 @@ chmod +x ~/.vnc/xstartup
 echo 'export DISPLAY=":1"' >> /etc/profile
 source /etc/profile
 
-wget --tries=20 "${extralink}/config/lxde/start-environment.sh" > /dev/null 2>&1
+wget --tries=20 "${extralink}/config/environment/lxde/start-environment.sh" > /dev/null 2>&1
 chmod +x ~/start-environment.sh
 
 ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0

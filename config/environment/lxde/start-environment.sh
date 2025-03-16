@@ -47,6 +47,7 @@ source /etc/profile
 (
 # Aqui inicia a configuração do tema
   echo 1
+  vncserver -name remote-desktop -geometry 1920x1080 :1
   mkdir $HOME/.config/lxsession
   mkdir $HOME/.config/lxsession/LXDE
   mkdir $HOME/.config/gtk-3.0/
@@ -248,6 +249,9 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
 
   echo 100  # Finaliza em 100%
   sudo apt-get clean
+  vncserver -kill :1
+	rm -rf /tmp/.X$pt-lock
+	rm -rf /tmp/.X11-unix/X$pt
 
   # Aqui finaliza a configuração do tema
  ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0

@@ -568,14 +568,10 @@ bash ~/system-config.sh
 
 bash ~/config-environment.sh
 
-# Aplicar as customizações da interface
-vncserver -name remote-desktop -geometry 1920x1080 :2
+
 if [ ! -e "/root/start-environment.sh" ];then
- bash /root/start-environment.sh
+	bash /root/start-environment.sh
 fi
-vncserver -kill :2
-rm -rf /tmp/.X$pt-lock
-rm -rf /tmp/.X11-unix/X$pt
 
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh

@@ -1,7 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
 apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &
-apt upgrade -y > /dev/null 2>&1 &
 clear
 
 #~/.termux/termux.properties

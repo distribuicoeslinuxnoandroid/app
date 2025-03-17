@@ -1,4 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
+exec 1>> ~/storage/shared/termux_logs/install_process.log 2>&1
 
 apt install wget -y >/dev/null 2>&1
 apt install debootstrap -y >/dev/null 2>&1
@@ -123,6 +124,7 @@ cd \$(dirname \$0)
 ## unset LD_PRELOAD in case termux-exec is installed
 unset LD_PRELOAD
 command="proot"
+command+=" --kill-on-exit"
 command+=" --link2symlink"
 command+=" -0"
 command+=" -r $folder"
@@ -137,7 +139,7 @@ command+=" -b $folder/root:/dev/shm"
 ## uncomment the following line to have access to the home directory of termux
 #command+=" -b /data/data/com.termux/files/home:/root"
 ## uncomment the following line to mount /sdcard directly to / 
-#command+=" -b /sdcard"
+command+=" -b /sdcard"
 command+=" -w /root"
 command+=" /usr/bin/env -i"
 command+=" HOME=/root"
@@ -157,12 +159,12 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Se não existir, será criado
 if [ ! -d "$folder/usr/share/backgrounds/" ];then
-  mkdir -p "$folder/usr/share/backgrounds/"
+	mkdir -p "$folder/usr/share/backgrounds/"
 fi
 
 
 if [ ! -d "$folder/usr/share/icons/" ];then
-  mkdir -p "$folder/usr/share/icons/"
+	mkdir -p "$folder/usr/share/icons/"
 fi
 # Baixando o arquivo de configuração do sistema
 (
@@ -327,8 +329,8 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
-rm -rf /etc/resolv.conf
-echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
+#rm -rf /etc/resolv.conf
+#echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
 mkdir -p ~/.vnc
 
 echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
@@ -336,6 +338,8 @@ deb http://security.debian.org/debian-security stable-security main contrib non-
 deb http://deb.debian.org/debian stable-updates main contrib non-free
 deb http://ftp.debian.org/debian buster main
 deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
+
+
 
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
@@ -576,12 +580,13 @@ fi
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile
+exit
 ' > $folder/root/.bash_profile
+bash $bin
 
 #rm -rf ~/l10n*.sh
 #rm -rf ~/fixed_variables.sh
 
 # Cria uma gui de inicialização
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /usr/local/bin/startvncserver"' $bin
-
 bash $bin

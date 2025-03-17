@@ -164,7 +164,6 @@ fi
   fi
 
   echo 48
-
   echo 'file:///
   file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
@@ -179,7 +178,7 @@ fi
 
   echo 53
   # Verifica o fingerprint
-  gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nO fingerprint da chave corresponde ("$0").\n"; else print "\nFalha na verificação: o fingerprint ("$0") não corresponde ao esperado.\n"}'
+  #gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nO fingerprint da chave corresponde ("$0").\n"; else print "\nFalha na verificação: o fingerprint ("$0") não corresponde ao esperado.\n"}' > /dev/null
   
   echo 54
   # Adiciona repositório APT da Mozilla à sua lista de origens

@@ -48,9 +48,17 @@ source /etc/profile
 # Aqui inicia a configuração do tema
   echo 1
   vncserver -name remote-desktop -geometry 1920x1080 :1
-  mkdir $HOME/.config/lxsession
-  mkdir $HOME/.config/lxsession/LXDE
-  mkdir $HOME/.config/gtk-3.0/
+  if [ ! -d "$HOME/.config/lxsession" ];then
+    mkdir -p "$HOME/.config/lxsession"
+  fi
+  
+  if [ ! -d "$HOME/.config/lxsession/LXDE" ];then
+    mkdir -p "$HOME/.config/lxsession/LXDE"
+  fi
+  
+  if [ ! -d "$HOME/.config/gtk-3.0/" ];then
+    mkdir -p "$HOME/.config/gtk-3.0/"
+  fi
     
 	echo 12
   echo '[Command]
@@ -236,7 +244,7 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
 
 
   echo 72
-  echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+  #echo 'file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
   sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
 
   echo 90
@@ -246,6 +254,8 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
   kill $PID
   sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
   echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
+
+
 
   echo 100  # Finaliza em 100%
   sudo apt-get clean

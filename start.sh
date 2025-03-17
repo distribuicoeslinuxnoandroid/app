@@ -1,5 +1,11 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #🚀
+termux-setup-storage
+# Gerar os logs de registro
+mkdir ~/storage/shared/termux_logs
+exec 1>> ~/storage/shared/termux_logs/install_process.log 2>&1
+
+
 apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &
 clear
 
@@ -13,7 +19,6 @@ sed -i 's/# hide-soft-keyboard-on-startup = true/hide-soft-keyboard-on-startup =
 termux-reload-settings
 
 # Vai pedir o acesso a memória do celular
-termux-setup-storage
 #Logs do sistema
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)

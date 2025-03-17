@@ -2,8 +2,8 @@
 #🚀
 termux-setup-storage
 # Gerar os logs de registro
-mkdir ~/storage/shared/termux_logs
-exec 1>> ~/storage/shared/termux_logs/install_process.log 2>&1
+#mkdir ~/storage/shared/termux_logs
+#exec 1>> ~/storage/shared/termux_logs/install_process.log 2>&1
 
 
 apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &

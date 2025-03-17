@@ -1,5 +1,4 @@
 #!/data/data/com.termux/files/usr/bin/bash
-exec 1>> ~/storage/shared/termux_logs/install_process.log 2>&1
 
 apt install wget -y >/dev/null 2>&1
 apt install debootstrap -y >/dev/null 2>&1

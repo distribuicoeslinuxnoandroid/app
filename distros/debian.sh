@@ -572,8 +572,8 @@ bash ~/system-config.sh
 bash ~/config-environment.sh
 
 
-if [ ! -e "/root/start-environment.sh" ];then
-	bash /root/start-environment.sh
+if [ ! -e "~/start-environment.sh" ];then
+	bash ~/start-environment.sh
 fi
 
 rm -rf ~/system-config.sh

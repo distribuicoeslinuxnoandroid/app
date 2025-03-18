@@ -122,7 +122,7 @@ Plugin {
   type=launchbar
   Config {
     Button {
-      id=chromium-browser.desktop
+      id=firefox.desktop
     }
   }
 }

@@ -14,7 +14,7 @@ apt update -y && apt install wget -y && wget https://raw.githubusercontent.com/d
 # Feito para suportar mais de um sistema
 ![Distribuições Linux no Android](/screenshots/distros.png)
 > [!NOTE]
-> No momento, só tem disponível o Ubuntu.
+> No momento, só tem disponível o Ubuntu e Debian.
 
 # Traduzido para português do Brasil
 ![Suporte a mais de um idioma](/screenshots/languages.png)

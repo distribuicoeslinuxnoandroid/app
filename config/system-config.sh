@@ -214,6 +214,18 @@ Pin-Priority: 1000
   sudo apt-get install firefox -y > /dev/null 2>&1
   apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
   sudo apt-get install firefox-l10n-$apt_system_icu_locale_code -y > /dev/null 2>&1
+  echo '[Desktop Entry]
+Version=59.0.3
+Encoding=UTF-8
+Name=Mozilla Firefox
+Comment=Navegador Web
+Exec=/opt/firefox/firefox
+Icon=firefox
+Type=Application
+Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
+  chmod +x /usr/share/applications/firefox.desktop
+  cp /usr/share/applications/firefox.desktop ~/Desktop
+  chmod +x ~/Desktop/firefox.desktop
 
   echo 78
   sudo apt-get install code -y > /dev/null 2>&1

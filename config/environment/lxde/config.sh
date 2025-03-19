@@ -61,22 +61,25 @@ fi
 	echo 24
 	sudo apt-get install lxappearance --no-install-recommends -y > /dev/null 2>&1
 
-	echo 27
+	echo 36
+	sudo apt install gvfs-backends --no-install-recommends -y > /dev/null 2>&1
+
+	echo 38
 	sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
 
-	echo 29
+	echo 40
 	sudo apt-get install tigervnc-standalone-server --no-install-recommends -y > /dev/null 2>&1
     
-	echo 32
+	echo 48
 	sudo apt-get install tigervnc-common --no-install-recommends -y > /dev/null 2>&1
     
-	echo 48
+	echo 64
 	sudo apt-get install tigervnc-tools --no-install-recommends -y > /dev/null 2>&1
     
-	echo 64
+	echo 70
 	sudo apt-get install dbus-x11 --no-install-recommends -y > /dev/null 2>&1
 
-	echo 72
+	echo 76
 	sudo apt install python3-gi -y > /dev/null 2>&1
 
 	echo 80

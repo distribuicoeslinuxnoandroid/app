@@ -15,7 +15,6 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then
 fi
 
 # Exclui o arquivo ~/.bashrc vazio
-rm -rf ~/.bashrc
 
 label_system_info="Informações do seu sistema"
 label_android_version="Versão do Android"

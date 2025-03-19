@@ -225,8 +225,8 @@ Pin-Priority: 1000
 #Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
 #echo -e '[Desktop Entry]\n Version=59.0.3\n Encoding=UTF-8\n Name=Mozilla Firefox\n Comment=Navegador Web\n Exec=/opt/firefox/firefox\n Icon=firefoxg\n Type=Application\n Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
 #  chmod +x /usr/share/applications/firefox.desktop
-#  cp /usr/share/applications/firefox.desktop ~/Desktop
-#  chmod +x ~/Desktop/firefox.desktop
+  cp /usr/share/applications/firefox.desktop ~/Desktop
+  chmod +x ~/Desktop/firefox.desktop
 
   echo 78
   sudo apt-get install code -y > /dev/null 2>&1

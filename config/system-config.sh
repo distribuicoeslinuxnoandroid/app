@@ -147,6 +147,11 @@ fi
 
   echo 42
   # Se não existir, será criado
+
+  if [ ! -d "~/Desktop" ];then
+    mkdir -p "~/Desktop"
+  fi
+
   if [ ! -d "/usr/share/backgrounds/" ];then
     mkdir -p "/usr/share/backgrounds/"
   fi

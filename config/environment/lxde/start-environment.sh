@@ -69,7 +69,7 @@ echo '# lxpanel <profile> config file. Manually editing is not recommended.
 # Use preference dialog in lxpanel to adjust config when you can.
 
 Global {
-  edge=top
+  edge=bottom
   align=left
   margin=0
   widthtype=percent

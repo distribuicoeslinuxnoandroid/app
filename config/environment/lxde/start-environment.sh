@@ -62,7 +62,7 @@ source /etc/profile
     
 	echo 12
   echo '[Command]
-Logout=vncserver -kill' | sudo tee $HOME/.config/lxpanel/LXDE/config
+Logout=stopvnc' | sudo tee $HOME/.config/lxpanel/LXDE/config
 
   echo 24
 echo '# lxpanel <profile> config file. Manually editing is not recommended.
@@ -181,8 +181,8 @@ clipboard/command=lxclipboard
 xsettings_manager/command=build-in
 proxy_manager/command=build-in
 keyring/command=ssh-agent
-quit_manager/command=vncserver -kill
-lock_manager/command=vncserver -kill
+quit_manager/command=stopvnc
+lock_manager/command=stopvnc
 terminal_manager/command=lxterminal
 quit_manager/image=/usr/share/lxde/images/logout-banner.png
 quit_manager/layout=top

@@ -106,9 +106,3 @@ dbus-launch --exit-with-session startlxde' > ~/.vnc/xstartup
 
 
 vncpasswd
-
-
-#rm -rf /tmp/.X$pt-lock
-#rm -rf /tmp/.X11-unix/X$pt
-#rm -rf Uos-fulldistro-icons.tar.xz
-#rm -rf /root/.vnc/localhost:1.log

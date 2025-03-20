@@ -46,61 +46,62 @@ source /etc/profile
 
 (
 # Aqui inicia a configuração do tema
-    echo 1
-    vncserver -name remote-desktop -geometry 1920x1080 :1
-    if [ ! -d "$HOME/.config/lxsession" ];then
-    mkdir -p "$HOME/.config/lxsession"
-    fi
-    
-    echo 10
-    if [ ! -d "$HOME/.config/lxsession/LXDE" ];then
-    mkdir -p "$HOME/.config/lxsession/LXDE"
-    fi
-    
-    echo 20
-    if [ ! -d "$HOME/.config/gtk-3.0/" ];then
-    mkdir -p "$HOME/.config/gtk-3.0/"
-    fi
+  echo 1
+  vncserver -name remote-desktop -geometry 1920x1080 :1
+  if [ ! -d "$HOME/.config/lxsession" ];then
+  mkdir -p "$HOME/.config/lxsession"
+  fi
 
-    echo 30
-    xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
+  echo 10
+  if [ ! -d "$HOME/.config/lxsession/LXDE" ];then
+  mkdir -p "$HOME/.config/lxsession/LXDE"
+  fi
 
-    echo 40
-    xfconf-query -c xsettings -p /Net/IconThemeName -s Uos-fulldistro-icons
+  echo 20
+  if [ ! -d "$HOME/.config/gtk-3.0/" ];then
+  mkdir -p "$HOME/.config/gtk-3.0/"
+  fi
 
-    echo 50
-    xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
+  echo 30
+  xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
+  dbus-launch xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
 
-    echo 60
-    wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 # > /dev/null 2>&1
-    chmod +x ~/xfce4-panel.tar.bz2
+  echo 40
+  xfconf-query -c xsettings -p /Net/IconThemeName -s Uos-fulldistro-icons
+  dbus-launch xfconf-query -c xsettings -p /Net/IconThemeName -s Uos-fulldistro-icons
 
-    echo 70
-    xfce4-panel-profiles load xfce4-panel.tar.bz2
+  echo 50
+  xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
+  dbus-launch xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
 
-    echo 80
-    sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
+  echo 60
+  wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 # > /dev/null 2>&1
+  chmod +x ~/xfce4-panel.tar.bz2
 
-    echo 90
-    firefox &
-    PID=$(pidof firefox)
-    sleep 5
-    kill $PID
-    sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
-    echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
+  echo 70
+  xfce4-panel-profiles load xfce4-panel.tar.bz2
+  dbus-launch xfce4-panel-profiles load xfce4-panel.tar.bz2
 
-    echo 100  # Finaliza em 100%
-    sudo apt-get clean
-    vncserver -kill :1
-    rm -rf /tmp/.X$pt-lock
-    rm -rf /tmp/.X11-unix/X$pt
+  echo 90
+  firefox &
+  PID=$(pidof firefox)
+  sleep 5
+  kill $PID
+  sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
+  echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
 
-    #mkdir $HOME/.config/xfce4/
-    #mkdir $HOME/.config/xfce4/xconf
-    #mkdir $HOME/.config/xfce4/xconf/xfce-perchannel-xml
-    #sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
+  echo 100  # Finaliza em 100%
+  sudo apt-get clean
+  vncserver -kill :1
+  rm -rf /tmp/.X$pt-lock
+  rm -rf /tmp/.X11-unix/X$pt
 
-  # Aqui finaliza a configuração do tema
- ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+#mkdir $HOME/.config/xfce4/
+#mkdir $HOME/.config/xfce4/xconf
+#mkdir $HOME/.config/xfce4/xconf/xfce-perchannel-xml
+#sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
 
- rm -rf ~/start-environment.sh
+# Aqui finaliza a configuração do tema
+) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+
+rm -rf ~/start-environment.sh

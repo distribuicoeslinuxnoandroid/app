@@ -143,9 +143,12 @@ fi
   sudo apt-get install synaptic --no-install-recommends -y > /dev/null 2>&1
 
   echo 40
-  sudo dpkg --configure -a  
+  sudo apt-get install gvfs-backends --no-install-recommends -y > /dev/null 2>&1
 
   echo 42
+  sudo dpkg --configure -a  
+
+  echo 44
   # Se não existir, será criado
 
   if [ ! -d "~/Desktop" ];then
@@ -156,7 +159,7 @@ fi
     mkdir -p "/usr/share/backgrounds/"
   fi
 
-  echo 44
+  echo 45
 
   if [ ! -d "/usr/share/icons/" ];then
     mkdir -p "/usr/share/icons/"

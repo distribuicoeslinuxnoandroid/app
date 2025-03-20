@@ -61,9 +61,6 @@ fi
 	echo 24
 	sudo apt-get install lxappearance --no-install-recommends -y > /dev/null 2>&1
 
-	echo 36
-	sudo apt install gvfs-backends --no-install-recommends -y > /dev/null 2>&1
-
 	echo 38
 	sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
 

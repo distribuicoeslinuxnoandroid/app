@@ -169,8 +169,8 @@ fi
   fi
 
   echo 48
-  echo 'file:///
-  file:///sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+  echo 'file:/// root
+  file:///sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
   echo 50
   ## PPA do InkScape

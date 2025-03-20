@@ -53,6 +53,7 @@ label_startvnc_desc="O servidor VNC foi iniciado. A senha padrão é a senha da 
 label_vncserver_kill="Desligando o servidor VNC..."
 label_vncserver_kill_port="Digite o número da porta que deseja fechar (exemplo: 1): "
 label_vncserver_killed="Desligando o VNC da porta"
+label_vncserver_kill_error="Nenhum servidor VNC encontrado para o usuário $USER"
 label_vncserver_resolution_title="Seleção de resolução"
 label_vncserver_resolution_option="Escolha uma das opções abaixo:"
 label_vncserver_resolution_option_uwhd="Iniciar o vncserver na resolução Ultrawide HD"

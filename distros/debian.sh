@@ -114,6 +114,7 @@ if [ "$first" != 1 ];then
 fi
 
 mkdir -p debian-binds
+
 bin=start-debian.sh
 
 echo "${label_start_script}"
@@ -347,7 +348,7 @@ apt install sudo wget -y > /dev/null 2>&1
 
 bash ~/locale*.sh
 
-apt update > /dev/null 2>&1
+apt update -y > /dev/null 2>&1
 
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile

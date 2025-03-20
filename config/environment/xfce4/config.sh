@@ -72,13 +72,13 @@ system_icu_locale_code=$(echo $LANG | sed 's/\..*//')
 
     mkdir -p ~/.vnc
 
-    echo '#!/bin/bash
-    export PULSE_SERVER=127.0.0.1
-    export LANG
-    [ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
-    [ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
-    echo $$ > /tmp/xsession.pid
-    dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup
+echo '#!/bin/bash
+export PULSE_SERVER=127.0.0.1
+export LANG
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+echo $$ > /tmp/xsession.pid
+dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup
 
     chmod +x ~/.vnc/xstartup
 

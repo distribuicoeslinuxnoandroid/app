@@ -110,7 +110,7 @@ fi
   sudo apt-get install dialog -y > /dev/null 2>&1
 
   echo 20
-  sudo apt-get install software-properties-common -y > /dev/null 2>&1
+  #sudo apt-get install software-properties-common -y > /dev/null 2>&1
 
   echo 22
   #sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
@@ -151,8 +151,8 @@ fi
   echo 44
   # Se não existir, será criado
 
-  if [ ! -d "~/Desktop" ];then
-    mkdir -p "~/Desktop"
+  if [ ! -d "/root/Desktop" ];then
+    mkdir -p "/root/Desktop"
   fi
 
   if [ ! -d "/usr/share/backgrounds/" ];then
@@ -176,13 +176,13 @@ fi
   file:///sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
   echo 50
-  ## PPA do InkScape
-  #sudo add-apt-repository ppa:inkscape.dev/stable -y > /dev/null 2>&1
+    sudo apt-get install at-spi2-core -y
+
 
   echo 52
   # Respositório do Firefox
   sudo install -d -m 0755 /etc/apt/keyrings
-  wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+  wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null 2>&1
 
   echo 53
   # Verifica o fingerprint
@@ -190,7 +190,7 @@ fi
   
   echo 54
   # Adiciona repositório APT da Mozilla à sua lista de origens
-  echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+  echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null 2>&1
 
   echo 55
   # Dar prioridade a pacotes do repositório da Mozilla:
@@ -204,7 +204,7 @@ Pin-Priority: 1000
   # APT do VSCode
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg > /dev/null 2>&1
-  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  sudo sh -c 'echo "deb [arch=arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
 
   echo 72

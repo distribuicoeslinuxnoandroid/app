@@ -66,6 +66,7 @@ source /etc/profile
   echo 50
   xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
   dbus-launch xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
+  sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
 
   echo 60
   wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 > /dev/null 2>&1
@@ -76,7 +77,7 @@ source /etc/profile
   dbus-launch xfce4-panel-profiles load xfce4-panel.tar.bz2
 
   echo 90
-  firefox &
+  firefox > /dev/null 2>&1 &
   PID=$(pidof firefox)
   sleep 5
   kill $PID
@@ -90,12 +91,9 @@ source /etc/profile
   rm -rf /tmp/.X$pt-lock
   rm -rf /tmp/.X11-unix/X$pt
 
-#mkdir $HOME/.config/xfce4/
-#mkdir $HOME/.config/xfce4/xconf
-#mkdir $HOME/.config/xfce4/xconf/xfce-perchannel-xml
-#sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
-
 # Aqui finaliza a configuração do tema
 ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+
+
 
 rm -rf ~/start-environment.sh

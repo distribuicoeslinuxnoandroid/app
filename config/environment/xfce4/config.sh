@@ -82,7 +82,7 @@ dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup
 
     chmod +x ~/.vnc/xstartup
 
-    echo 'export DISPLAY=":1"' >> /etc/profile > /dev/null 2>&1
+    echo 'export DISPLAY=":1"' >> /etc/profile
 
     source /etc/profile
 

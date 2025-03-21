@@ -48,6 +48,7 @@ source /etc/profile
 # Aqui inicia a configuração do tema
   echo 1
   vncserver -name remote-desktop -geometry 1920x1080 :1
+  source /etc/profile
 
   echo 20
   if [ ! -d "$HOME/.config/gtk-3.0/" ];then

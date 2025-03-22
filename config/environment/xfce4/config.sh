@@ -89,7 +89,7 @@ dbus-launch --exit-with-session /usr/bin/startxfce4' > ~/.vnc/xstartup
     wget --tries=20 "${extralink}/config/environment/xfce4/start-environment.sh" > /dev/null 2>&1
 	chmod +x ~/start-environment.sh
 
- ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+ ) | whiptail --gauge "${label_install_environment_gui}" 0 0 0
 
 vncpasswd
 

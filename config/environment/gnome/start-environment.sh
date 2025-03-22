@@ -1,6 +1,4 @@
 #!/bin/bash
-echo -e  "\033[0;32mGnome UI\033[0m"
-
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 
@@ -24,7 +22,6 @@ if [ -f "fixed_variables.sh" ]; then
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi
-
 if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 	source l10n_$system_icu_locale_code.sh
 	else
@@ -45,57 +42,24 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
     source "l10n_${system_icu_locale_code}.sh"
 fi
 
-
-
-# LANG = C.UTF-8
-clear
-
-#sudo apt-get install notification-daemon -y
-
-#echo '[D-BUS Service]
-#Name=org.freedesktop.Notifications
-#Exec=/usr/lib/notification-daemon/notification-daemon' | sudo tee /usr/share/dbus-1/services/org.freedesktop.Notifications.service
+source /etc/profile
 
 (
-	echo 0  # Inicia em 0%
-	echo "Oi"
+# Aqui inicia a configuração do tema
+    echo 1
+    vncserver -name remote-desktop -geometry 1920x1080 :1
 
-	echo 10
-	sudo apt-get install gnome-shell -y > /dev/null 2>&1
+    echo 25
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg'
 
-	echo 16 
-	sudo apt-get install gnome-terminal -y > /dev/null 2>&1
+    echo 50
+    gnome-extensions enable ubuntu-dock@ubuntu.com
 
-	echo 32
-	sudo apt-get install gnome-tweaks -y > /dev/null 2>&1
+    echo 100
+    stopvnc
 
-	echo 48
-	sudo apt-get install gnome-shell-extensions -y > /dev/null 2>&1
+) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
-	echo 64
-	sudo apt-get install gnome-shell-extension-ubuntu-dock -y > /dev/null 2>&1
-
-	echo 72
-	# Pasta resposável pela execução do vnc
-	mkdir -p ~/.vnc
-	echo "#!/bin/bash
-	export LANG
-	export PULSE_SERVER=127.0.0.1
-	gnome-shell --x11" > ~/.vnc/xstartup
-
-	chmod +x ~/.vnc/xstartup
-
-	echo 88
-	echo "export DISPLAY=":1"" >> /etc/profile
-	source /etc/profile
-
-	echo 94
-	wget --tries=20 "${extralink}/config/environment/xfce4/start-environment.sh" > /dev/null 2>&1
-	chmod +x ~/start-environment.sh
-
-	echo 100  # Finaliza em 100%
-	sudo apt-get clean
-) | whiptail --gauge "${label_install_environment_gui}" 0 0 0
-
-
-vncpasswd
+rm -rf ~/start-environment.sh
+rm -rf /tmp/.X$pt-lock
+rm -rf /tmp/.X11-unix/X$pt

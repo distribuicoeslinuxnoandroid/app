@@ -11,7 +11,7 @@ clear
 
 #~/.termux/termux.properties
 # enforce-char-based-input = true
-
+termux-reload-settings #caso o arquivo não exista, será criado
 sed -i 's/# enforce-char-based-input = true/enforce-char-based-input = true/' ~/.termux/termux.properties
 sed -i 's/# hide-soft-keyboard-on-startup = true/hide-soft-keyboard-on-startup = true/' ~/.termux/termux.properties
 # soft-keyboard-toggle-behaviour = enable/disable

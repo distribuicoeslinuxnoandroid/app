@@ -50,10 +50,15 @@ source /etc/profile
   vncserver -name remote-desktop -geometry 1920x1080 :1
   source /etc/profile
 
+
   echo 20
   if [ ! -d "$HOME/.config/gtk-3.0/" ];then
   mkdir -p "$HOME/.config/gtk-3.0/"
   fi
+
+  echo 25
+  xfce4-session > /dev/null 2>&1 &
+  sleep 10
 
   echo 30
   xfconf-query -c xsettings -p /Net/ThemeName -s ZorinBlue-Dark
@@ -82,7 +87,7 @@ source /etc/profile
 
   echo 70
   xfce4-panel-profiles load xfce4-panel.tar.bz2
-  dbus-launch xfce4-panel-profiles load xfce4-panel.tar.bz2
+  dbus-launch --exit-with-session xfce4-panel-profiles load xfce4-panel.tar.bz2
 
   echo 90
   firefox > /dev/null 2>&1 &

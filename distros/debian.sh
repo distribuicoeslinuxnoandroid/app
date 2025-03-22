@@ -10,6 +10,7 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 # Variáveis do sistema
 folder=debian-stable
 codinome=debian-stable
+bin=start-debian.sh
 
 ## Variáveis fixas, que sempre irão se repetir em várias partes do instalador
 if [ -f "fixed_variables.sh" ]; then
@@ -115,12 +116,11 @@ fi
 
 mkdir -p debian-binds
 
-bin=start-debian.sh
-
 echo "${label_start_script}"
 cat > $bin <<- EOM
 #!/bin/bash
-cd \$(dirname \$0)
+#cd \$(dirname \$0)
+cd $HOME
 ## unset LD_PRELOAD in case termux-exec is installed
 unset LD_PRELOAD
 command="proot"
@@ -154,6 +154,7 @@ else
     \$command -c "\$com"
 fi
 EOM
+
 
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
@@ -589,4 +590,5 @@ bash $bin
 
 # Cria uma gui de inicialização
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /usr/local/bin/startvncserver"' $bin
+cp "$bin" "$PREFIX/bin/${bin%.sh}" #isso permite que o comando seja iniciado sem o uso do bash ou ./
 bash $bin

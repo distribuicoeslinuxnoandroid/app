@@ -109,8 +109,6 @@ source /etc/profile
 # Aqui finaliza a configuração do tema
 ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
 
-
-
 rm -rf ~/start-environment.sh
 
 #A propriedade "/backdrop/screen0/monitorVNC-0/workspace0/last-image" não existe no canal "xfce4-desktop". Se você deseja criar uma nova propriedade, use a opção --create.

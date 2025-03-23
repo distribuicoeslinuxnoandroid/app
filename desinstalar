@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Verifica os argumentos passados ao script
+if [ "$1" == "debian" ]; then
+    # Executa a sequência de comandos para Debian
+    echo -e "Desinstalando o Debian \n\n
+    Aguarde..."
+    rm -rf $HOME/debian-stable
+    rm -rf $HOME/debian-binds
+    rm -rf $HOME/start-debian.sh
+    rm -rf $PREFIX/bin/start-debian
+    rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+    rm -rf system_bus_socket
+
+elif [ "$1" == "ubuntu" ]; then
+    # Executa a sequência de comandos para Ubuntu
+    echo -e "Desinstalando o Ubuntu...\n\nAguarde..."
+    rm -rf $HOME/ubuntu-fs
+    rm -rf $HOME/ubuntu-binds
+    rm -rf $HOME/start-ubuntu.sh
+    rm -rf $PREFIX/bin/start-ubuntu
+    rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+    rm -rf system_bus_socket
+    
+elif [ -z "$1" ]; then
+    # Caso nenhum argumento seja passado, exibe a mensagem de instrução
+    echo -e "Digite o comando 'desinstalar' seguido do nome da distribuição.\n
+    Exemplo: desinstalar <NOME_DA_DISTRIBUIÇÃO> \n\n
+    Comandos:\n
+    debian:      desinstala o sistema Debian.\n
+    ubuntu:      desinstala o sistema Ubuntu."
+else
+    # Caso um argumento desconhecido seja passado
+    echo "Distribuição não reconhecida: $1"
+fi

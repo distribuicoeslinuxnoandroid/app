@@ -591,4 +591,7 @@ bash $bin
 # Cria uma gui de inicialização
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /usr/local/bin/startvncserver"' $bin
 cp "$bin" "$PREFIX/bin/${bin%.sh}" #isso permite que o comando seja iniciado sem o uso do bash ou ./
+
+rm -rf $HOME/distrolinux-install.sh
+rm -rf $HOME/start-distro.sh
 bash $bin

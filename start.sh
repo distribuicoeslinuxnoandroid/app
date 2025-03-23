@@ -65,6 +65,28 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
     source l10n_$system_icu_locale_code.sh
 fi
 
+
+if [ -f "$PREFIX/bin/$distro_del" ]; then
+	echo "existe"
+	else
+  (
+				echo 0  # Inicia em 0%
+				wget --tries=20 "${extralink}/desinstalar" --progress=dot:giga 2>&1 | while read -r line; do
+					# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+
+				echo 50  # Finaliza em 50%
+			) | whiptail --gauge " " 5 40 0
+
+		chmod +x $distro_del
+    cp $distro_del "$PREFIX/bin/"
+fi
+
+
 system_info="${label_system_info}
 
 ${label_android_version}: ${android_version}

@@ -248,7 +248,7 @@ gtk-xft-rgba=rgb' | sudo tee $HOME/.config/gtk-3.0/settings.ini
   sed -i 's|wallpaper=/etc/alternatives/desktop-background|wallpaper=/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg|' ~/.config/pcmanfm/LXDE/desktop-items-0.conf
 
   echo 90
-   firefox &
+  firefox > /dev/null 2>&1 &
   PID=$(pidof firefox)
   sleep 5
   kill $PID

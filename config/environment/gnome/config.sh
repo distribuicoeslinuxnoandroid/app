@@ -66,16 +66,21 @@ clear
 	echo 16 
 	sudo apt-get install gnome-terminal --no-install-recommends -y > /dev/null 2>&1
 
+	echo 20
+	sudo apt-get install gnome-terminal gnome-terminal-data dconf-cli -y > /dev/null 2>&1
+
 	echo 32
 	sudo apt-get install gnome-tweaks --no-install-recommends -y > /dev/null 2>&1
+
+	echo 40
+	sudo apt-get install gnome-control-center --no-install-recommends -y > /dev/null 2>&1
 
 	echo 48
 	sudo apt-get install gnome-shell-extensions --no-install-recommends -y > /dev/null 2>&1
 
 	echo 64
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
-	sudo apt install gnome-shell-extension-dashtodock -y > /dev/null 2>&1
-
+	sudo apt-get install gnome-shell-extension-dashtodock -y > /dev/null 2>&1
 
 	echo 72
 	# Pasta resposável pela execução do vnc
@@ -84,7 +89,6 @@ clear
 export LANG
 export PULSE_SERVER=127.0.0.1
 gnome-shell --x11' > ~/.vnc/xstartup
-
 	chmod +x ~/.vnc/xstartup
 
 	echo 88

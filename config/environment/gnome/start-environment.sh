@@ -48,17 +48,26 @@ source /etc/profile
 # Aqui inicia a configuração do tema
     echo 1
     vncserver -name remote-desktop -geometry 1920x1080 :1
+	sleep 15
 
     echo 25
-    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg'
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
+	gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
     echo 50
     #gnome-extensions enable ubuntu-dock@ubuntu.com
 	gnome-extensions enable dash-to-dock@micxgx.gmail.com
 
 	echo 75
+	gsettings set org.gnome.desktop.interface icon-theme "ZorinBlue-Dark"
+
+	echo 78
+	gsettings set org.gnome.desktop.interface gtk-theme "ZorinBlue-Dark"
+
+	echo 80
 	# Irá remover os erros de inicialização do Firefox
-	firefox &
+	firefox > /dev/null 2>&1 &
 	PID=$(pidof firefox)
 	sleep 5
 	kill $PID
@@ -72,6 +81,10 @@ source /etc/profile
 	fi
 
     echo 100
+	sudo apt-get remove --purge lilyterm -y
+	mv /root/.config/lilyterm/default.conf /root/.config/lilyterm/default.conf.bak
+
+
     stopvnc
 
 ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0

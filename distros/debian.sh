@@ -317,6 +317,7 @@ export PORT=1
 ) | whiptail --gauge "${label_language_download}" 0 0 0
 
 #Copiando arquivos para dentro do linux
+mkdir -p $folder/root/.vnc
 cp l10n_*.sh $folder/root/
 cp l10n_*.sh $folder/root/.vnc
 chmod +x $folder/root/l10n_*.sh
@@ -519,8 +520,7 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 69  # Inicia em 0%
-    
-	 -y > /dev/null 2>&1 
+    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	sudo apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário

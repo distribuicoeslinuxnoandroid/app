@@ -176,7 +176,7 @@ fi
   file:///sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
   echo 50
-    sudo apt-get install at-spi2-core -y
+  sudo apt-get install at-spi2-core -y
 
 
   echo 52

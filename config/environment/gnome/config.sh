@@ -61,27 +61,29 @@ clear
 	echo "Oi"
 
 	echo 10
-	sudo apt-get install gnome-shell -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell --no-install-recommends -y > /dev/null 2>&1
 
 	echo 16 
-	sudo apt-get install gnome-terminal -y > /dev/null 2>&1
+	sudo apt-get install gnome-terminal --no-install-recommends -y > /dev/null 2>&1
 
 	echo 32
-	sudo apt-get install gnome-tweaks -y > /dev/null 2>&1
+	sudo apt-get install gnome-tweaks --no-install-recommends -y > /dev/null 2>&1
 
 	echo 48
-	sudo apt-get install gnome-shell-extensions -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell-extensions --no-install-recommends -y > /dev/null 2>&1
 
 	echo 64
-	sudo apt-get install gnome-shell-extension-ubuntu-dock -y > /dev/null 2>&1
+	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
+	sudo apt install gnome-shell-extension-dashtodock > /dev/null 2>&1
+
 
 	echo 72
 	# Pasta resposável pela execução do vnc
 	mkdir -p ~/.vnc
-	echo "#!/bin/bash
-	export LANG
-	export PULSE_SERVER=127.0.0.1
-	gnome-shell --x11" > ~/.vnc/xstartup
+	echo '#!/bin/bash
+export LANG
+export PULSE_SERVER=127.0.0.1
+gnome-shell --x11' > ~/.vnc/xstartup
 
 	chmod +x ~/.vnc/xstartup
 

@@ -53,7 +53,23 @@ source /etc/profile
     gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg'
 
     echo 50
-    gnome-extensions enable ubuntu-dock@ubuntu.com
+    #gnome-extensions enable ubuntu-dock@ubuntu.com
+	gnome-extensions enable dash-to-dock@micxgx.gmail.com
+
+	echo 75
+	# Irá remover os erros de inicialização do Firefox
+	firefox &
+	PID=$(pidof firefox)
+	sleep 5
+	kill $PID
+	sed -i '/security.sandbox.content.level/d' ~/.mozilla/firefox/*.default-release/prefs.js
+	echo 'user_pref("security.sandbox.content.level", 0);' >> ~/.mozilla/firefox/*.default-release/prefs.js
+
+	#Adiciona o Firefox aos favoritos
+	if ls /usr/share/applications | grep -q "firefox.desktop"; then
+		echo "Firefox encontrado. Fixando nos favoritos da dock..."
+		gsettings set org.gnome.shell favorite-apps "['firefox.desktop']"
+	fi
 
     echo 100
     stopvnc

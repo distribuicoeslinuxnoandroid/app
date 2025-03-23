@@ -108,8 +108,8 @@ if [ "$first" != 1 ];then
 	###
 	if wait $debootstrap_pid; then
 		echo "Instalação concluída com sucesso!"
-	else
-		echo "Erro durante a instalação do Debian!"
+		else
+			echo "Erro durante a instalação do Debian!"
 	fi
 
 fi
@@ -318,7 +318,9 @@ export PORT=1
 
 #Copiando arquivos para dentro do linux
 cp l10n_*.sh $folder/root/
+cp l10n_*.sh $folder/root/.vnc
 chmod +x $folder/root/l10n_*.sh
+chmod +x $folder/root/.vnc/l10n_*.sh
 cp fixed_variables.sh $folder/root/
 chmod +x $folder/root/fixed_variables.sh
 
@@ -424,16 +426,16 @@ case $CHOICE in
 
 
 	# Parte da resolução do problema do gnome e do systemd
-	mkdir /data/data/com.termux/files/usr/var/run/dbus > /dev/null 2>&1 # criar a pasta que o dbus funcionará
+	mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
 	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
 	rm -rf system_bus_socket
 
-	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket > /dev/null 2>&1 #cria o arquivo
+	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
 
-	if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
-	grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
-	grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null && # verifica se existe a linha com esse texto
-	grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf > /dev/null ; then # verifica se existe a linha com esse texto
+	if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+	grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+	grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+	grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf; then # verifica se existe a linha com esse texto
 		echo ""
 		else
 		echo "" # caso não exista as linhas verificadas, alterar e adicionar as linhas no arquivo usando o sed
@@ -447,8 +449,8 @@ case $CHOICE in
 	# É necessário repetir o processo toda vez que alterar o system.conf
 	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
 	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
-	sed -i '\|command+=" -b /proc/self/fd:/dev/fd"|a command+=" -b system_bus_socket:/run/dbus/system_bus_socket"' $bin
-	sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
+	sed -i "\|command+=\" -b $folder/root:/dev/shm\"|a command+=\" -b system_bus_socket:/run/dbus/system_bus_socket\"" $bin
+	#sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
 ;;
 esac
 
@@ -466,18 +468,17 @@ if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
 	else
 		(
-				echo 0  # Inicia em 0%
-				wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
+		echo 0  # Inicia em 0%
+		wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
 
-				echo 50  # Finaliza em 50%
-			) | whiptail --gauge "${label_progress}" 0 0 0
-
+		echo 50  # Finaliza em 50%
+		) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi
@@ -486,21 +487,19 @@ fi
 if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 	source l10n_$system_icu_locale_code.sh
 	else
-
-    (
-				echo 51  # Inicia
-				wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 100  # Finaliza
-			) | whiptail --gauge "${label_progress}" 0 0 0
+		(
+		echo 51  # Inicia
+		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
+			# Extraindo a porcentagem do progresso do wget
+			if [[ $line =~ ([0-9]+)% ]]; then
+				percent=${BASH_REMATCH[1]}
+				echo $percent  # Atualiza a barra de progresso
+			fi
+		done
+		echo 100  # Finaliza
+		) | whiptail --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
-    source "l10n_${system_icu_locale_code}.sh"
+		source "l10n_${system_icu_locale_code}.sh"
 fi
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
@@ -520,7 +519,8 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 69  # Inicia em 0%
-    sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
+    
+	 -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	sudo apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário

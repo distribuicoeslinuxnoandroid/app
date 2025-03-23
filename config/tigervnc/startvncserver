@@ -1,7 +1,7 @@
 #!/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
-
+stopvnc # vai encerrar qualquer servidor que estiver aberto
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh

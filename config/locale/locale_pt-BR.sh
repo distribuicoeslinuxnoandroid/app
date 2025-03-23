@@ -57,28 +57,27 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
 
 (
     echo 0  # Inicia em 0%
-
     echo "Atualizando pacotes..."
     sudo apt-get update > /dev/null 2>&1
+    
     echo 16  # Atualiza para 25% após o update
-
     echo "Instalando pacotes de idioma..."
     sudo apt-get install locales -y > /dev/null 2>&1 # Instala o libc-l10n locales
+    
     echo 32
-    
     sudo apt-get install language-pack-pt -y > /dev/null 2>&1
+    
     echo 48
-    
     sudo apt-get install language-pack-pt-base -y > /dev/null 2>&1
-    echo 64
     
-    sudo apt-get install language-pack-gnome-pt -y > /dev/null 2>&1
-    echo 80  # Atualiza para 75% após a instalação dos pacotes
-
+    echo 64
+    #sudo apt-get install language-pack-gnome-pt -y > /dev/null 2>&1
+    
+    echo 80
     echo "Gerando o idioma..."
     sed -i 's/^# *\(pt_BR.UTF-8\)/\1/' /etc/locale.gen
     locale-gen > /dev/null 2>&1
-    echo 100  # Finaliza em 100%
+    echo 100 
     
  ) | whiptail --gauge "${label_system_language}" 0 0 0
 

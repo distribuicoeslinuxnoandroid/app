@@ -74,7 +74,7 @@ clear
 
 	echo 64
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
-	sudo apt install gnome-shell-extension-dashtodock > /dev/null 2>&1
+	sudo apt install gnome-shell-extension-dashtodock -y > /dev/null 2>&1
 
 
 	echo 72

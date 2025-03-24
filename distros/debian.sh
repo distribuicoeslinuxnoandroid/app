@@ -155,17 +155,18 @@ else
 fi
 EOM
 
-
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
 # Se não existir, será criado
 if [ ! -d "$folder/usr/share/backgrounds/" ];then
 	mkdir -p "$folder/usr/share/backgrounds/"
+	echo "pasta criada"
 fi
 
 
 if [ ! -d "$folder/usr/share/icons/" ];then
 	mkdir -p "$folder/usr/share/icons/"
+	echo "pasta criada"
 fi
 # Baixando o arquivo de configuração do sistema
 (
@@ -226,34 +227,30 @@ export PORT=1
 	clear
 	case $CHOICE in
 		1)
-
 			if [ -f "l10n_pt-BR.sh" ]; then
 				source l10n_pt-BR.sh
 				else
 					wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
 					chmod +x l10n_pt-BR.sh
 					source l10n_pt-BR.sh
+					(
+						echo 0  # Inicia 
+						sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+						wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+						# Extraindo a porcentagem do progresso do wget
+							if [[ $line =~ ([0-9]+)% ]]; then
+								percent=${BASH_REMATCH[1]}
+								echo $percent  # Atualiza a barra de progresso
+							fi
+						done
+						echo 14  # Finaliza
+					) | whiptail --gauge "${label_language_download}" 0 0 0
+					chmod +x $folder/root/locale_pt-BR.sh
 			fi
-			(
-				echo 0  # Inicia 
-				sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
-				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-					# Extraindo a porcentagem do progresso do wget
-					if [[ $line =~ ([0-9]+)% ]]; then
-						percent=${BASH_REMATCH[1]}
-						echo $percent  # Atualiza a barra de progresso
-					fi
-				done
-
-				echo 14  # Finaliza
-			) | whiptail --gauge "${label_language_download}" 0 0 0
-
-			chmod +x $folder/root/locale_pt-BR.sh
-		;;
-
+			;;
 		2)
-		if [ -f "l10n_en-US.sh" ]; then
-				source l10n_en-US.sh
+			if [ -f "l10n_en-US.sh" ]; then
+			source l10n_en-US.sh
 				else
 					wget --tries=20 "${extralink}/config/locale/l10n_en-US.sh" > /dev/null 2>&1 &
 					chmod +x l10n_en-US.sh
@@ -263,9 +260,9 @@ export PORT=1
 	esac
 
 (
-	echo 15  # Inicia
+	echo 15
 	wget --tries=20 "${extralink}/config/tigervnc/vnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-		# Extraindo a porcentagem do progresso do wget
+	# Extraindo a porcentagem do progresso do wget
 		if [[ $line =~ ([0-9]+)% ]]; then
 			percent=${BASH_REMATCH[1]}
 			echo $percent  # Atualiza a barra de progresso
@@ -273,9 +270,9 @@ export PORT=1
 	done
 	chmod +x $folder/usr/local/bin/vnc
 
-	echo 30  # Inicia
+	echo 30
 	wget --tries=20 "${extralink}/config/tigervnc/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-		# Extraindo a porcentagem do progresso do wget
+	# Extraindo a porcentagem do progresso do wget
 		if [[ $line =~ ([0-9]+)% ]]; then
 			percent=${BASH_REMATCH[1]}
 			echo $percent  # Atualiza a barra de progresso
@@ -283,9 +280,9 @@ export PORT=1
 	done
 	chmod +x $folder/usr/local/bin/vncpasswd
 
-	echo 45  # Inicia
+	echo 45
 	wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-		# Extraindo a porcentagem do progresso do wget
+	# Extraindo a porcentagem do progresso do wget
 		if [[ $line =~ ([0-9]+)% ]]; then
 			percent=${BASH_REMATCH[1]}
 			echo $percent  # Atualiza a barra de progresso
@@ -293,9 +290,9 @@ export PORT=1
 	done
 	chmod +x $folder/usr/local/bin/startvnc
 
-	echo 60  # Inicia
+	echo 60
 	wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-		# Extraindo a porcentagem do progresso do wget
+	# Extraindo a porcentagem do progresso do wget
 		if [[ $line =~ ([0-9]+)% ]]; then
 			percent=${BASH_REMATCH[1]}
 			echo $percent  # Atualiza a barra de progresso
@@ -303,9 +300,9 @@ export PORT=1
 	done
 	chmod +x $folder/usr/local/bin/stopvnc
 
-	echo 75  # Inicia 
+	echo 75
 	wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-		# Extraindo a porcentagem do progresso do wget
+	# Extraindo a porcentagem do progresso do wget
 		if [[ $line =~ ([0-9]+)% ]]; then
 			percent=${BASH_REMATCH[1]}
 			echo $percent  # Atualiza a barra de progresso
@@ -333,22 +330,16 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
-#rm -rf /etc/resolv.conf
-#echo 'nameserver 8.8.8.8' >> /etc/resolv.conf
-mkdir -p ~/.vnc
-
 echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
 deb http://security.debian.org/debian-security stable-security main contrib non-free
 deb http://deb.debian.org/debian stable-updates main contrib non-free
 deb http://ftp.debian.org/debian buster main
 deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
 
-
-
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
-apt install dialog whiptail -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
+apt install dialog whiptail -y > /dev/null 2>&1
 
 bash ~/locale*.sh
 
@@ -378,7 +369,7 @@ CHOICE=$(dialog --clear \
 
 clear
 case $CHOICE in
-1)	
+	1)	
 		(
 		echo 0  # Inicia em 0%
 		echo "LXDE UI"
@@ -391,68 +382,71 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
-;;
-2)	
-	(
-		echo 0  # Inicia em 0%
-		echo "XFCE UI"
-		wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-			# Extraindo a porcentagem do progresso do wget
-			if [[ $line =~ ([0-9]+)% ]]; then
-				percent=${BASH_REMATCH[1]}
-				echo $percent  # Atualiza a barra de progresso
-			fi
-		done
-		sleep 1
-		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
-;;
-3)
-	(
-		echo 0  # Inicia em 0%
-		echo "Gnome UI"
-		wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-			# Extraindo a porcentagem do progresso do wget
-			if [[ $line =~ ([0-9]+)% ]]; then
-				percent=${BASH_REMATCH[1]}
-				echo $percent  # Atualiza a barra de progresso
-			fi
-		done
-		sleep 1
-		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
-	# Sem isso o gnome não funciona
-	apt install dbus -y > /dev/null 2>&1
+		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+	;;
+	2)	
+		(
+			echo 0  # Inicia em 0%
+			echo "XFCE UI"
+			wget --tries=20  "${extralink}/config/environment/xfce4/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+			sleep 1
+			echo 100  # Finaliza em 100%
+		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+	;;
+	3)
+		(
+			echo 0  # Inicia em 0%
+			echo "Gnome UI"
+			wget --tries=20  "${extralink}/config/environment/gnome/config.sh" -O $folder/root/config-environment.sh > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+				if [[ $line =~ ([0-9]+)% ]]; then
+					percent=${BASH_REMATCH[1]}
+					echo $percent  # Atualiza a barra de progresso
+				fi
+			done
+			sleep 1
+			echo 100  # Finaliza em 100%
+		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+		
+		# Sem isso o gnome não funciona
+		apt install dbus -y > /dev/null 2>&1
 
+		# Parte da resolução do problema do gnome e do systemd
+		if [ ! -d "/data/data/com.termux/files/usr/var/run/dbus" ];then
+			mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
+			echo "pasta criada"
+		fi
+		#mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
+		rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
+		rm -rf system_bus_socket
 
-	# Parte da resolução do problema do gnome e do systemd
-	mkdir /data/data/com.termux/files/usr/var/run/dbus # criar a pasta que o dbus funcionará
-	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid #remover o pid para que o dbus-daemon funcione corretamente
-	rm -rf system_bus_socket
+		dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
 
-	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket #cria o arquivo
-
-	if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
-	grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
-	grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
-	grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf; then # verifica se existe a linha com esse texto
+		if grep -q "<listen>tcp:host=localhost" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+		grep -q "<listen>unix:tmpdir=/tmp</listen>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+		grep -q "<auth>ANONYMOUS</auth>" /data/data/com.termux/files/usr/share/dbus-1/system.conf && # verifica se existe a linha com esse texto
+		grep -q "<allow_anonymous/>" /data/data/com.termux/files/usr/share/dbus-1/system.conf; then # verifica se existe a linha com esse texto
 		echo ""
-		else
-		echo "" # caso não exista as linhas verificadas, alterar e adicionar as linhas no arquivo usando o sed
-		sed -i 's|<auth>EXTERNAL</auth>|<listen>tcp:host=localhost,bind=*,port=6667,family=ipv4</listen>\
-	<listen>unix:tmpdir=/tmp</listen>\
-	<auth>EXTERNAL</auth>\
-	<auth>ANONYMOUS</auth>\
-	<allow_anonymous/>|' /data/data/com.termux/files/usr/share/dbus-1/system.conf
-	fi
+			else
+				sed -i 's|<auth>EXTERNAL</auth>|<listen>tcp:host=localhost,bind=*,port=6667,family=ipv4</listen>\
+				<listen>unix:tmpdir=/tmp</listen>\
+				<auth>EXTERNAL</auth>\
+				<auth>ANONYMOUS</auth>\
+				<allow_anonymous/>|' /data/data/com.termux/files/usr/share/dbus-1/system.conf
+		fi
 
-	# É necessário repetir o processo toda vez que alterar o system.conf
-	rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
-	dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
-	sed -i "\|command+=\" -b $folder/root:/dev/shm\"|a command+=\" -b system_bus_socket:/run/dbus/system_bus_socket\"" $bin
-	#sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
-;;
+		# É necessário repetir o processo toda vez que alterar o system.conf
+		rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
+		dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
+		sed -i "\|command+=\" -b $folder/root:/dev/shm\"|a command+=\" -b system_bus_socket:/run/dbus/system_bus_socket\"" $bin
+		#sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
+	;;
 esac
 
 chmod +x $folder/root/config-environment.sh
@@ -506,20 +500,20 @@ fi
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 (
     echo 0  # Inicia em 0%
-
     echo "Aguarde, atualizando pacotes..."
     sudo apt update > /dev/null 2>&1
-    echo 25  # Atualiza para 100% após a atualização
+    
+	echo 25  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_find_update}" 0 0 0
 
 (
-    echo 34  # Inicia em 0%
+    echo 26  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
-    echo 68  # Atualiza para 100% após a atualização
+    echo 50  # Atualiza para 100% após a atualização
 ) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
 (
-    echo 69  # Inicia em 0%
+    echo 75  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
@@ -530,8 +524,8 @@ sudo dpkg-reconfigure keyboard-configuration
 clear
 sudo dpkg-reconfigure tzdata
 clear
-
 sudo apt install whiptail -y > /dev/null 2>&1
+
 (
     echo 0  # Inicia em 0%
 	echo "Oi"

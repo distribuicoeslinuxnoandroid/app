@@ -1,18 +1,10 @@
 #!/data/data/com.termux/files/usr/bin/bash
-if [ ! -f "$PREFIX/bin/instalar" ]; then
-    mv "$HOME/instalar" "$PREFIX/bin/instalar"
-fi
-
 # Variável com o link do script no GitHub
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-
-#=============================================================================================
-# VERIFICA ATUALIZAÇÕES DE DO CÓDIGO 
-#=============================================================================================
 script_url="${extralink}/instalar"
 
 # Nome do arquivo local
-local_script="instalar"
+local_script="$PREFIX/bin/instalar"
 
 # Função para verificar e atualizar o script
 update_script() {
@@ -23,27 +15,36 @@ update_script() {
 
     # Verifica se o download foi bem-sucedido
     if [ $? -eq 0 ]; then
-    # Compara a versão local com a versão do GitHub
-        diff -q "$local_script" "${local_script}.new" > /dev/null 2>&1
+        # Compara a versão local com a versão do GitHub
+        diff "$local_script" "${local_script}.new" > /dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "Atualização disponível. Substituindo o script local."
             # Substitui o script local pelo novo
             mv "${local_script}.new" "$local_script"
             chmod +x "$local_script"
             echo "Script atualizado com sucesso!"
-            else
-                echo "Script já está na versão mais recente."
-                rm "${local_script}.new"  # Remove o arquivo temporário
-            fi
         else
+            echo "Script já está na versão mais recente."
+            rm "${local_script}.new"  # Remove o arquivo temporário
+        fi
+    else
         echo "Falha ao baixar a atualização do script."
     fi
 }
 
-# Executa a função de atualização
-
-rm -rf $HOME/instalar
-update_script
+# Verifica se o arquivo "instalar" existe em $PREFIX/bin/
+if [ ! -f "$local_script" ]; then
+    echo "O script 'instalar' não foi encontrado em $PREFIX/bin/. Movendo de $HOME..."
+    if [ -f "$HOME/instalar" ]; then
+        mv "$HOME/instalar" "$local_script"
+        chmod +x "$local_script"
+    else
+        echo "Arquivo 'instalar' não encontrado em $HOME. Nenhuma ação tomada."
+    fi
+else
+    # Se o arquivo já existe, verifica se ele precisa ser atualizado
+    update_script
+fi
 
 #=============================================================================================
 #=============================================================================================

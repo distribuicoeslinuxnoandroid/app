@@ -8,6 +8,10 @@
 Instale distribuições famosas dentro do ambiente Android e sem root.
 
 ```bash
+apt update -y && apt install wget -y && wget https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar && chmod +x instalar && bash instalar distro
+```
+
+```bash
 apt update -y && apt install wget -y && wget https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/start.sh -O distrolinux-install.sh && chmod +x distrolinux-install.sh && bash distrolinux-install.sh
 ```
 

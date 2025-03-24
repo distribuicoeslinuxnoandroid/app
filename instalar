@@ -62,8 +62,8 @@ else
     # Verifica qual distribuição foi escolhida e executa os comandos específicos
     if [ "$1" == "distro" ]; then
         echo -e "Aguarde..."
-        OPTIONS=(1 "Ubuntu"
-                 2  "Debian")
+        OPTIONS=(1 "Debian"
+                 2  "Ubuntu")
 
         CHOICE=$(dialog --clear \
                         --title "$TITLE" \

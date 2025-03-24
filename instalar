@@ -38,6 +38,7 @@ if [ ! -f "$local_script" ]; then
     if [ -f "$HOME/instalar" ]; then
         mv "$HOME/instalar" "$local_script"
         chmod +x "$local_script"
+        rm -rf $HOME/instalar
     else
         echo "Arquivo 'instalar' não encontrado em $HOME. Nenhuma ação tomada."
     fi

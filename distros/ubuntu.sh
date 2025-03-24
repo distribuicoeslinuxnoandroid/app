@@ -89,8 +89,6 @@ if [ -d "$folder" ]; then
 fi
 
 
-termux-setup-storage
-
 if [ "$first" != 1 ];then
 	if [ ! -f $cloudimagename ]; then
 		case `dpkg --print-architecture` in

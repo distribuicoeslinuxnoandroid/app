@@ -60,7 +60,33 @@ else
     fi
 
     # Verifica qual distribuição foi escolhida e executa os comandos específicos
-    if [ "$1" == "debian" ]; then
+    if [ "$1" == "distro" ]; then
+        echo -e "Aguarde..."
+        OPTIONS=(1 "Ubuntu"
+                 2  "Debian")
+
+        CHOICE=$(dialog --clear \
+                        --title "$TITLE" \
+                        --menu "$MENU_operating_system_select" \
+                        $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                        "${OPTIONS[@]}" \
+                        2>&1 >/dev/tty)
+
+        clear
+        case $CHOICE in
+        1)
+            echo "Ubuntu"
+            instalar ubuntu
+            ;;
+        2)
+            echo "Debian [Teste]"
+            instalar debian
+        ;;
+
+        esac
+        
+    
+    elif [ "$1" == "debian" ]; then
         echo -e "Instalando o Debian...\nAguarde..."
         wget --tries=20 "${extralink}/distros/debian.sh" -O start-distro.sh > /dev/null 2>&1 &
 
@@ -78,7 +104,9 @@ else
             echo "75"
             sleep 2
         ) | whiptail --gauge "${label_progress}" 0 0 0
-        
+        clear
+
+    
     elif [ "$1" == "ubuntu" ]; then
         echo -e "Instalando o Ubuntu...\nAguarde..."
         wget --tries=20 "${extralink}/distros/ubuntu.sh" -O start-distro.sh > /dev/null 2>&1 &
@@ -97,7 +125,6 @@ else
             echo "75"
             sleep 2
         ) | whiptail --gauge "${label_progress}" 0 0 0
-
         clear
         
     else

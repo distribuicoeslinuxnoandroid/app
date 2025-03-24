@@ -1,5 +1,48 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+# Variável com o link do script no GitHub
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+
+#=============================================================================================
+# VERIFICA ATUALIZAÇÕES DE DO CÓDIGO 
+#=============================================================================================
+script_url="${extralink}/instalar"
+
+# Nome do arquivo local
+local_script="instalar"
+
+# Função para verificar e atualizar o script
+update_script() {
+    echo "Verificando atualizações do script..."
+
+    # Baixa a versão mais recente do script do GitHub
+    wget -q "$script_url" -O "${local_script}.new"
+
+    # Verifica se o download foi bem-sucedido
+    if [ $? -eq 0 ]; then
+    # Compara a versão local com a versão do GitHub
+        diff -q "$local_script" "${local_script}.new" > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Atualização disponível. Substituindo o script local."
+            # Substitui o script local pelo novo
+            mv "${local_script}.new" "$local_script"
+            chmod +x "$local_script"
+            echo "Script atualizado com sucesso!"
+            else
+                echo "Script já está na versão mais recente."
+                rm "${local_script}.new"  # Remove o arquivo temporário
+            fi
+        else
+        echo "Falha ao baixar a atualização do script."
+    fi
+}
+
+# Executa a função de atualização
+update_script
+
+#=============================================================================================
+#=============================================================================================
+
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
@@ -12,8 +55,7 @@ else
     # Executa os comandos comuns para qualquer distribuição
     echo -e "Iniciando a instalação\nAguarde..."
     termux-setup-storage
-    apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &
-    
+    apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &    
     extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
     system_icu_locale_code=$(getprop persist.sys.locale)
     

@@ -1,4 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
+if [ ! -f "$PREFIX/bin/instalar" ]; then
+    mv "$HOME/instalar" "$PREFIX/bin/instalar"
+fi
 
 # Variável com o link do script no GitHub
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
@@ -56,7 +59,10 @@ if [ -z "$1" ]; then
     else
     # Executa os comandos comuns para qualquer distribuição
         echo -e "Iniciando a instalação\nAguarde..."
-        termux-setup-storage
+        if [ ! -d "~/storage" ];then
+            termux-setup-storage
+        fi
+        
         apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &    
         extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
         system_icu_locale_code=$(getprop persist.sys.locale)

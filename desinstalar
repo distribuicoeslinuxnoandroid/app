@@ -3,7 +3,7 @@
 # Verifica os argumentos passados ao script
 if [ "$1" == "debian" ]; then
     # Executa a sequência de comandos para Debian
-    echo -e "Desinstalando o Debian \n\n
+    echo -e "Desinstalando o Debian\n
     Aguarde..."
     rm -rf $HOME/debian-stable
     rm -rf $HOME/debian-binds
@@ -11,16 +11,24 @@ if [ "$1" == "debian" ]; then
     rm -rf $PREFIX/bin/start-debian
     rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
     rm -rf system_bus_socket
+    clear
+    echo "Desisntalação concluída. Para reinstalar, terá que refazer os passo iniciais de instalação"
+    sleep 10
+    clear
 
 elif [ "$1" == "ubuntu" ]; then
     # Executa a sequência de comandos para Ubuntu
-    echo -e "Desinstalando o Ubuntu...\n\nAguarde..."
+    echo -e "Desinstalando o Ubuntu...\nAguarde..."
     rm -rf $HOME/ubuntu-fs
     rm -rf $HOME/ubuntu-binds
     rm -rf $HOME/start-ubuntu.sh
     rm -rf $PREFIX/bin/start-ubuntu
     rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
     rm -rf system_bus_socket
+    clear
+    echo "Desisntalação concluída. Para reinstalar, terá que refazer os passo iniciais de instalação"
+    sleep 10
+    clear
     
 elif [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução

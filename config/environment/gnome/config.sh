@@ -96,7 +96,7 @@ gnome-shell --x11' > ~/.vnc/xstartup
 	source /etc/profile
 
 	echo 94
-	wget --tries=20 "${extralink}/config/environment/xfce4/start-environment.sh" > /dev/null 2>&1
+	wget --tries=20 "${extralink}/config/environment/gnome/start-environment.sh" > /dev/null 2>&1
 	chmod +x ~/start-environment.sh
 
 	echo 100  # Finaliza em 100%

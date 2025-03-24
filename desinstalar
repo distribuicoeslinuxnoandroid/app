@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 
 # Verifica os argumentos passados ao script
 if [ "$1" == "debian" ]; then

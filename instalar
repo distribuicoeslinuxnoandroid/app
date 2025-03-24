@@ -41,6 +41,8 @@ update_script() {
 }
 
 # Executa a função de atualização
+
+rm -rf $HOME/instalar
 update_script
 
 #=============================================================================================
@@ -113,7 +115,7 @@ if [ -z "$1" ]; then
             else
                 (
                     echo 67  # Inicia em 0%
-                    wget --tries=20 "${extralink}/$distro_del" --progress=dot:giga 2>&1 | while read -r line; do
+                    wget --tries=20 "${extralink}/$distro_del" -P $HOME/ --progress=dot:giga 2>&1 | while read -r line; do
                     # Extraindo a porcentagem do progresso do wget
                         if [[ $line =~ ([0-9]+)% ]]; then
                             percent=${BASH_REMATCH[1]}
@@ -123,8 +125,8 @@ if [ -z "$1" ]; then
 
                     echo 100  # Finaliza em 50%
                 ) | whiptail --gauge " " 5 40 0
-                chmod +x $distro_del
-                mv $distro_del "$PREFIX/bin/"
+                chmod +x $HOME/$distro_del
+                mv $HOME/$distro_del "$PREFIX/bin/"
         fi
 
     #=============================================================================================

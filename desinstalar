@@ -8,6 +8,10 @@ if [ "$1" == "debian" ]; then
     rm -rf $HOME/debian-stable
     rm -rf $HOME/debian-binds
     rm -rf $HOME/start-debian.sh
+    rm -rf $HOME/l10n*.sh
+    rm -rf $HOME/fixed_variables.sh
+    rm -rf $HOME/storage
+    rm -rf $HOME/debian-stable
     rm -rf $PREFIX/bin/start-debian
     rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
     rm -rf system_bus_socket

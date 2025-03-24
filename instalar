@@ -59,7 +59,7 @@ if [ -z "$1" ]; then
     else
     # Executa os comandos comuns para qualquer distribuição
         echo -e "Iniciando a instalação\nAguarde..."
-        if [ ! -d "~/storage" ];then
+        if [ ! -d "$HOME/storage" ];then
             termux-setup-storage
         fi
         

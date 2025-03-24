@@ -113,7 +113,7 @@ if [ -z "$1" ]; then
             else
                 (
                     echo 67  # Inicia em 0%
-                    wget --tries=20 "${extralink}/desinstalar" --progress=dot:giga 2>&1 | while read -r line; do
+                    wget --tries=20 "${extralink}/$distro_del" --progress=dot:giga 2>&1 | while read -r line; do
                     # Extraindo a porcentagem do progresso do wget
                         if [[ $line =~ ([0-9]+)% ]]; then
                             percent=${BASH_REMATCH[1]}

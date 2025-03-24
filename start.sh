@@ -83,7 +83,7 @@ if [ -f "$PREFIX/bin/$distro_del" ]; then
 			) | whiptail --gauge " " 5 40 0
 
 		chmod +x $distro_del
-    cp $distro_del "$PREFIX/bin/"
+    mv $distro_del "$PREFIX/bin/"
 fi
 
 

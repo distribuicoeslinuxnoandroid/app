@@ -75,12 +75,12 @@ else
         clear
         case $CHOICE in
         1)
-            echo "Ubuntu"
-            instalar ubuntu
+            echo "Debian"
+            instalar debian
             ;;
         2)
-            echo "Debian [Teste]"
-            instalar debian
+            echo "Ubuntu  [Teste]"
+            instalar ubuntu  
         ;;
 
         esac

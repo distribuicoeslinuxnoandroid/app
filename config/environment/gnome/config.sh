@@ -46,41 +46,48 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 fi
 
 
-
-# LANG = C.UTF-8
 clear
-
-#sudo apt-get install notification-daemon -y
-
-#echo '[D-BUS Service]
-#Name=org.freedesktop.Notifications
-#Exec=/usr/lib/notification-daemon/notification-daemon' | sudo tee /usr/share/dbus-1/services/org.freedesktop.Notifications.service
 
 (
 	echo 0  # Inicia em 0%
 	echo "Oi"
+	
+	echo 5
+	sudo apt-get install gdm3 -y > /dev/null 2>&1
+
+	echo 6
+	sudo apt-get install policykit-1 -y > /dev/null 2>&1
+
+	echo 7
+	sudo apt-get install gnome-core -y > /dev/null 2>&1
 
 	echo 10
-	sudo apt-get install gnome-shell --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-session -y > /dev/null 2>&1
+
+	echo 10
+	sudo apt-get install gnome-shell -y > /dev/null 2>&1
 
 	echo 16 
-	sudo apt-get install gnome-terminal --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-terminal -y > /dev/null 2>&1
 
 	echo 20
-	sudo apt-get install gnome-terminal gnome-terminal-data dconf-cli -y > /dev/null 2>&1
+	sudo apt-get install gnome-terminal-data dconf-cli -y > /dev/null 2>&1
 
 	echo 32
-	sudo apt-get install gnome-tweaks --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-tweaks -y > /dev/null 2>&1
 
 	echo 40
-	sudo apt-get install gnome-control-center --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-control-center -y > /dev/null 2>&1
 
 	echo 48
-	sudo apt-get install gnome-shell-extensions --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell-extensions -y > /dev/null 2>&1
 
-	echo 64
+	echo 50
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
 	sudo apt-get install gnome-shell-extension-dashtodock -y > /dev/null 2>&1
+
+	echo 54
+	sudo apt-get install lsb-release -y > /dev/null 2>&1
 
 	echo 72
 	# Pasta resposável pela execução do vnc
@@ -100,7 +107,10 @@ gnome-shell --x11' > ~/.vnc/xstartup
 	chmod +x ~/start-environment.sh
 
 	echo 100  # Finaliza em 100%
-	sudo apt-get clean
+	sudo apt-get clean > /dev/null 2>&1
+	sudo dpkg --configure -a > /dev/null 2>&1
+	sudo apt --fix-broken install -y > /dev/null 2>&1
+
 ) | whiptail --gauge "${label_install_environment_gui}" 0 0 0
 
 

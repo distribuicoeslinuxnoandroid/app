@@ -113,7 +113,7 @@ fi
   #sudo apt-get install software-properties-common -y > /dev/null 2>&1
 
   echo 22
-  #sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
+  sudo apt-get install nautilus --no-install-recommends -y > /dev/null 2>&1
 
   echo 24
   sudo apt-get install gpg -y > /dev/null 2>&1
@@ -128,9 +128,10 @@ fi
   sudo apt-get install tzdata -y > /dev/null 2>&1
 
   echo 32
-  sudo apt-get install git --no-install-recommends -y > /dev/null 2>&1
+  sudo apt-get install git -y > /dev/null 2>&1
 
   echo 34
+  sudo apt-get install unrar -y > /dev/null 2>&1
   #sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
 
   echo 36
@@ -149,45 +150,41 @@ fi
   sudo dpkg --configure -a  
 
   echo 44
-  # Se não existir, será criado
-
   if [ ! -d "/root/Desktop" ];then
     mkdir -p "/root/Desktop"
-  fi
-
-  if [ ! -d "/usr/share/backgrounds/" ];then
-    mkdir -p "/usr/share/backgrounds/"
+    echo "pasta criada"
   fi
 
   echo 45
-
-  if [ ! -d "/usr/share/icons/" ];then
-    mkdir -p "/usr/share/icons/"
+  if [ ! -d "/usr/share/backgrounds/" ];then
+    mkdir -p "/usr/share/backgrounds/"
+    echo "pasta criada"
   fi
 
   echo 46
+  if [ ! -d "/usr/share/icons/" ];then
+    mkdir -p "/usr/share/icons/"
+    echo "pasta criada"
+  fi
 
+  echo 47
   if [ ! -d "~/.config/gtk-3.0" ];then
     mkdir -p ~/.config/gtk-3.0/
+    echo "pasta criada"
   fi
 
   echo 48
   echo 'file:/// root
-  file:///sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+  file://sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
 
   echo 50
   sudo apt-get install at-spi2-core -y
-
 
   echo 52
   # Respositório do Firefox
   sudo install -d -m 0755 /etc/apt/keyrings
   wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null 2>&1
 
-  echo 53
-  # Verifica o fingerprint
-  #gpg -n -q --import --import-options import-show /etc/apt/keyrings/packages.mozilla.org.asc | awk '/pub/{getline; gsub(/^ +| +$/,""); if($0 == "35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3") print "\nO fingerprint da chave corresponde ("$0").\n"; else print "\nFalha na verificação: o fingerprint ("$0") não corresponde ao esperado.\n"}' > /dev/null
-  
   echo 54
   # Adiciona repositório APT da Mozilla à sua lista de origens
   echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null 2>&1
@@ -207,68 +204,47 @@ Pin-Priority: 1000
   sudo sh -c 'echo "deb [arch=arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
 
+  echo 71
+  sudo apt-get update > /dev/null 2>&1
+
   echo 72
   # APT do brave browser
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-  echo 74
-  sudo apt-get clean
-  sudo apt-get update
-  sudo dpkg --configure -a 
-  clear
   
-  echo 76
+  echo 74
   sudo apt-get install firefox -y > /dev/null 2>&1
   apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
   sudo apt-get install firefox-l10n-$apt_system_icu_locale_code -y > /dev/null 2>&1
- # echo '[Desktop Entry]
-#Version=59.0.3
-#Encoding=UTF-8
-#Name=Mozilla Firefox
-#Comment=Navegador Web
-#Exec=/opt/firefox/firefox
-#Icon=firefox
-#Type=Application
-#Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
-#echo -e '[Desktop Entry]\n Version=59.0.3\n Encoding=UTF-8\n Name=Mozilla Firefox\n Comment=Navegador Web\n Exec=/opt/firefox/firefox\n Icon=firefoxg\n Type=Application\n Categories=Network' | sudo tee /usr/share/applications/firefox.desktop
-#  chmod +x /usr/share/applications/firefox.desktop
-  #cp /usr/share/applications/firefox.desktop ~/Desktop
-  #chmod +x ~/Desktop/firefox.desktop
 
-  echo 78
+  echo 76
   sudo apt-get install code -y > /dev/null 2>&1
   sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
 
-  echo 80
+  echo 78
   git clone https://github.com/ZorinOS/zorin-icon-themes.git > /dev/null 2>&1
 
-  echo 82
+  echo 80
   git clone https://github.com/ZorinOS/zorin-desktop-themes.git > /dev/null 2>&1
 
-  echo 84
+  echo 82
   cd zorin-icon-themes/
   mv Zorin*/ /usr/share/icons/ > /dev/null 2>&1
   cd $HOME
 
-  echo 90
+  echo 84
   cd zorin-desktop-themes/
   mv Zorin*/ /usr/share/themes/
   cd $HOME
   rm -rf zorin-*-themes/
 
+  echo 90
+  sudo apt-get clean > /dev/null 2>&1
+  sudo dpkg --configure -a > /dev/null 2>&1
+  sudo apt --fix-broken install -y > /dev/null 2>&1
+  clear
+
   echo 100  # Finaliza em 100%
 
   sudo apt-get clean
  ) | whiptail --gauge "${label_install_script_download}" 0 0 0
-
-
-
-#sudo apt-get install xloadimage -y
-
-#if [ ! -d "${HOME}/Documents" ];then
-#  mkdir -p "${HOME}/Documents"
-#fi
-
-#sed -i 's|Exec=chromium-browser|Exec=chromium-browser --no-sandbox|' /usr/share/applications/chromium-browser.desktop
-

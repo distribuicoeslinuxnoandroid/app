@@ -1,5 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # Variável com o link do script no GitHub
+
+# Teste
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 script_url="${extralink}/instalar"
 

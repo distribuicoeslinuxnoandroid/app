@@ -233,20 +233,20 @@ export PORT=1
 					wget --tries=20 "${extralink}/config/locale/l10n_pt-BR.sh" > /dev/null 2>&1 &
 					chmod +x l10n_pt-BR.sh
 					source l10n_pt-BR.sh
-					(
-						echo 0  # Inicia 
-						sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
-						wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
-						# Extraindo a porcentagem do progresso do wget
-							if [[ $line =~ ([0-9]+)% ]]; then
-								percent=${BASH_REMATCH[1]}
-								echo $percent  # Atualiza a barra de progresso
-							fi
-						done
-						echo 14  # Finaliza
-					) | whiptail --gauge "${label_language_download}" 0 0 0
-					chmod +x $folder/root/locale_pt-BR.sh
 			fi
+			(
+				echo 0  # Inicia 
+				sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
+				# Extraindo a porcentagem do progresso do wget
+					if [[ $line =~ ([0-9]+)% ]]; then
+						percent=${BASH_REMATCH[1]}
+						echo $percent  # Atualiza a barra de progresso
+					fi
+				done
+				echo 14  # Finaliza
+			) | whiptail --gauge "${label_language_download}" 0 0 0
+			chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		2)
 			if [ -f "l10n_en-US.sh" ]; then

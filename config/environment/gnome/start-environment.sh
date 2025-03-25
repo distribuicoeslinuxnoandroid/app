@@ -48,6 +48,8 @@ source /etc/profile
 # Aqui inicia a configuração do tema
     echo 1
     vncserver -name remote-desktop -geometry 1920x1080 :1
+	
+	echo 2 
 	sleep 15
 
     echo 20
@@ -98,7 +100,6 @@ source /etc/profile
 	sudo apt-get autoclean -y > /dev/null 2>&1
 	sudo apt-get autoremove -y > /dev/null 2>&1
 	sudo apt-get purge -y > /dev/null 2>&1
-
     stopvnc
 
 ) | whiptail --gauge "${label_config_environment_gui}" 0 0 0

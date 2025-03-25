@@ -63,7 +63,7 @@ fi
 
 {
     for ((i = 0; i <= 100; i+=2)); do
-        sleep 1
+        sleep 0.08
         echo $i
     done
 } | whiptail --gauge "${label_change_password}" 6 50 0

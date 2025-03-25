@@ -62,6 +62,7 @@ if [ "$1" == "debian" ]; then
     rm -rf $HOME/debian-stable
     rm -rf $HOME/debian-binds
     rm -rf $HOME/start-debian.sh
+    rm -rf $HOME/start-distro.sh
     rm -rf $HOME/l10n*.sh
     rm -rf $HOME/fixed_variables.sh
     rm -rf $HOME/storage

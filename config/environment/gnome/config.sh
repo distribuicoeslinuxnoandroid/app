@@ -91,10 +91,9 @@ clear
 
 	echo 53
 	sudo apt-get install gnome-calculator --no-install-recommends -y > /dev/null 2>&1
-	
 
 	echo 54
-	#sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
 
 	echo 72
 	# Pasta resposável pela execução do vnc

@@ -67,6 +67,9 @@ source /etc/profile
 	echo 50
 	gsettings set org.gnome.desktop.interface gtk-theme "ZorinBlue-Dark"
 
+	echo 55
+	GTK_THEME=ZorinBlue-Dark synaptic
+
 	echo 60
 	gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop']" "['firefox.desktop']"
 

@@ -58,9 +58,6 @@ clear
 	echo 6
 	sudo apt-get install policykit-1 --no-install-recommends -y > /dev/null 2>&1
 
-	echo 7
-	sudo apt-get install gnome-package-updater --no-install-recommends -y > /dev/null 2>&1
-
 	echo 10
 	sudo apt-get install gnome-session --no-install-recommends -y > /dev/null 2>&1
 
@@ -89,8 +86,15 @@ clear
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
 	sudo apt-get install gnome-shell-extension-dashtodock --no-install-recommends -y > /dev/null 2>&1
 
+	echo 52
+	sudo apt-get install gnome-package-updater --no-install-recommends -y > /dev/null 2>&1
+
+	echo 53
+	sudo apt-get install gnome-calculator --no-install-recommends -y > /dev/null 2>&1
+	
+
 	echo 54
-	sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
+	#sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
 
 	echo 72
 	# Pasta resposável pela execução do vnc

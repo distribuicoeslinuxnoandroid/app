@@ -81,9 +81,8 @@ source /etc/profile
 	fi
 
     echo 100
-	sudo apt-get remove --purge lilyterm -y
-	mv /root/.config/lilyterm/default.conf /root/.config/lilyterm/default.conf.bak
-
+	sudo apt-get remove --purge lilyterm -y > /dev/null 2>&1
+	mv /root/.config/lilyterm/default.conf /root/.config/lilyterm/default.conf.bak > /dev/null 2>&1
 
     stopvnc
 

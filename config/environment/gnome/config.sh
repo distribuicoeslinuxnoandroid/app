@@ -59,35 +59,38 @@ clear
 	sudo apt-get install policykit-1 -y > /dev/null 2>&1
 
 	echo 7
-	sudo apt-get install gnome-core -y > /dev/null 2>&1
+	sudo apt-get install gnome-core --no-install-recommends -y > /dev/null 2>&1
 
 	echo 10
-	sudo apt-get install gnome-session -y > /dev/null 2>&1
+	sudo apt-get install gnome-session --no-install-recommends -y > /dev/null 2>&1
 
 	echo 10
-	sudo apt-get install gnome-shell -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell --no-install-recommends -y > /dev/null 2>&1
 
 	echo 16 
-	sudo apt-get install gnome-terminal -y > /dev/null 2>&1
+	sudo apt-get install gnome-terminal --no-install-recommends -y > /dev/null 2>&1
 
 	echo 20
-	sudo apt-get install gnome-terminal-data dconf-cli -y > /dev/null 2>&1
+	sudo apt-get install dconf-cli --no-install-recommends -y > /dev/null 2>&1
+
+	echo 28
+	sudo apt-get install dconf-cli --no-install-recommends -y > /dev/null 2>&1
 
 	echo 32
-	sudo apt-get install gnome-tweaks -y > /dev/null 2>&1
+	sudo apt-get install gnome-tweaks --no-install-recommends -y > /dev/null 2>&1
 
 	echo 40
-	sudo apt-get install gnome-control-center -y > /dev/null 2>&1
+	sudo apt-get install gnome-control-center --no-install-recommends -y > /dev/null 2>&1
 
 	echo 48
-	sudo apt-get install gnome-shell-extensions -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell-extensions --no-install-recommends -y > /dev/null 2>&1
 
 	echo 50
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
-	sudo apt-get install gnome-shell-extension-dashtodock -y > /dev/null 2>&1
+	sudo apt-get install gnome-shell-extension-dashtodock --no-install-recommends -y > /dev/null 2>&1
 
 	echo 54
-	sudo apt-get install lsb-release -y > /dev/null 2>&1
+	sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
 
 	echo 72
 	# Pasta resposável pela execução do vnc

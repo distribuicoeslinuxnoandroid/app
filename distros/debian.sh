@@ -330,11 +330,11 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
-echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
-deb http://security.debian.org/debian-security stable-security main contrib non-free
-deb http://deb.debian.org/debian stable-updates main contrib non-free
-deb http://ftp.debian.org/debian buster main
-deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
+#echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
+#deb http://security.debian.org/debian-security stable-security main contrib non-free
+#deb http://deb.debian.org/debian stable-updates main contrib non-free
+#deb http://ftp.debian.org/debian buster main
+#deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
 
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
@@ -445,7 +445,7 @@ case $CHOICE in
 		rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid
 		dbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket
 		sed -i "\|command+=\" -b $folder/root:/dev/shm\"|a command+=\" -b system_bus_socket:/run/dbus/system_bus_socket\"" $bin
-		#sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
+		sed -i '1 a\rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid \ndbus-daemon --fork --config-file=/data/data/com.termux/files/usr/share/dbus-1/system.conf --address=unix:path=system_bus_socket\n' $bin
 	;;
 esac
 
@@ -584,6 +584,7 @@ bash $bin
 
 # Cria uma gui de inicialização
 sed -i '\|command+=" /bin/bash --login"|a command+=" -b /usr/local/bin/startvncserver"' $bin
+
 cp "$bin" "$PREFIX/bin/${bin%.sh}" #isso permite que o comando seja iniciado sem o uso do bash ou ./
 
 rm -rf $HOME/distrolinux-install.sh

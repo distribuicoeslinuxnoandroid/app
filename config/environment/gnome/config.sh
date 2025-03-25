@@ -59,7 +59,7 @@ clear
 	sudo apt-get install policykit-1 --no-install-recommends -y > /dev/null 2>&1
 
 	echo 7
-	sudo apt-get install gnome-core --no-install-recommends -y > /dev/null 2>&1
+	sudo apt-get install gnome-package-updater --no-install-recommends -y > /dev/null 2>&1
 
 	echo 10
 	sudo apt-get install gnome-session --no-install-recommends -y > /dev/null 2>&1
@@ -92,6 +92,11 @@ clear
 	echo 54
 	sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
 
+	echo 64
+	sudo apt-mark hold gnome-shell gnome-tweaks gnome-control-center gnome-shell-extensions gnome-shell-extension-dashtodock > /dev/null 2>&1
+	sudo apt-get autoremove --purge gnome-bluetooth-sendto gir1.2-gnomebluetooth-3.0 gnome-bluetooth-3-common libbluetooth3 libgnome-bluetooth-3.0-13 libgnome-bluetooth-ui-3.0-13 libspa-0.2-bluetooth -y > /dev/null 2>&1
+	sudo apt-get autoremove --purge glib-networking-common glib-networking-services glib-networking -y > /dev/null 2>&1
+	
 	echo 72
 	# Pasta resposável pela execução do vnc
 	mkdir -p ~/.vnc

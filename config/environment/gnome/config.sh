@@ -53,10 +53,10 @@ clear
 	echo "Oi"
 	
 	echo 5
-	sudo apt-get install gdm3 -y > /dev/null 2>&1
+	sudo apt-get install gdm3 --no-install-recommends  -y > /dev/null 2>&1
 
 	echo 6
-	sudo apt-get install policykit-1 -y > /dev/null 2>&1
+	sudo apt-get install policykit-1 --no-install-recommends -y > /dev/null 2>&1
 
 	echo 7
 	sudo apt-get install gnome-core --no-install-recommends -y > /dev/null 2>&1

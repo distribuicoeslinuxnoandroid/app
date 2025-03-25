@@ -134,6 +134,9 @@ fi
   sudo apt-get install unrar -y > /dev/null 2>&1
   #sudo apt-get install gdebi --no-install-recommends -y > /dev/null 2>&1
 
+  echo 35
+  sudo apt-get install zip -y > /dev/null 2>&1
+
   echo 36
   sudo apt-get install font-manager --no-install-recommends -y > /dev/null 2>&1
 
@@ -142,6 +145,7 @@ fi
 
   echo 39
   sudo apt-get install synaptic --no-install-recommends -y > /dev/null 2>&1
+  sudo sed -i 's/^Exec=synaptic-pkexec/Exec=synaptic/' /usr/share/applications/synaptic.desktop
 
   echo 40
   sudo apt-get install gvfs-backends --no-install-recommends -y > /dev/null 2>&1
@@ -174,8 +178,9 @@ fi
   fi
 
   echo 48
-  echo 'file:/// root
-  file://sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+  echo 'file:/// raiz
+file:///sdcard sdcard' | sudo tee $HOME/.config/gtk-3.0/bookmarks
+
 
   echo 50
   sudo apt-get install at-spi2-core -y
@@ -197,27 +202,29 @@ Pin: origin packages.mozilla.org
 Pin-Priority: 1000
 ' | sudo tee /etc/apt/preferences.d/mozilla
 
-  echo 70
+  echo 60
   # APT do VSCode
   wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
   sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg > /dev/null 2>&1
   sudo sh -c 'echo "deb [arch=arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
   rm -f packages.microsoft.gpg
 
-  echo 71
+  echo 61
   sudo apt-get update > /dev/null 2>&1
 
-  echo 72
+  echo 65
   # APT do brave browser
   sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
   
-  echo 74
+  echo 68
   sudo apt-get install firefox -y > /dev/null 2>&1
+
+  echo 72
   apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
   sudo apt-get install firefox-l10n-$apt_system_icu_locale_code -y > /dev/null 2>&1
 
-  echo 76
+  echo 74
   sudo apt-get install code -y > /dev/null 2>&1
   sed -i 's|Exec=/usr/share/code/code|Exec=/usr/share/code/code --no-sandbox|' /usr/share/applications/code*.desktop
 
@@ -239,7 +246,9 @@ Pin-Priority: 1000
   rm -rf zorin-*-themes/
 
   echo 90
-  sudo apt-get clean > /dev/null 2>&1
+  sudo apt-get install bleachbit -y > /dev/null 2>&1
+
+  sudo apt-get clean -y > /dev/null 2>&1
   sudo dpkg --configure -a > /dev/null 2>&1
   sudo apt --fix-broken install -y > /dev/null 2>&1
   clear

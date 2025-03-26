@@ -48,7 +48,6 @@ source /etc/profile
 # Aqui inicia a configuração do tema
     echo 1
     vncserver -name remote-desktop -geometry 1920x1080 :1
-	clear
 	
 	echo 2 
 	sleep 15

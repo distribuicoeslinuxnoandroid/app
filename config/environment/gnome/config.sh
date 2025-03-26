@@ -53,48 +53,61 @@ clear
 	echo "Oi"
 	
 	echo 5
-	sudo apt-get install gdm3 --no-install-recommends  -y > /dev/null 2>&1
+	sudo apt-get install gdm3 --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 6
 	sudo apt-get install policykit-1 --no-install-recommends -y > /dev/null 2>&1
 
 	echo 10
 	sudo apt-get install gnome-session --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 10
 	sudo apt-get install gnome-shell --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 16 
 	sudo apt-get install gnome-terminal --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 20
 	sudo apt-get install dconf-cli --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 28
 	sudo apt-get install dconf-cli --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 32
 	sudo apt-get install gnome-tweaks --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 40
 	sudo apt-get install gnome-control-center --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 48
 	sudo apt-get install gnome-shell-extensions --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 50
 	#sudo apt-get install gnome-shell-extension-ubuntu-dock --no-install-recommends -y > /dev/null 2>&1
 	sudo apt-get install gnome-shell-extension-dashtodock --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 52
 	sudo apt-get install gnome-package-updater --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 53
 	sudo apt-get install gnome-calculator --no-install-recommends -y > /dev/null 2>&1
+	clear
 
 	echo 54
 	sudo apt-get install lsb-release --no-install-recommends -y > /dev/null 2>&1
-
+	clear
+	
 	echo 72
 	# Pasta resposável pela execução do vnc
 	mkdir -p ~/.vnc

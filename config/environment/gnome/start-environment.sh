@@ -72,7 +72,7 @@ source /etc/profile
 	#GTK_THEME=ZorinBlue-Dark synaptic
 
 	echo 60
-	gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop']" "['firefox.desktop']"
+	gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop']"
 
 	echo 70
 	# Irá remover os erros de inicialização do Firefox

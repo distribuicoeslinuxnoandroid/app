@@ -54,7 +54,7 @@ source /etc/profile
 	sleep 15
 
     echo 20
-    #gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
 	gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 

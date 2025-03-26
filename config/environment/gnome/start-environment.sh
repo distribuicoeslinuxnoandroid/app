@@ -48,9 +48,10 @@ source /etc/profile
 # Aqui inicia a configuração do tema
     echo 1
     vncserver -name remote-desktop -geometry 1920x1080 :1
+	clear
 	
 	echo 2 
-	sleep 15
+	sleep 2
 
     echo 20
     gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/john-towner-JgOeRuGD_Y4.jpg'
@@ -68,7 +69,7 @@ source /etc/profile
 	gsettings set org.gnome.desktop.interface gtk-theme "ZorinBlue-Dark"
 
 	echo 55
-	GTK_THEME=ZorinBlue-Dark synaptic
+	#GTK_THEME=ZorinBlue-Dark synaptic
 
 	echo 60
 	gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop']" "['firefox.desktop']"

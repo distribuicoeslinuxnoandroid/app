@@ -1,6 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# Variável com o link do script no GitHub
+apt install wget -y > /dev/null 2>&1 &
 
+# Variável com o link do script no GitHub
 # Teste
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 
@@ -13,7 +14,7 @@ update_script() {
 
     # Baixa a versão mais recente do script do GitHub
     wget -q "${extralink}/instalar" -O "${local_script}.new"
-
+    
     # Verifica se o download foi bem-sucedido
     if [ $? -eq 0 ]; then
         # Compara a versão local com a versão do GitHub
@@ -29,7 +30,7 @@ update_script() {
             rm "${local_script}.new"  # Remove o arquivo temporário
         fi
     else
-        echo "Falha ao baixar a atualização do script."
+        echo "Falha ao baixar a atualização do script. Tentar mais "
     fi
 }
 

@@ -36,11 +36,13 @@ update_script() {
 
 # Verifica se o arquivo "instalar" existe em $PREFIX/bin/
 if [ ! -f "$local_script" ]; then
-    echo "O script 'instalar' não foi encontrado em $PREFIX/bin/. Movendo de $HOME..."
+    echo "O arquivo 'instalar' foi encontrato em $HOME e não foi encontrado em $PREFIX/bin/. Movendo de $HOME para $PREFIX/bin/..."
+    echo " "
     if [ -f "$HOME/instalar" ]; then
         mv "$HOME/instalar" "$local_script"
         chmod +x "$local_script"
         rm -rf $HOME/instalar
+        echo "Arquivo 'instalar' movido para $PREFIX/bin/ e para usar, digite o comando 'instalar' para ver o tutorial de uso."
     else
         echo "Arquivo 'instalar' não encontrado em $HOME. Nenhuma ação tomada."
     fi

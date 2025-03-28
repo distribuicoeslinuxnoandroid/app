@@ -18,7 +18,7 @@ O repositório Ubuntu no Android permite instalar o Ubuntu ARM64 em dispositivos
 
 >[!WARNING]
 > Esse instalador é testado várias vezes, e usa ferramentas oficiais para funcionar e garantir a segurança dos dados, mas caso você instale algum arquivo desconhecido e que contenha malware, não é garantido que não afete a memória interna do aparelho visto que mesmo que o malware execulte somente dentro da maquina virtual, o sistema pode ler e modificar os arquivos da memória interna. Só nã há a possibilidade de modificar arquivos protegidos de sistema como exemplo os da pasta `Android/data`.
-<hr>
+---
 <br>
 <br>
 
@@ -134,3 +134,31 @@ instalar <NOME_DA_DISTRIBUIÇÃO>
 ```
 >[!NOTE]
 > Caso digite o comando `instalar` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona. O mesmo também irá procurar uma atualização para se manter na última versão.
+
+---
+>[!NOTE]
+> Caso prefira que os passos sejam feitos de uma unica vez, copie o código abaixo
+```bash
+curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar && chmod +x instalar && bash instalar && clear && instalar
+```
+---
+
+<br>
+---
+> [!WARNING]
+> Os sistemas baseados em Debian tem o mesmo processo de instalação.
+---
+### Instalando o Debian e sistemas baseados no Debian pelo comando direto
+Para instalar o Debian pelo comando direto ou qualquer outro sistema baseado no Debian, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
+> [!WARNING]
+> Caso ache difícil, use o comando `instalar distro` que irá ser mais intuitivo.
+
+1. Baixar o Debian
+```bash
+instalar debian
+```
+
+2. Baixar o Ubuntu
+```bash
+instalar ubuntu
+```

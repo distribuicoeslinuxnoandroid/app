@@ -124,29 +124,13 @@ chmod +x instalar
 ```
 >[!NOTE]
 > Irá aparecer uma mensagem de erro por ser a primeira vez que está sendo usado e o arquivo não está na pasta correta. O próprio irá de forma automática ser salvo na pasta correta e irá mostrar um tutorial de como ser usado.<br>
-> <img width="256px" src="/Doc/assets/screenshots/Termux_instalar_1 via.jpg" alt="Iniciando o comando './instalar' pela primeira vez.">
 
 4. Digite ou copie e cole algum dos códigos abaixo no Termux para iniciar a instalação:
 
 > Instalação direta
 > No lugar de `<nome da distribuição>` digite o nome da versão
 ```bash
-instalar <nome da distribuição>
+instalar <NOME_DA_DISTRIBUIÇÃO>
 ```
 >[!NOTE]
-> Caso digite o comando `instalar` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona.
-> <img width="256px" src="/Doc/assets/screenshots/Termux_instalar_1 via.jpg" alt="Iniciando o comando './instalar' pela primeira vez.">
-
-
-
-
-
-
-
-```bash
-apt update -y && apt install wget -y && wget https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar && chmod +x instalar && mv instalar $PREFIX/bin/instalar && instalar distro
-```
-
-```bash
-apt update -y && apt install wget -y && wget https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/start.sh -O distrolinux-install.sh && chmod +x distrolinux-install.sh && bash distrolinux-install.sh
-```
+> Caso digite o comando `instalar` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona. O mesmo também irá procurar uma atualização para se manter na última versão.

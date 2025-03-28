@@ -14,7 +14,7 @@ update_script() {
 
     # Baixa a versão mais recente do script do GitHub
     wget -q "${extralink}/instalar" -O "${local_script}.new"
-    
+
     # Verifica se o download foi bem-sucedido
     if [ $? -eq 0 ]; then
         # Compara a versão local com a versão do GitHub
@@ -57,13 +57,15 @@ fi
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
-    echo -e "Digite o comando 'instalar' seguido do nome da distribuição.\n
-    Exemplo: instalar <NOME_DA_DISTRIBUIÇÃO> \n\n
-             
-    Nome da distribuição | Descrição\n
-    distro:                inicia o instalador de distribuições interativo.\n
-    debian:                instala o sistema Debian.\n
-    ubuntu:                instala o sistema Ubuntu."
+    echo -e "Digite o comando 'instalar' seguido do nome da distribuição."
+    echo -e "Exemplo: instalar <NOME_DA_DISTRIBUIÇÃO>\n"
+
+    # Exibe a tabela formatada
+    printf "%-25s | %s\n" "Nome da distribuição" "Descrição"
+    printf "%-25s | %s\n" "------------------------" "--------------------------------------------"
+    printf "%-25s | %s\n" "distro:" "Inicia o instalador de distribuições interativo."
+    printf "%-25s | %s\n" "debian:" "Instala o sistema Debian."
+    printf "%-25s | %s\n" "ubuntu:" "Instala o sistema Ubuntu."
 
     #=============================================================================================
     else

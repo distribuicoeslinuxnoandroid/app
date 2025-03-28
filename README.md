@@ -150,7 +150,7 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 >[!WARNING]
 > Os sistemas baseados em Debian tem o mesmo processo de instalação.
 ---
-### Instalando o Debian e sistemas baseados no Debian pelo comando direto
+### Instalando direta do Debian e sistemas baseados no Debian pelo comando direto
 Para instalar o Debian pelo comando direto ou qualquer outro sistema baseado no Debian, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
 > [!WARNING]
 > Caso ache difícil, use o comando `instalar distro` que irá ser mais intuitivo.

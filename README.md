@@ -168,8 +168,7 @@ instalar ubuntu
 Após escolher o sistema operacional de sua preferencia e ter aguardado ser baixado os pacotes necessários para começar a instalação, será necessário escolher a versão do sistema operacional escolhido.
 
 
-|.     |     |
-|------|-----|
-| <figure style="display:inline-block"><img width="256px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar"><figcaption>Versões disponíveis do Debian para baixar</figcaption></figure> | <figure style="display:inline-block"><img width="256px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar"><figcaption>Versões disponíveis do Ubuntu para baixar</figcaption></figure>|
+<figure style="display:inline-block"><img width="256px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar"><figcaption>Versões disponíveis do Debian para baixar</figcaption></figure><figure style="display:inline-block"><img width="256px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar"><figcaption>Versões disponíveis do Ubuntu para baixar</figcaption></figure>
+
 
 Para escolher qualquer uma das versões de cada sistema operacional, clique no nome da versão e logo após, clique em `OK` para continuar.

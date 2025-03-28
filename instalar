@@ -57,16 +57,16 @@ fi
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
-    echo -e "Digite o comando 'instalar' seguido do nome da distribuição."
-    echo -e "Exemplo: instalar <NOME_DA_DISTRIBUIÇÃO>\n"
+    echo -e "Digite o comando 'instalar' seguido do nome da distribuição.\n
+    Exemplo: instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
 
-    # Exibe a tabela formatada
-    printf "%-25s | %s\n" "NOME DA DISTRIBUIÇÃO" "DESCRIÇÃO"
-    printf "%-25s | %s\n" "------------------------" "------------------------"
-    printf "%-25s | %s\n" "distro:" "Inicia o instalador de distribuições interativo."
-    printf "%-25s | %s\n" "" "e permite a seleção de várias opções."
-    printf "%-25s | %s\n" "debian:" "Instala o sistema Debian."
-    printf "%-25s | %s\n" "ubuntu:" "Instala o sistema Ubuntu."
+    
+    NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
+    \033[1m\033[36mdistro:\033[0m inicia o instalador de distribuições interativo.\n
+    \033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
+    \033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+
+    
 
     #=============================================================================================
     else

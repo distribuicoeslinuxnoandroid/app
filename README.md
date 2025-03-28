@@ -169,7 +169,7 @@ Após escolher o sistema operacional de sua preferencia e ter aguardado ser baix
 
 |  |  |
 |--|--|
-|<img width="256px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img width="256px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
+|<img width="512px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img width="512px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
 |Versões disponíveis do Debian para baixar|Versões disponíveis do Ubuntu para baixar|
 
 

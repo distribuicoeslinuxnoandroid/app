@@ -3,7 +3,6 @@
 
 # Teste
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-script_url="${extralink}/instalar"
 
 # Nome do arquivo local
 local_script="$PREFIX/bin/instalar"
@@ -13,7 +12,7 @@ update_script() {
     echo "Verificando atualizações do script..."
 
     # Baixa a versão mais recente do script do GitHub
-    wget -q "$script_url" -O "${local_script}.new"
+    wget -q "${extralink}/instalar" -O "${local_script}.new"
 
     # Verifica se o download foi bem-sucedido
     if [ $? -eq 0 ]; then

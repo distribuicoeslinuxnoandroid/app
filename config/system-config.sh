@@ -146,6 +146,10 @@ fi
   echo 39
   sudo apt-get install synaptic --no-install-recommends -y > /dev/null 2>&1
   sudo sed -i 's/^Exec=synaptic-pkexec/Exec=synaptic/' /usr/share/applications/synaptic.desktop
+  echo '[Settings]
+gtk-theme-name=ZorinBlue-Dark' | sudo tee $HOME/.config/gtk-3.0/settings.ini
+  echo 'gtk-theme-name="ZorinBlue-Dark"' | sudo tee $HOME/.gtkrc-2.0
+
 
   echo 40
   sudo apt-get install gvfs-backends --no-install-recommends -y > /dev/null 2>&1

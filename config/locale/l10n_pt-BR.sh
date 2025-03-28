@@ -21,6 +21,9 @@ fi
 distro_del="desinstalar" # o programa que irá desinstalar o sistema terá um nome a depender do idioma
 #=====================================================================================================
 
+label_distro_stable="Estável"
+label_distro_previous_version="Versão anterior"
+
 label_system_info="Informações do seu sistema"
 label_android_version="Versão do Android"
 label_device_manufacturer="Marca"

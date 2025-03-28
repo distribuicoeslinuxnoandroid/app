@@ -7,11 +7,6 @@ apt install proot -y >/dev/null 2>&1
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
-# Variáveis do sistema
-folder=debian-stable
-codinome=debian-stable
-bin=start-debian.sh
-
 ## Variáveis fixas, que sempre irão se repetir em várias partes do instalador
 if [ -f "fixed_variables.sh" ]; then
 	source fixed_variables.sh
@@ -67,11 +62,89 @@ fi
 ) | whiptail --gauge "${label_progress}" 0 0 0
 clear
 
+# Escolher a versão do Debian a ser baixada
+export PORT=1
+OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
+		 2 "Bullseye ($label_distro_previous_version)"
+		 3 "Testes")
+
+CHOICE=$(dialog --clear \
+				--title "$TITLE" \
+				--menu "$MENU_operating_system_select" \
+				$HEIGHT $WIDTH $CHOICE_HEIGHT \
+				"${OPTIONS[@]}" \
+				2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+	1)
+		codinome="bookworm"
+		folder=debian-bookworm
+	;;
+	2)
+		codinome="bullseye"
+		folder=debian-bullseye
+	;;
+	3)
+		OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
+				 2 "Bullseye ($label_distro_previous_version)")
+
+		CHOICE=$(dialog --clear \
+					--title "$TITLE" \
+					--menu "$MENU_operating_system_select" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+		clear
+		case $CHOICE in
+			1)
+				codinome="bookworm"
+				folder=debian-bookworm
+			;;
+			2)
+				codinome="bullseye"
+				folder=debian-bullseye
+			;;
+		esac
+		OPTIONS=(1 "minbase"
+				 2 "buildd"
+				 3 "fakechroot")
+
+		CHOICE=$(dialog --clear \
+					--title "Variante" \
+					--menu "$MENU_operating_system_select" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 >/dev/tty)
+
+		clear
+		case $CHOICE in
+			1)
+				debootstrap_variant="minbase"
+			;;
+			2)
+				debootstrap_variant="buildd"
+			;;
+			3)
+				debootstrap_variant="fakechroot"
+			;;
+		esac
+	;;
+esac
+
+
+
+bin=start-debian.sh
+
+
+# Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
 	first=1
 	echo "${label_skip_download}"
 fi
 
+# Baixa
 if [ "$first" != 1 ];then
 	case `dpkg --print-architecture` in
 	aarch64)
@@ -81,7 +154,8 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
+	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian 
+	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	
 	#GUI

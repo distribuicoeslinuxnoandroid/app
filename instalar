@@ -58,13 +58,13 @@ fi
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
     echo -e "Digite o comando 'instalar' seguido do nome da distribuição.\n
-    Exemplo: instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
+Exemplo: instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
 
-    
-    NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
-    \033[1m\033[36mdistro:\033[0m inicia o instalador de distribuições interativo.\n
-    \033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
-    \033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+
+NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
+\033[1m\033[36mdistro:\033[0m inicia o instalador de distribuições interativo.\n
+\033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
+\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
 
     
 

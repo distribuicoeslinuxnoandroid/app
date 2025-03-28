@@ -154,7 +154,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian 
+	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	

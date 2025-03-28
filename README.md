@@ -145,7 +145,7 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 
 <br>
 ---
-> [!WARNING]
+>[!WARNING]
 > Os sistemas baseados em Debian tem o mesmo processo de instalação.
 ---
 ### Instalando o Debian e sistemas baseados no Debian pelo comando direto

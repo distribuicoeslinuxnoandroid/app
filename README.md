@@ -144,6 +144,7 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 ---
 
 <br>
+
 ---
 
 >[!WARNING]

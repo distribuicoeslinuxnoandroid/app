@@ -102,16 +102,40 @@ Para que tudo funcione corretamente, é necessário a instalação do **Termux**
 > O Termux da Google Play Store está desatualizado e não há mais suporte oficial.
 
 
+# Fazendo a instalação
 
+<br>
 
+## Baixando o insalador do sistema
 
+Após o Termux ter sido instalado no aparelho e iniciado, agora será a vez de baixar o arquivo que irá fazer o sistema funcionar no celular. Siga os passos abaixo:
 
+1. Copie e cole o código abaixo no Termux e após, tecle enter (↵) para baixar o arquivo:
+```bash
+curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar
+```
+2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:
+```bash
+chmod +x instalar
+```
+3. Copie e cole o código abaixo no Termux para que o arquivo seja iniciado:
+```bash
+./instalar
+```
+>[!NOTE]
+> Irá aparecer uma mensagem de erro por ser a primeira vez que está sendo usado e o arquivo não está na pasta correta. O próprio irá de forma automática ser salvo na pasta correta e irá mostrar um tutorial de como ser usado.<br>
+> <img width="256px" src="/Doc/assets/screenshots/Termux_instalar_1 via.jpg" alt="Iniciando o comando './instalar' pela primeira vez.">
 
+4. Digite ou copie e cole algum dos códigos abaixo no Termux para iniciar a instalação:
 
-
-
-
-
+> Instalação direta
+> No lugar de `<nome da distribuição>` digite o nome da versão
+```bash
+instalar <nome da distribuição>
+```
+>[!NOTE]
+> Caso digite o comando `instalar` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona.
+> <img width="256px" src="/Doc/assets/screenshots/Termux_instalar_1 via.jpg" alt="Iniciando o comando './instalar' pela primeira vez.">
 
 
 

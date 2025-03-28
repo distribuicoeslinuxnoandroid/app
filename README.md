@@ -112,7 +112,7 @@ Após o Termux ter sido instalado no aparelho e iniciado, agora será a vez de b
 
 1. Copie e cole o código abaixo no Termux e após, tecle enter (↵) para baixar o arquivo:
 ```bash
-curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar
+curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar > /dev/null 2>&1
 ```
 2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:
 ```bash

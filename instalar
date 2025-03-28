@@ -61,9 +61,10 @@ if [ -z "$1" ]; then
     echo -e "Exemplo: instalar <NOME_DA_DISTRIBUIÇÃO>\n"
 
     # Exibe a tabela formatada
-    printf "%-25s | %s\n" "Nome da distribuição" "Descrição"
-    printf "%-25s | %s\n" "------------------------" "--------------------------------------------"
+    printf "%-25s | %s\n" "NOME DA DISTRIBUIÇÃO" "DESCRIÇÃO"
+    printf "%-25s | %s\n" "------------------------" "------------------------"
     printf "%-25s | %s\n" "distro:" "Inicia o instalador de distribuições interativo."
+    printf "%-25s | %s\n" "" "e permite a seleção de várias opções."
     printf "%-25s | %s\n" "debian:" "Instala o sistema Debian."
     printf "%-25s | %s\n" "ubuntu:" "Instala o sistema Ubuntu."
 

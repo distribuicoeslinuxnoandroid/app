@@ -145,6 +145,7 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 
 <br>
 ---
+
 >[!WARNING]
 > Os sistemas baseados em Debian tem o mesmo processo de instalação.
 ---

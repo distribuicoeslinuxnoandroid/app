@@ -127,8 +127,8 @@ chmod +x instalar
 
 4. Digite ou copie e cole algum dos códigos abaixo no Termux para iniciar a instalação:
 
-> Instalação direta
-> No lugar de `<nome da distribuição>` digite o nome da versão
+> Instalação direta <br>
+> No lugar de `<NOME_DA_DISTRIBUIÇÃO>` digite o nome do sistema que será instalado.
 ```bash
 instalar <NOME_DA_DISTRIBUIÇÃO>
 ```

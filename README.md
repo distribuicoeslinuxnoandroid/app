@@ -150,8 +150,8 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 >[!WARNING]
 > Os sistemas baseados em Debian tem o mesmo processo de instalação.
 ---
-### Instalando direta do Debian e sistemas baseados no Debian pelo comando direto
-Para instalar o Debian pelo comando direto ou qualquer outro sistema baseado no Debian, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
+### Instalando direta 
+Para fazer a instalação direta de qualquer um dos sistemas operacionais suportados, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
 > [!WARNING]
 > Caso ache difícil, use o comando `instalar distro` que irá ser mais intuitivo.
 
@@ -164,3 +164,14 @@ instalar debian
 ```bash
 instalar ubuntu
 ```
+### Escolhendo a versão do sistema
+Após escolher o sistema operacional de sua preferencia e ter aguardado ser baixado os pacotes necessários para começar a instalação, será necessário escolher a versão do sistema operacional escolhido.
+<figure>
+<img src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">
+<figcaption>Versões disponíveis do Debian para baixar</figcaption>
+</figure>
+<figure>
+<img src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">
+<figcaption>Versões disponíveis do Ubuntu para baixar</figcaption>
+</figure>
+Para escolher qualquer uma das versões de cada sistema operacional, clique no nome da versão e logo após, clique em `OK` para continuar.

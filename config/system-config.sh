@@ -218,6 +218,7 @@ Pin-Priority: 1000
 
   echo 61
   sudo apt-get update > /dev/null 2>&1
+  clear
 
   echo 65
   # APT do brave browser

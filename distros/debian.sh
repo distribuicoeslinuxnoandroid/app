@@ -63,6 +63,7 @@ fi
 clear
 
 # Escolher a versão do Debian a ser baixada
+debootstrap_variant="minbase"
 export PORT=1
 OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
 		 2 "Bullseye ($label_distro_previous_version)"
@@ -121,13 +122,13 @@ case $CHOICE in
 		clear
 		case $CHOICE in
 			1)
-				debootstrap_variant="--variant=minbase"
+				debootstrap_variant="minbase"
 			;;
 			2)
-				debootstrap_variant="--variant=buildd"
+				debootstrap_variant="buildd"
 			;;
 			3)
-				debootstrap_variant="--variant=fakechroot"
+				debootstrap_variant="fakechroot"
 			;;
 		esac
 	;;
@@ -154,7 +155,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap $debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
+	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	

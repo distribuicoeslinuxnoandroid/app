@@ -3,6 +3,7 @@ apt update > /dev/null 2>&1 &
 apt install wget -y > /dev/null 2>&1 &
 apt install dialog -y > /dev/null 2>&1 &
 apt install whiptail -y > /dev/null 2>&1 &
+apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &  
 
 # Variável com o link do script no GitHub
 # Teste
@@ -68,8 +69,6 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
 \033[1m\033[36mdistro:\033[0m inicia o instalador de distribuições interativo.\n
 \033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
 \033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
-
-    
 
     #=============================================================================================
     else
@@ -206,9 +205,9 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
     else
         echo "Distribuição não reconhecida: $1"
     fi
-
     # Comandos comuns após instalação de Debian ou Ubuntu:
     chmod +x $HOME/start-distro.sh
     bash $HOME/start-distro.sh
     rm -rf $HOME/start-distro.sh
 fi
+sleep 5

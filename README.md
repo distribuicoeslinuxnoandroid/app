@@ -169,6 +169,7 @@ Após escolher o sistema operacional de sua preferencia e ter aguardado ser baix
 |--|--|
 |<img src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
 |Versões disponíveis do Debian para baixar|Versões disponíveis do Ubuntu para baixar|
+
 Para escolher qualquer uma das versões de cada sistema operacional, clique no nome da versão e logo após, clique em `OK` para continuar.
 
 ### Escolhendo o idioma padrão

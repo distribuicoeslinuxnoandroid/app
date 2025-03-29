@@ -397,7 +397,7 @@ apt install dialog whiptail -y > /dev/null 2>&1
 bash ~/locale*.sh
 
 apt update -y > /dev/null 2>&1
-
+clear
 rm -rf ~/locale*.sh
 rm -rf ~/.bash_profile
 rm -rf ~/.hushlogin

@@ -179,10 +179,12 @@ Para escolher qualquer uma das versões de cada sistema operacional, clique no n
 Após ter escolhido a versão do sistema, será necessário escolher o idioma que será usado nele. O instalador tem a capacidade de autodefinir para o idioma do sistema, mas por enquanto, como ainda existe poucos pacotes de tradução, a opção segue desabilitada.
 
 <img width="256px" src="/Doc/assets/screenshots/Termux_sistema_idioma.jpg" alt="escolha do idioma">
+
 >[!WARNING]
 > Por enquanto o sistema pode ser instalado no idioma padrão, o Inglês, mas o instalador ainda não recebeu o pacote de tradução do idioma inglês.
 
 ---
 ## Escolhendo a interface, o ambiente da área de trabalho
 Essa é uma parte importante para o funcionamento do sistema da forma que conhecemos. Será necessário escolher alguma dessas opções para que possa usar o sistema operacional com uma interface gráfica como acontece nos computadores comuns.
+
 <img width="256px" src="/Doc/assets/screenshots/Termux_sistema_interface.jpg" alt="Ambiente da área de trabalho">

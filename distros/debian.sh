@@ -87,6 +87,7 @@ case $CHOICE in
 	;;
 esac
 
+export PORT=1
 OPTIONS=(1 "minbase"
 		2 "buildd"
 		3 "fakechroot")
@@ -107,7 +108,7 @@ case $CHOICE in
 	debootstrap_variant="buildd"
 ;;
 3)
-	debootstrap_variant="--variant=fakechroot"
+	debootstrap_variant="fakechroot"
 ;;
 esac
 

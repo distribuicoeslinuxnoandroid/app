@@ -87,6 +87,30 @@ case $CHOICE in
 	;;
 esac
 
+OPTIONS=(1 "minbase"
+		2 "buildd"
+		3 "fakechroot")
+
+CHOICE=$(dialog --clear \
+		--title "Variante" \
+		--menu "$MENU_operating_system_select" \
+		$HEIGHT $WIDTH $CHOICE_HEIGHT \
+		"${OPTIONS[@]}" \
+		2>&1 >/dev/tty)
+
+clear
+case $CHOICE in
+1)
+	debootstrap_variant="minbase"
+;;
+2)
+	debootstrap_variant="buildd"
+;;
+3)
+	debootstrap_variant="--variant=fakechroot"
+;;
+esac
+
 
 
 bin=start-debian.sh

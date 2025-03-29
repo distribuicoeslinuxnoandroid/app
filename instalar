@@ -211,4 +211,3 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
     bash $HOME/start-distro.sh
     rm -rf $HOME/start-distro.sh
 fi
-sleep 5

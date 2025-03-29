@@ -86,6 +86,9 @@ fi
 (
 
 	echo 0
+  sudo apt-get apt-utils -y > /dev/null 2>&1
+
+  echo 1
   sudo apt-get install exo-utils --no-install-recommends -y > /dev/null 2>&1
 
   echo 2 

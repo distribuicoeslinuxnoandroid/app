@@ -121,13 +121,13 @@ case $CHOICE in
 		clear
 		case $CHOICE in
 			1)
-				debootstrap_variant="minbase"
+				debootstrap_variant="--variant=minbase"
 			;;
 			2)
-				debootstrap_variant="buildd"
+				debootstrap_variant="--variant=buildd"
 			;;
 			3)
-				debootstrap_variant="fakechroot"
+				debootstrap_variant="--variant=fakechroot"
 			;;
 		esac
 	;;
@@ -154,7 +154,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
+	debootstrap $debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	

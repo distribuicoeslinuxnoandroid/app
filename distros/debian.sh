@@ -66,8 +66,7 @@ clear
 debootstrap_variant="minbase"
 export PORT=1
 OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
-		 2 "Bullseye ($label_distro_previous_version)"
-		 3 "Testes")
+		 2 "Bullseye ($label_distro_previous_version)")
 
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
@@ -85,52 +84,6 @@ case $CHOICE in
 	2)
 		codinome="bullseye"
 		folder=debian-bullseye
-	;;
-	3)
-		OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
-				 2 "Bullseye ($label_distro_previous_version)")
-
-		CHOICE=$(dialog --clear \
-					--title "$TITLE" \
-					--menu "$MENU_operating_system_select" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
-
-		clear
-		case $CHOICE in
-			1)
-				codinome="bookworm"
-				folder=debian-bookworm
-			;;
-			2)
-				codinome="bullseye"
-				folder=debian-bullseye
-			;;
-		esac
-		OPTIONS=(1 "minbase"
-				 2 "buildd"
-				 3 "fakechroot")
-
-		CHOICE=$(dialog --clear \
-					--title "Variante" \
-					--menu "$MENU_operating_system_select" \
-					$HEIGHT $WIDTH $CHOICE_HEIGHT \
-					"${OPTIONS[@]}" \
-					2>&1 >/dev/tty)
-
-		clear
-		case $CHOICE in
-			1)
-				debootstrap_variant="minbase"
-			;;
-			2)
-				debootstrap_variant="buildd"
-			;;
-			3)
-				debootstrap_variant="fakechroot"
-			;;
-		esac
 	;;
 esac
 

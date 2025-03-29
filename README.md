@@ -162,7 +162,9 @@ instalar debian
 ```bash
 instalar ubuntu
 ```
-### Escolhendo a versão do sistema
+
+---
+## Escolhendo a versão do sistema
 Após escolher o sistema operacional de sua preferencia e ter aguardado ser baixado os pacotes necessários para começar a instalação, será necessário escolher a versão do sistema operacional escolhido.
 
 |  |  |
@@ -172,13 +174,15 @@ Após escolher o sistema operacional de sua preferencia e ter aguardado ser baix
 
 Para escolher qualquer uma das versões de cada sistema operacional, clique no nome da versão e logo após, clique em `OK` para continuar.
 
-### Escolhendo o idioma padrão
+---
+## Escolhendo o idioma padrão
 Após ter escolhido a versão do sistema, será necessário escolher o idioma que será usado nele. O instalador tem a capacidade de autodefinir para o idioma do sistema, mas por enquanto, como ainda existe poucos pacotes de tradução, a opção segue desabilitada.
 
 <img width="256px" src="/Doc/assets/screenshots/Termux_sistema_idioma.jpg" alt="escolha do idioma">
 >[!WARNING]
 > Por enquanto o sistema pode ser instalado no idioma padrão, o Inglês, mas o instalador ainda não recebeu o pacote de tradução do idioma inglês.
 
-### Escolhendo a interface, o ambiente da área de trabalho
+---
+## Escolhendo a interface, o ambiente da área de trabalho
 Essa é uma parte importante para o funcionamento do sistema da forma que conhecemos. Será necessário escolher alguma dessas opções para que possa usar o sistema operacional com uma interface gráfica como acontece nos computadores comuns.
 <img width="256px" src="/Doc/assets/screenshots/Termux_sistema_interface.jpg" alt="Ambiente da área de trabalho">

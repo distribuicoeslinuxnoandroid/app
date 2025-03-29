@@ -167,12 +167,13 @@ Após escolher o sistema operacional de sua preferencia e ter aguardado ser baix
 
 |  |  |
 |--|--|
-|<img width="512px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img width="256px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
+|<img src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
 |Versões disponíveis do Debian para baixar|Versões disponíveis do Ubuntu para baixar|
 Para escolher qualquer uma das versões de cada sistema operacional, clique no nome da versão e logo após, clique em `OK` para continuar.
 
 ### Escolhendo o idioma padrão
 Após ter escolhido a versão do sistema, será necessário escolher o idioma que será usado nele. O instalador tem a capacidade de autodefinir para o idioma do sistema, mas por enquanto, como ainda existe poucos pacotes de tradução, a opção segue desabilitada.
+
 <img width="256px" src="/Doc/assets/screenshots/Termux_sistema_idioma.jpg" alt="escolha do idioma">
 >[!WARNING]
 > Por enquanto o sistema pode ser instalado no idioma padrão, o Inglês, mas o instalador ainda não recebeu o pacote de tradução do idioma inglês.

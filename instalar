@@ -1,5 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
+apt update > /dev/null 2>&1 &
 apt install wget -y > /dev/null 2>&1 &
+apt install dialog -y > /dev/null 2>&1 &
+apt install whiptail -y > /dev/null 2>&1 &
 
 # Variável com o link do script no GitHub
 # Teste

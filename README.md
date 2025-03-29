@@ -152,8 +152,6 @@ curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/i
 ---
 ### Instalando direta 
 Para fazer a instalação direta de qualquer um dos sistemas operacionais suportados, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
-> [!WARNING]
-> Caso ache difícil, use o comando `instalar distro` que irá ser mais intuitivo.
 
 1. Baixar o Debian
 ```bash
@@ -169,7 +167,7 @@ Após escolher o sistema operacional de sua preferencia e ter aguardado ser baix
 
 |  |  |
 |--|--|
-|<img width="512px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img width="512px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
+|<img width="512px" src="/Doc/assets/screenshots/Termux_debian_versoes.jpg" alt="Versões disponíveis do Debian para baixar">|<img width="256px" src="/Doc/assets/screenshots/Termux_ubuntu_versoes.jpg" alt="Versões disponíveis do Ubuntu para baixar">|
 |Versões disponíveis do Debian para baixar|Versões disponíveis do Ubuntu para baixar|
 
 

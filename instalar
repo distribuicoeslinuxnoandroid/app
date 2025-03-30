@@ -80,7 +80,9 @@ clear
 if [ -f "$HOME/instalar" ]; then
     # Move o arquivo para $PREFIX/bin/
     mv "$HOME/instalar" "$PREFIX/bin/instalar"
-    echo "Arquivo movido para $PREFIX/bin/"
+    echo -e "Arquivo movido para $PREFIX/bin/ \n"
+    echo "Use o comando '\033[1m\033[36minstalar\033[0m' para iniciar o tutorial de instalação."
+    exit 0
 fi
 
 # Baixa o arquivo remoto para $HOME com o nome instalar.check
@@ -107,7 +109,6 @@ else
     echo "O instalador baixado."
 fi
 clear
-bash "$PREFIX/bin/instalar"
 
 #=============================================================================================
 #=============================================================================================

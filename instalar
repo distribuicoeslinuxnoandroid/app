@@ -1,62 +1,124 @@
 #!/data/data/com.termux/files/usr/bin/bash
+extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+system_icu_locale_code=$(getprop persist.sys.locale)
+
 apt update > /dev/null 2>&1 &
 apt upgrade -y
-apt install wget -y > /dev/null 2>&1 &
-apt install dialog -y > /dev/null 2>&1 &
-apt install whiptail -y > /dev/null 2>&1 &
-apt install proot -y > /dev/null 2>&1 &
-apt install curl -y > /dev/null 2>&1 &
-apt install tar -y > /dev/null 2>&1 &  
+clear
 
+if [ ! -d "$HOME/storage" ];then
+    termux-setup-storage
+fi
+
+# ==============================================================================================
 # Variável com o link do script no GitHub
-# Teste
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-
-# Nome do arquivo local
-local_script="$PREFIX/bin/instalar"
-
-# Função para verificar e atualizar o script
-update_script() {
-    echo "Verificando atualizações do script..."
-
-    # Baixa a versão mais recente do script do GitHub
-    wget -q "${extralink}/instalar" -O "${local_script}.new"
-
-    # Verifica se o download foi bem-sucedido
-    if [ $? -eq 0 ]; then
-        # Compara a versão local com a versão do GitHub
-        diff "$local_script" "${local_script}.new" > /dev/null 2>&1
-        if [ $? -ne 0 ]; then
-            echo "Atualização disponível. Substituindo o script local."
-            # Substitui o script local pelo novo
-            mv "${local_script}.new" "$local_script"
-            chmod +x "$local_script"
-            echo "Script atualizado com sucesso!"
-        else
-            echo "Script já está na versão mais recente."
-            rm "${local_script}.new"  # Remove o arquivo temporário
-        fi
-    else
-        echo "Falha ao baixar a atualização do script. Tentar mais "
-    fi
+# Função para atualizar a barra de progresso
+update_progress() {
+    echo "$1"  # Envia a porcentagem para o dialog
+    sleep 0.1  # Ajuste o tempo conforme necessário
 }
 
-# Verifica se o arquivo "instalar" existe em $PREFIX/bin/
-if [ ! -f "$local_script" ]; then
-    echo "O arquivo 'instalar' foi encontrato em $HOME e não foi encontrado em $PREFIX/bin/. Movendo de $HOME para $PREFIX/bin/..."
-    echo " "
-    if [ -f "$HOME/instalar" ]; then
-        mv "$HOME/instalar" "$local_script"
-        chmod +x "$local_script"
-        rm -rf $HOME/instalar
-        echo "Arquivo 'instalar' movido para $PREFIX/bin/ e para usar, digite o comando 'instalar' para ver o tutorial de uso."
+# Executa todas as etapas em um único bloco para a barra de progresso
+(
+    # Verifica e baixa fixed_variables.sh (0-33%)
+    if [ ! -f "$HOME/fixed_variables.sh" ]; then
+        curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
+        for i in {0..33}; do update_progress $i; done
     else
-        echo "Arquivo 'instalar' não encontrado em $HOME. Nenhuma ação tomada."
+        for i in {0..33}; do update_progress $i; done  # Avança rapidamente se o arquivo já existe
+    fi
+
+    # Verifica e baixa l10n_${locale}.sh (34-65%)
+    if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
+        curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+        for i in {34..65}; do update_progress $i; done
+    else
+        for i in {34..65}; do update_progress $i; done  # Avança rapidamente
+    fi
+
+    # Verifica e baixa $distro_del (66-100%)
+    if [ ! -f "$PREFIX/bin/$distro_del" ]; then
+        curl -s -o "$HOME/$distro_del" "${extralink}/$distro_del"
+        for i in {66..100}; do update_progress $i; done
+        mv "$HOME/$distro_del" "$PREFIX/bin/$distro_del"
+        chmod +x "$PREFIX/bin/$distro_del"
+    else
+        for i in {66..100}; do update_progress $i; done  # Avança rapidamente
+    fi
+) | dialog --gauge " " 5 40 0
+
+# Carrega os arquivos após o download
+source $HOME/fixed_variables.sh
+source $HOME/l10n_$system_icu_locale_code.sh
+clear
+
+#=============================================================================================
+# Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
+# Executa o comando apt install em segundo plano
+apt install wget dialog whiptail proot curl tar -y &> /dev/null &
+PID=$!
+# Barra de progresso personalizada
+(
+    for ((i=0; i<=100; i++)); do
+        echo $i  # Atualiza a barra de progresso
+        sleep 0.1  # Ajuste o tempo para simular o progresso
+    done
+) | dialog --gauge "Instalando pacotes..." 6 40 0
+
+# Aguarda o término do apt install
+wait $PID
+
+# Mensagem final
+clear
+
+#=============================================================================================
+# Sistema de atualização automática do script	
+
+# Verifica se o arquivo está em $HOME
+if [ -f "$HOME/instalar" ]; then
+    # Move o arquivo para $PREFIX/bin/
+    mv "$HOME/instalar" "$PREFIX/bin/instalar"
+    echo "Arquivo movido para $PREFIX/bin/"
+fi
+
+# Baixa o arquivo remoto para $HOME com o nome instalar.check
+wget -q -O "$HOME/instalar.check" "${extralink}/instalar"
+
+# Verifica se o arquivo está em $PREFIX/bin/
+if [ -f "$PREFIX/bin/instalar" ]; then
+    # Compara os arquivos
+    if ! cmp -s "$PREFIX/bin/instalar" "$HOME/instalar.check"; then
+        # Arquivos são diferentes: substitui o arquivo local pelo remoto
+        rm "$PREFIX/bin/instalar"
+        mv "$HOME/instalar.check" "$PREFIX/bin/instalar"
+        chmod +x "$PREFIX/bin/instalar"
+        echo "O instalador foi atualizado para a versão mais recente."
+    else
+        # Arquivos são iguais: mantém o local e remove o temporário
+        echo "O instalador já está atualizado."
+        rm "$HOME/instalar.check"
     fi
 else
-    # Se o arquivo já existe, verifica se ele precisa ser atualizado
-    update_script
+    # Arquivo não existe em $PREFIX/bin/: move o arquivo baixado para lá
+    mv "$HOME/instalar.check" "$PREFIX/bin/instalar"
+    chmod +x "$PREFIX/bin/instalar"
+    echo "O instalador baixado."
 fi
+clear
+
+# Tenta executar o comando "instalar"
+if command -v instalar; then
+    # Se o comando "instalar" estiver disponível, executa-o
+    instalar
+else
+    # Se não estiver disponível, tenta executar via bash
+    if [ -f "$PREFIX/bin/instalar" ]; then
+        bash "$PREFIX/bin/instalar"
+    else
+        echo "O arquivo instalar não foi encontrado em $PREFIX/bin."
+    fi
+fi
+
 
 #=============================================================================================
 #=============================================================================================
@@ -77,73 +139,6 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
     else
     # Executa os comandos comuns para qualquer distribuição
         echo -e "Iniciando a instalação\nAguarde..."
-        if [ ! -d "$HOME/storage" ];then
-            termux-setup-storage
-        fi
-        
-        apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &    
-        extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
-        system_icu_locale_code=$(getprop persist.sys.locale)
-
-        # Baixa e executa o arquivo fixed_variables.sh
-        if [ -f "$HOME/fixed_variables.sh" ]; then
-            source $HOME/fixed_variables.sh
-            else
-            (
-                echo 0  # Inicia em 0%
-                wget --tries=20 "${extralink}/config/fixed_variables.sh" -P $HOME/ --progress=dot:giga 2>&1 | while read -r line; do
-                # Extraindo a porcentagem do progresso do wget
-                    if [[ $line =~ ([0-9]+)% ]]; then
-                        percent=${BASH_REMATCH[1]}
-                        echo $percent  # Atualiza a barra de progresso
-                    fi
-                done
-                echo 33  # Finaliza em 50%
-            ) | whiptail --gauge " " 5 40 0
-
-            chmod +x $HOME/fixed_variables.sh
-            source $HOME/fixed_variables.sh
-        fi
-
-        # Baixa e executa o arquivo l10n_<locale>.sh
-        if [ -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
-            source $HOME/l10n_$system_icu_locale_code.sh
-            else
-            (
-                echo 34   # Inicia em 51%
-                wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" -P $HOME/ --progress=dot:giga 2>&1 | while read -r line; do
-                # Extraindo a porcentagem do progresso do wget
-                    if [[ $line =~ ([0-9]+)% ]]; then
-                        percent=${BASH_REMATCH[1]}
-                        echo $percent  # Atualiza a barra de progresso
-                    fi
-                done
-
-                echo 66   # Finaliza em 100%
-            ) | whiptail --gauge " " 5 40 0
-
-            chmod +x $HOME/l10n_$system_icu_locale_code.sh
-            source $HOME/l10n_$system_icu_locale_code.sh
-        fi
-
-        if [ -f "$PREFIX/bin/$distro_del" ]; then
-            echo "existe"
-            else
-                (
-                    echo 67  # Inicia em 0%
-                    wget --tries=20 "${extralink}/$distro_del" -P $HOME/ --progress=dot:giga 2>&1 | while read -r line; do
-                    # Extraindo a porcentagem do progresso do wget
-                        if [[ $line =~ ([0-9]+)% ]]; then
-                            percent=${BASH_REMATCH[1]}
-                            echo $percent  # Atualiza a barra de progresso
-                        fi
-                    done
-
-                    echo 100  # Finaliza em 50%
-                ) | whiptail --gauge " " 5 40 0
-                chmod +x $HOME/$distro_del
-                mv $HOME/$distro_del "$PREFIX/bin/"
-        fi
 
     #=============================================================================================
     # Verifica qual distribuição foi escolhida e executa os comandos específicos
@@ -184,7 +179,8 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
             echo "${label_progress}"
             echo "75"
             sleep 2
-        ) | whiptail --gauge "${label_progress}" 0 0
+            clear
+        ) | dialog --gauge "${label_progress}" 0 0 0
         clear
 
     #=============================================================================================

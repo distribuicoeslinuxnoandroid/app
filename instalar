@@ -126,7 +126,7 @@ fi
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
-    echo -e "Digite o comando 'instalar' seguido do nome da distribuição.\n
+echo -e "Digite o comando 'instalar' seguido do nome da distribuição.\n
 Exemplo: instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
 
 

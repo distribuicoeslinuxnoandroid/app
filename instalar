@@ -176,7 +176,6 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
     elif [ "$1" == "ubuntu" ]; then
         echo -e "Instalando o Ubuntu...\nAguarde..."
         wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
-
         (
             while pkill -0 wget >/dev/null 2>&1; do
             sleep $whiptail_intervalo

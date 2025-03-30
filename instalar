@@ -4,7 +4,9 @@ apt upgrade -y
 apt install wget -y > /dev/null 2>&1 &
 apt install dialog -y > /dev/null 2>&1 &
 apt install whiptail -y > /dev/null 2>&1 &
-apt install wget curl proot tar dialog whiptail -y > /dev/null 2>&1 &  
+apt install proot -y > /dev/null 2>&1 &
+apt install curl -y > /dev/null 2>&1 &
+apt install tar -y > /dev/null 2>&1 &  
 
 # Variável com o link do script no GitHub
 # Teste

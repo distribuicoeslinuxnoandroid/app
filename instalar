@@ -2,14 +2,13 @@
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
-apt update > /dev/null 2>&1 &
+apt update
 apt upgrade -y
-clear
 
 if [ ! -d "$HOME/storage" ];then
     termux-setup-storage
 fi
-
+clear
 # ==============================================================================================
 # Variável com o link do script no GitHub
 # Função para atualizar a barra de progresso
@@ -48,6 +47,9 @@ update_progress() {
 ) | dialog --gauge " " 5 40 0
 
 # Carrega os arquivos após o download
+chmod +x "$PREFIX/bin/$distro_del"
+chmod +x "$HOME/fixed_variables.sh"
+chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
 clear

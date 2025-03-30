@@ -162,7 +162,22 @@ instalar debian
 ```bash
 instalar ubuntu
 ```
-
+---
+>[!WARNING]
+> Após executar qualquer um dos comandos citados acima, caso seja a primeira vez que está usando o Termux, irá aparecer a seguinte mensagem:
+```bash
+Configuration file '/data/data/com.termux/files/usr/etc/bash.bashrc'
+ ==> File on system created by you or by a script.
+ ==> File also in package provided by package maintainer.
+   What would you like to do about it ?  Your options are:
+    Y or I  : install the package maintainer's version
+    N or O  : keep your currently-installed version
+      D     : show the differences between the versions
+      Z     : start a shell to examine the situation
+ The default action is to keep your current version.
+*** bash.bashrc (Y/I/N/O/D/Z) [default=N] ?
+```
+> Esta mensagem só irá aparecer uma única vez, na primeira atualização interna do Termux. Para sair dessa mensagem, pode digitar `N` e logo após, teclar `enter`(↵) para continuar o progresso de atualização.
 
 ## Escolhendo a versão do sistema
 Após escolher o sistema operacional de sua preferencia e ter aguardado ser baixado os pacotes necessários para começar a instalação, será necessário escolher a versão do sistema operacional escolhido.

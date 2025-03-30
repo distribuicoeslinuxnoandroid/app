@@ -105,20 +105,7 @@ else
     echo "O instalador baixado."
 fi
 clear
-
-# Tenta executar o comando "instalar"
-if command -v instalar; then
-    # Se o comando "instalar" estiver disponível, executa-o
-    instalar
-else
-    # Se não estiver disponível, tenta executar via bash
-    if [ -f "$PREFIX/bin/instalar" ]; then
-        bash "$PREFIX/bin/instalar"
-    else
-        echo "O arquivo instalar não foi encontrado em $PREFIX/bin."
-    fi
-fi
-
+bash "$PREFIX/bin/instalar"
 
 #=============================================================================================
 #=============================================================================================

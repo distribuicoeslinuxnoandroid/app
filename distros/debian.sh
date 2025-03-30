@@ -87,33 +87,6 @@ case $CHOICE in
 	;;
 esac
 
-export PORT=1
-OPTIONS=(1 "minbase"
-		2 "buildd"
-		3 "fakechroot")
-
-CHOICE=$(dialog --clear \
-		--title "Variante" \
-		--menu "$MENU_operating_system_select" \
-		$HEIGHT $WIDTH $CHOICE_HEIGHT \
-		"${OPTIONS[@]}" \
-		2>&1 >/dev/tty)
-
-clear
-case $CHOICE in
-1)
-	debootstrap_variant="minbase"
-;;
-2)
-	debootstrap_variant="buildd"
-;;
-3)
-	debootstrap_variant="fakechroot"
-;;
-esac
-
-
-
 bin=start-debian.sh
 
 
@@ -133,7 +106,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --variant=$debootstrap_variant --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
+	debootstrap --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	

@@ -23,7 +23,7 @@ if [ -f "fixed_variables.sh" ]; then
 		done
 
 		echo 80  # Finaliza
-	) | whiptail --gauge "${label_progress}" 0 0 0
+	) | dialog --gauge "${label_progress}" 0 0 0
 
 	chmod +x fixed_variables.sh
 	source fixed_variables.sh
@@ -45,7 +45,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 		done
 
 		echo 90  # Finaliza
-	) | whiptail --gauge "${label_progress}" 0 0 0
+	) | dialog --gauge "${label_progress}" 0 0 0
 	chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -59,7 +59,7 @@ fi
   done
   echo "100"
   sleep 1
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 clear
 
 # Escolher a versão do Debian a ser baixada
@@ -114,7 +114,7 @@ if [ "$first" != 1 ];then
 	#GUI
 	(
 		while kill -0 $debootstrap_pid >/dev/null 2>&1; do
-			sleep $whiptail_intervalo
+			sleep $dialog_intervalo
 			((percentage+=2))
 
 			# Limita a barra a 95% até a conclusão
@@ -131,7 +131,7 @@ if [ "$first" != 1 ];then
 		echo "100"
 		sleep 2
 
-	) | whiptail --gauge "$label_debian_download" 0 0 0
+	) | dialog --gauge "$label_debian_download" 0 0 0
 	###
 	if wait $debootstrap_pid; then
 		echo "Instalação concluída com sucesso!"
@@ -210,7 +210,7 @@ fi
 
     chmod +x "$folder/root/system-config.sh"
     echo 34  # Finaliza
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 
 # Baixar dois papei de parede
 (
@@ -236,7 +236,7 @@ fi
     done
 
     echo 100  # Finaliza
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 
 
 # Idioma
@@ -272,7 +272,7 @@ export PORT=1
 					fi
 				done
 				echo 14  # Finaliza
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		2)
@@ -338,7 +338,7 @@ export PORT=1
 	chmod +x $folder/usr/local/bin/startvncserver
 
 	echo 100  # Finaliza
-) | whiptail --gauge "${label_language_download}" 0 0 0
+) | dialog --gauge "${label_language_download}" 0 0 0
 
 #Copiando arquivos para dentro do linux
 mkdir -p $folder/root/.vnc
@@ -366,7 +366,7 @@ echo "#!/bin/bash
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 
-apt install dialog whiptail -y > /dev/null 2>&1
+apt install dialog -y > /dev/null 2>&1
 
 bash ~/locale*.sh
 
@@ -409,7 +409,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 	;;
 	2)	
 		(
@@ -424,7 +424,7 @@ case $CHOICE in
 			done
 			sleep 1
 			echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 	;;
 	3)
 		(
@@ -439,7 +439,7 @@ case $CHOICE in
 			done
 			sleep 1
 			echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 		
 		# Sem isso o gnome não funciona
 		apt install dbus -y > /dev/null 2>&1
@@ -500,7 +500,7 @@ if [ -f "fixed_variables.sh" ]; then
 		done
 
 		echo 50  # Finaliza em 50%
-		) | whiptail --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 0 0 0
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi
@@ -519,7 +519,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 			fi
 		done
 		echo 100  # Finaliza
-		) | whiptail --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
 		source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -531,27 +531,26 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     sudo apt update > /dev/null 2>&1
     
 	echo 25  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_find_update}" 0 0 0
+) | dialog --gauge "${label_find_update}" 0 0 0
 
 (
     echo 26  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
     echo 50  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
+) | dialog --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 75  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
-	sudo apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
+) | dialog --gauge "${label_tzdata_settings}" 0 0 0
 
 sudo dpkg-reconfigure keyboard-configuration
 clear
 sudo dpkg-reconfigure tzdata
 clear
-sudo apt install whiptail -y > /dev/null 2>&1
+sudo apt install dialog -y > /dev/null 2>&1
 
 (
     echo 0  # Inicia em 0%
@@ -582,7 +581,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%
     
- ) | whiptail --gauge "${label_system_setup}" 0 0 0
+ ) | dialog --gauge "${label_system_setup}" 0 0 0
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

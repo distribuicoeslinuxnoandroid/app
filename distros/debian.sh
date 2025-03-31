@@ -602,8 +602,7 @@ fi
 rm -rf ~/system-config.sh
 rm -rf ~/config-environment.sh
 rm -rf ~/.bash_profile
-exit
-' > $folder/root/.bash_profile
+exit' > $folder/root/.bash_profile
 bash $bin
 
 #rm -rf ~/l10n*.sh

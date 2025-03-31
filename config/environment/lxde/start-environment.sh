@@ -74,7 +74,7 @@ Global {
   margin=0
   widthtype=percent
   width=100
-  height=48
+  height=54
   transparent=0
   tintcolor=#000000
   alpha=0
@@ -86,6 +86,9 @@ Global {
   fontcolor=#ffffff
   background=0
   backgroundfile=/usr/share/lxpanel/images/background.png
+  iconsize=48
+  usefontsize=1
+  fontsize=12
 }
 Plugin {
   type=space

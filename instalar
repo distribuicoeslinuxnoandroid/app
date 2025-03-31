@@ -2,7 +2,7 @@
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
-apt update
+apt update > /dev/null 2>&1 &
 apt upgrade -y
 
 if [ ! -d "$HOME/storage" ];then
@@ -44,7 +44,7 @@ update_progress() {
     else
         for i in {66..100}; do update_progress $i; done  # Avança rapidamente
     fi
-) | dialog --gauge "Iniciando" 6 40 0
+) | dialog --gauge "Iniciando..." 6 40 0
 
 # Carrega os arquivos após o download
 chmod +x "$PREFIX/bin/$distro_del"

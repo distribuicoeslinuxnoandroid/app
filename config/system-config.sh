@@ -179,7 +179,7 @@ gtk-theme-name=ZorinBlue-Dark' | sudo tee $HOME/.config/gtk-3.0/settings.ini
   fi
 
   echo 47
-  if [ ! -d "~/.config/gtk-3.0" ];then
+  if [ ! -d "/root/.config/gtk-3.0" ];then
     mkdir -p ~/.config/gtk-3.0/
     echo "pasta criada"
   fi

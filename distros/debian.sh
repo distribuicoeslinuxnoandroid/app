@@ -6,7 +6,7 @@ system_icu_locale_code=$(getprop persist.sys.locale)
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
 # Lista de pacotes necessários
-PACKAGES=("wget" "dialog" "proot" "debootstrap")
+PACKAGES=("wget" "dialog" "proot" "debootstrap" "dbus")
 
 # Função para verificar se um pacote está instalado
 is_installed() {
@@ -24,7 +24,7 @@ done
 
 # Executa a instalação apenas se algum pacote estiver faltando
 if [ "$ALL_INSTALLED" = false ]; then
-    apt install wget dialog proot debootstrap -y &> /dev/null &
+    apt install wget dialog proot debootstrap dbus -y &> /dev/null &
     PID=$!
     
     # Barra de progresso personalizada

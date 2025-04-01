@@ -47,7 +47,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 fi
 
 # Solicitar a senha do usuário usando dialog
-PASSWORD=$(dialog --title "${label_vnc_setup}" --passwordbox "${label_vnc_password_input}" 0 0 3>&1 1>&2 2>&3)
+PASSWORD=$(dialog --title "${label_vnc_setup}" --insecure --passwordbox "${label_vnc_password_input}" 0 0 3>&1 1>&2 2>&3)
 
 # Verificar se o usuário cancelou a entrada
 if [ $? != 0 ]; then

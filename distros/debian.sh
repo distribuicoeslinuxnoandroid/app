@@ -24,7 +24,7 @@ done
 
 # Executa a instalação apenas se algum pacote estiver faltando
 if [ "$ALL_INSTALLED" = false ]; then
-    apt install wget dialog proot curl tar -y &> /dev/null &
+    apt install wget dialog proot debootstrap -y &> /dev/null &
     PID=$!
     
     # Barra de progresso personalizada
@@ -45,7 +45,10 @@ fi
 clear
 
 #=============================================================================================
-
+update_progress() {
+    echo "$1"  # Envia a porcentagem para o dialog
+    sleep 0.1  # Ajuste o tempo conforme necessário
+}
 (
     # Verifica e baixa fixed_variables.sh (0-33%)
     if [ ! -f "$HOME/fixed_variables.sh" ]; then

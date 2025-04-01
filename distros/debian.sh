@@ -78,11 +78,16 @@ update_progress() {
 ) | dialog --gauge "${label_progress}" 0 0 0
 clear
 
+chmod +x "$HOME/fixed_variables.sh"
+chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
+source $HOME/fixed_variables.sh
+source $HOME/l10n_$system_icu_locale_code.sh
+
 # Escolher a versão do Debian a ser baixada
-debootstrap_variant="minbase"
 export PORT=1
+
 OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
-		 2 "Bullseye ($label_distro_previous_version)")
+         2  "Bullseye ($label_distro_previous_version)")
 
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
@@ -123,8 +128,6 @@ if [ "$first" != 1 ];then
 	esac
 	debootstrap --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	debootstrap_pid=$!
-	
-	#GUI
 	(
 		while kill -0 $debootstrap_pid >/dev/null 2>&1; do
 			sleep $dialog_intervalo

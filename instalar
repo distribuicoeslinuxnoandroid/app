@@ -58,7 +58,7 @@ clear
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
 # Lista de pacotes necessários
-PACKAGES=("wget" "dialog" "whiptail" "proot" "curl" "tar")
+PACKAGES=("wget" "dialog" "dialog" "proot" "curl" "tar")
 
 # Função para verificar se um pacote está instalado
 is_installed() {
@@ -76,7 +76,7 @@ done
 
 # Executa a instalação apenas se algum pacote estiver faltando
 if [ "$ALL_INSTALLED" = false ]; then
-    apt install wget dialog whiptail proot curl tar -y &> /dev/null &
+    apt install wget dialog dialog proot curl tar -y &> /dev/null &
     PID=$!
     
     # Barra de progresso personalizada
@@ -184,7 +184,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
         wget --tries=20 "${extralink}/distros/debian.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
         (
             while pkill -0 wget >/dev/null 2>&1; do
-            sleep $whiptail_intervalo
+            sleep $dialog_intervalo
             echo "${label_progress}"
             echo "$((++percentage))"
             done
@@ -201,7 +201,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
         wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
         (
             while pkill -0 wget >/dev/null 2>&1; do
-            sleep $whiptail_intervalo
+            sleep $dialog_intervalo
             echo "${label_progress}"
             echo "$((++percentage))"
             done

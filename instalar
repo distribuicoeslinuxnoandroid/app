@@ -26,7 +26,7 @@ update_progress() {
     else
         for i in {0..33}; do update_progress $i; done  # Avança rapidamente se o arquivo já existe
     fi
-
+    source $HOME/fixed_variables.sh
     # Verifica e baixa l10n_${locale}.sh (34-65%)
     if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
@@ -34,7 +34,7 @@ update_progress() {
     else
         for i in {34..65}; do update_progress $i; done  # Avança rapidamente
     fi
-
+    source $HOME/l10n_$system_icu_locale_code.sh
     # Verifica e baixa $distro_del (66-100%)
     if [ ! -f "$PREFIX/bin/$distro_del" ]; then
         curl -s -o "$HOME/$distro_del" "${extralink}/$distro_del"

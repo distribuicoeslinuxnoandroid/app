@@ -185,7 +185,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
             echo "${label_progress}"
             echo "75"
             sleep 2
-        ) | whiptail --gauge "${label_progress}" 0 0
+        ) | dialog --gauge "${label_progress}" 0 0
         clear
     
     #=============================================================================================

@@ -23,7 +23,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 80  # Finaliza em 50%
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -45,7 +45,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 90  # Finaliza em 100%
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi
@@ -59,7 +59,7 @@ fi
   done
   echo "100"
   sleep 1
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 clear
 
 
@@ -108,7 +108,7 @@ if [ "$first" != 1 ];then
 				echo "${label_ubuntu_download}"
 				echo "100"
 				sleep 2
-			) | whiptail --gauge "${label_ubuntu_download}" 0 0 0
+			) | dialog --gauge "${label_ubuntu_download}" 0 0 0
 			###
 
 	fi
@@ -124,7 +124,7 @@ if [ "$first" != 1 ];then
     proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
     
     echo 33  # Finaliza em 33%
-	 ) | whiptail --gauge "${label_progress}" 0 0 0
+	 ) | dialog --gauge "${label_progress}" 0 0 0
 
 	cd "$cur"
 fi
@@ -336,7 +336,7 @@ echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
     chmod +x "$folder/root/system-config.sh"
     echo 66  # Finaliza em 66%
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 
 
 
@@ -363,7 +363,7 @@ fi
     done
 
     echo 80  # Finaliza em 100%
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 (
     echo 81  # Inicia em 67%
 
@@ -377,7 +377,7 @@ fi
     done
 
     echo 100  # Finaliza em 100%
-) | whiptail --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 0 0 0
 
 
 # Idioma
@@ -416,7 +416,7 @@ export PORT=1
 				done
 
 				echo 14  # Finaliza em 14%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 
 			(
 				echo 15  # Inicia em 15%
@@ -429,7 +429,7 @@ export PORT=1
 				done
 
 				echo 29  # Finaliza em 29%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 30  # Inicia em 30%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/vncpasswd" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -441,7 +441,7 @@ export PORT=1
 				done
 
 				echo 44  # Finaliza em 44%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 45  # Inicia em 45%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -453,7 +453,7 @@ export PORT=1
 				done
 
 				echo 59  # Finaliza em 59%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 60  # Inicia em 60%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -465,7 +465,7 @@ export PORT=1
 				done
 
 				echo 74  # Finaliza em 74%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 75  # Inicia em 75%
 				wget --tries=20 "${extralink}/config/tigervnc/pt-BR/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -477,7 +477,7 @@ export PORT=1
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 
 			chmod +x $folder/root/locale_pt-BR.sh
 		;;
@@ -502,7 +502,7 @@ export PORT=1
 				done
 
 				echo 20  # Finaliza em 20%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 
 			(
 				echo 21  # Inicia em 21%
@@ -515,7 +515,7 @@ export PORT=1
 				done
 
 				echo 40  # Finaliza em 40%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 41  # Inicia em 41%
 				wget --tries=20 "${extralink}/config/tigervnc/startvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -527,7 +527,7 @@ export PORT=1
 				done
 
 				echo 60  # Finaliza em 60%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 61  # Inicia em 61%
 				wget --tries=20 "${extralink}/config/tigervnc/stopvnc" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -539,7 +539,7 @@ export PORT=1
 				done
 
 				echo 80  # Finaliza em 80%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			(
 				echo 81  # Inicia em 81%
 				wget --tries=20 "${extralink}/config/tigervnc/startvncserver" -P $folder/usr/local/bin > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
@@ -551,7 +551,7 @@ export PORT=1
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 0 0 0
 			
 		;;
 	esac
@@ -583,7 +583,7 @@ chmod +x $folder/usr/local/bin/startvncserver
 	rm $cloudimagename
     echo 100  # Finaliza em 100%
 	sleep 5
-) | whiptail --gauge "${label_create_boot}" 0 0 0
+) | dialog --gauge "${label_create_boot}" 0 0 0
 
 
 dialog --title "Aviso" --msgbox 'A seguir aparecerá uma tela preta, mas não se preocupe, é só para fazer umas configurações mega importantes para o funcionamento do sistema.\n \n \nEssa mensagem irá sumir em alguns instantes.' 0 0 &
@@ -688,7 +688,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+	) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 ;;
 2)	
 	(
@@ -703,7 +703,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+	) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 ;;
 3)
 	(
@@ -718,7 +718,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-	) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+	) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 
 
 
@@ -782,7 +782,7 @@ if [ -f "fixed_variables.sh" ]; then
 			done
 			sleep 1
 			echo 50  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -806,7 +806,7 @@ if grep -q "LANG=pt_BR.UTF-8" ~/.bashrc; then # Se houver o LANG de idioma dentr
 			done
 			sleep 1
 			echo 100  # Finaliza em 100%
-		) | whiptail --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 0 0 0
 
 
 			chmod +x l10n_pt-BR.sh
@@ -821,28 +821,28 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     echo "Aguarde, atualizando pacotes..."
     sudo apt update > /dev/null 2>&1
     echo 25  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_find_update}" 0 0 0
+) | dialog --gauge "${label_find_update}" 0 0 0
 
 (
     echo 26  # Inicia em 0%
     sudo apt-get install dialog -y > /dev/null 2>&1
 
     echo 50  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_install_tools}" 0 0 0
+) | dialog --gauge "${label_install_tools}" 0 0 0
 
 (
     echo 51  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
     echo 75  # Atualiza para 100% após a atualização
-) | whiptail --gauge "${label_keyboard_settings}" 0 0 0
+) | dialog --gauge "${label_keyboard_settings}" 0 0 0
 (
     echo 76  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive  apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	apt remove whiptail -y > /dev/null 2>&1  # será necessário para não conflitar com o dialog da configuração de teclado e fuso horário
-) | whiptail --gauge "${label_tzdata_settings}" 0 0 0
+) | dialog --gauge "${label_tzdata_settings}" 0 0 0
 
 sudo dpkg-reconfigure keyboard-configuration
 sudo dpkg-reconfigure tzdata
@@ -879,7 +879,7 @@ sudo apt install whiptail -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%
     
- ) | whiptail --gauge "${label_system_setup}" 0 0 0
+ ) | dialog --gauge "${label_system_setup}" 0 0 0
 
 bash ~/config-environment.sh
 

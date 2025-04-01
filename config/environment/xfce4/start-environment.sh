@@ -17,7 +17,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -37,7 +37,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 100  # Finaliza
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -107,7 +107,7 @@ source /etc/profile
   rm -rf /tmp/.X11-unix/X$pt
 
 # Aqui finaliza a configuração do tema
-) | whiptail --gauge "${label_config_environment_gui}" 0 0 0
+) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 
 rm -rf ~/start-environment.sh
 

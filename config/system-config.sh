@@ -17,7 +17,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -39,7 +39,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 100  # Finaliza
-			) | whiptail --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 0 0 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -62,7 +62,7 @@ fi
 
   echo 64  # Finaliza em 64%
   sudo apt-get clean
- ) | whiptail --gauge "${label_progress}" 0 0 0
+ ) | dialog --gauge "${label_progress}" 0 0 0
 
 
 (
@@ -72,7 +72,7 @@ fi
     sudo apt-get update > /dev/null 2>&1
     echo 80  # Atualiza para 25% após a atualização
     sudo apt-get clean
-) | whiptail --gauge "${label_find_update}" 0 0 0
+) | dialog --gauge "${label_find_update}" 0 0 0
 
 (
     echo 81  # Inicia em 26%
@@ -80,7 +80,7 @@ fi
     sudo apt-get full-upgrade -y > /dev/null 2>&1
     echo 100  # Atualiza para 100% após a atualização
     sudo apt-get clean
-) | whiptail --gauge "${label_update}" 0 0 0
+) | dialog --gauge "${label_update}" 0 0 0
 
 
 (
@@ -264,4 +264,4 @@ Pin-Priority: 1000
   echo 100  # Finaliza em 100%
 
   sudo apt-get clean
- ) | whiptail --gauge "${label_install_script_download}" 0 0 0
+ ) | dialog --gauge "${label_install_script_download}" 0 0 0

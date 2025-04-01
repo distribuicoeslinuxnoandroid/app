@@ -38,7 +38,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge " " 5 40 0
+			) | dialog --gauge " " 5 40 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -60,7 +60,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 100  # Finaliza em 100%
-			) | whiptail --gauge " " 5 40 0
+			) | dialog --gauge " " 5 40 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source l10n_$system_icu_locale_code.sh
 fi
@@ -80,7 +80,7 @@ if [ -f "$PREFIX/bin/$distro_del" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | whiptail --gauge " " 5 40 0
+			) | dialog --gauge " " 5 40 0
 
 		chmod +x $distro_del
     mv $distro_del "$PREFIX/bin/"
@@ -120,7 +120,7 @@ chmod +x sys-info
   echo "100"
   sleep 2
   clear
-) | whiptail --gauge "${system_info}" 0 0 0
+) | dialog --gauge "${system_info}" 0 0 0
 
 # Limpar a tela
 clear
@@ -154,7 +154,7 @@ case $CHOICE in
 
     echo "75"
     sleep 2
-  ) | whiptail --gauge "${label_progress}" 0 0 0
+  ) | dialog --gauge "${label_progress}" 0 0 0
 
   clear
 ;;
@@ -175,7 +175,7 @@ case $CHOICE in
 
     echo "75"
     sleep 2
-  ) | whiptail --gauge "${label_progress}" 0 0 0
+  ) | dialog --gauge "${label_progress}" 0 0 0
 
   clear
 ;;

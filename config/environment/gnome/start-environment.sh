@@ -47,6 +47,8 @@ source /etc/profile
 (
 # Aqui inicia a configuração do tema
     echo 1
+	touch ~/.Xauthority
+	#chmod 600 ~/.Xauthority
     vncserver -name remote-desktop -geometry 1920x1080 :1
 	clear
 	

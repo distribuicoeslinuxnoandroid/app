@@ -71,15 +71,11 @@ source /etc/profile
   dbus-launch xfconf-query -c xsettings -p /Net/IconThemeName -s ZorinBlue-Dark
 
   echo 50
-  #xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVNC-0/workspace0/last-image -s /usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg
   xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVNC-0/workspace0/last-image --create --type string --set "/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"
 
   sleep 4
   dbus-launch xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVNC-0/workspace0/last-image --create --type string --set "/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"
-
-  #dbus-launch --exit-with-session xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/last-image --create --type string --set "/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"
-
-
+  
   sleep 4
   sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
 
@@ -110,8 +106,3 @@ source /etc/profile
 ) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 
 rm -rf ~/start-environment.sh
-
-#A propriedade "/backdrop/screen0/monitorVNC-0/workspace0/last-image" não existe no canal "xfce4-desktop". Se você deseja criar uma nova propriedade, use a opção --create.
-#sleep: intervalo inválido de tempo “4.*”
-#Tente "sleep --help" para mais informações.
-#sed: -e expressão #1, caractere 200: comando `s' inacabado (s/// - faltou delimitador)

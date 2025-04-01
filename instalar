@@ -56,19 +56,42 @@ clear
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
-# Executa o comando apt install em segundo plano
-apt install wget dialog whiptail proot curl tar -y &> /dev/null &
-PID=$!
-# Barra de progresso personalizada
-(
-    for ((i=0; i<=100; i++)); do
-        echo $i  # Atualiza a barra de progresso
-        sleep 0.1  # Ajuste o tempo para simular o progresso
-    done
-) | dialog --gauge "Instalando pacotes..." 6 40 0
 
-# Aguarda o término do apt install
-wait $PID
+# Lista de pacotes necessários
+PACKAGES=("wget" "dialog" "whiptail" "proot" "curl" "tar")
+
+# Função para verificar se um pacote está instalado
+is_installed() {
+    dpkg -l | grep -qw "$1"
+}
+
+# Verifica se todos os pacotes estão instalados
+ALL_INSTALLED=true
+for pkg in "${PACKAGES[@]}"; do
+    if ! is_installed "$pkg"; then
+        ALL_INSTALLED=false
+        break
+    fi
+done
+
+# Executa a instalação apenas se algum pacote estiver faltando
+if [ "$ALL_INSTALLED" = false ]; then
+    apt install wget dialog whiptail proot curl tar -y &> /dev/null &
+    PID=$!
+    
+    # Barra de progresso personalizada
+    (
+        for ((i=0; i<=100; i++)); do
+            echo $i  # Atualiza a barra de progresso
+            sleep 0.1  # Ajuste o tempo para simular o progresso
+        done
+    ) | dialog --gauge "Instalando pacotes..." 6 40 0
+    
+    # Aguarda o término do apt install
+    wait $PID
+else
+    echo "Todos os pacotes já estão instalados."
+fi
 
 # Mensagem final
 clear

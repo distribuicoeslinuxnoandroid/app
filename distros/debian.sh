@@ -1,64 +1,77 @@
 #!/data/data/com.termux/files/usr/bin/bash
-
-apt install wget -y >/dev/null 2>&1
-apt install debootstrap -y >/dev/null 2>&1
-apt install proot -y >/dev/null 2>&1
-
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
-## Variáveis fixas, que sempre irão se repetir em várias partes do instalador
-if [ -f "fixed_variables.sh" ]; then
-	source fixed_variables.sh
-	else
+#=============================================================================================
+# Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
-	(
-		echo 76  # Inicia
-		wget --tries=20 "${extralink}/config/fixed_variables.sh" --progress=dot:giga 2>&1 | while read -r line; do
-			# Extraindo a porcentagem do progresso do wget
-			if [[ $line =~ ([0-9]+)% ]]; then
-				percent=${BASH_REMATCH[1]}
-				echo $percent  # Atualiza a barra de progresso
-			fi
-		done
+# Lista de pacotes necessários
+PACKAGES=("wget" "dialog" "proot" "debootstrap")
 
-		echo 80  # Finaliza
-	) | dialog --gauge "${label_progress}" 0 0 0
+# Função para verificar se um pacote está instalado
+is_installed() {
+    dpkg -l | grep -qw "$1"
+}
 
-	chmod +x fixed_variables.sh
-	source fixed_variables.sh
-fi
+# Verifica se todos os pacotes estão instalados
+ALL_INSTALLED=true
+for pkg in "${PACKAGES[@]}"; do
+    if ! is_installed "$pkg"; then
+        ALL_INSTALLED=false
+        break
+    fi
+done
 
-## Variáveis de idioma. Que irão se adequar ao idioma escolhido
-if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
-	source l10n_$system_icu_locale_code.sh
-	else
-
+# Executa a instalação apenas se algum pacote estiver faltando
+if [ "$ALL_INSTALLED" = false ]; then
+    apt install wget dialog proot curl tar -y &> /dev/null &
+    PID=$!
+    
+    # Barra de progresso personalizada
     (
-		echo 81  # Inicia
-		wget --tries=20 "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh" --progress=dot:giga 2>&1 | while read -r line; do
-			# Extraindo a porcentagem do progresso do wget
-			if [[ $line =~ ([0-9]+)% ]]; then
-				percent=${BASH_REMATCH[1]}
-				echo $percent  # Atualiza a barra de progresso
-			fi
-		done
-
-		echo 90  # Finaliza
-	) | dialog --gauge "${label_progress}" 0 0 0
-	chmod +x l10n_$system_icu_locale_code.sh
-    source "l10n_${system_icu_locale_code}.sh"
+        for ((i=0; i<=100; i++)); do
+            echo $i  # Atualiza a barra de progresso
+            sleep 0.1  # Ajuste o tempo para simular o progresso
+        done
+    ) | dialog --gauge "Instalando pacotes..." 6 40 0
+    
+    # Aguarda o término do apt install
+    wait $PID
+else
+    echo "Todos os pacotes já estão instalados."
 fi
 
-# Carregamento de inicialização do instalador
-# GUI
+# Mensagem final
+clear
+
+#=============================================================================================
+
 (
-  while [ "$(pidof apt)" ]; do
-    sleep 0.1
-    echo "90"
-  done
-  echo "100"
-  sleep 1
+    # Verifica e baixa fixed_variables.sh (0-33%)
+    if [ ! -f "$HOME/fixed_variables.sh" ]; then
+        curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
+        for i in {0..33}; do update_progress $i; done
+    else
+        for i in {0..33}; do update_progress $i; done  # Avança rapidamente se o arquivo já existe
+    fi
+    source $HOME/fixed_variables.sh
+    # Verifica e baixa l10n_${locale}.sh (34-65%)
+    if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
+        curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+        for i in {34..65}; do update_progress $i; done
+    else
+        for i in {34..65}; do update_progress $i; done  # Avança rapidamente
+    fi
+    source $HOME/l10n_$system_icu_locale_code.sh
+    # Verifica e baixa $distro_del (66-100%)
+    if [ ! -f "$PREFIX/bin/$distro_del" ]; then
+        curl -s -o "$HOME/$distro_del" "${extralink}/$distro_del"
+        for i in {66..100}; do update_progress $i; done
+        mv "$HOME/$distro_del" "$PREFIX/bin/$distro_del"
+        chmod +x "$PREFIX/bin/$distro_del"
+    else
+        for i in {66..100}; do update_progress $i; done  # Avança rapidamente
+    fi
 ) | dialog --gauge "${label_progress}" 0 0 0
 clear
 
@@ -87,9 +100,7 @@ case $CHOICE in
 	;;
 esac
 
-
 bin=start-debian.sh
-
 
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
@@ -108,7 +119,6 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
 	debootstrap --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
-	#debootstrap --arch=$archurl stable debian-stable http://ftp.debian.org/debian/  >/dev/null 2>&1 &
 	debootstrap_pid=$!
 	
 	#GUI
@@ -339,6 +349,7 @@ export PORT=1
 
 	echo 100  # Finaliza
 ) | dialog --gauge "${label_language_download}" 0 0 0
+clear
 
 #Copiando arquivos para dentro do linux
 mkdir -p $folder/root/.vnc
@@ -544,6 +555,7 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
+	sudo apt autoremove whiptail -y > /dev/null 2>&1
 ) | dialog --gauge "${label_tzdata_settings}" 0 0 0
 
 sudo dpkg-reconfigure keyboard-configuration

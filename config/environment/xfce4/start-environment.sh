@@ -103,6 +103,6 @@ source /etc/profile
   rm -rf /tmp/.X11-unix/X$pt
 
 # Aqui finaliza a configuração do tema
-) | dialog --gauge "${label_config_environment_gui}" 6 40 0
+) | dialog --gauge "${label_config_environment_gui}" 0 0 0
 
 rm -rf ~/start-environment.sh

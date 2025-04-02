@@ -84,8 +84,8 @@ source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
 
 bin=start-debian.sh
-codinome="stable"
-folder=ubuntu-stable
+codinome="noble"
+folder=ubuntu-noble
 binds=ubuntu-binds
 
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
@@ -116,16 +116,16 @@ if [ "$first" != 1 ];then
 			percentage=95
 			fi
 
-			echo "$label_debian_download"
+			echo "$label_ubuntu_download"
 			echo "$percentage"
 		done
 
 		# Finaliza a barra 
-		echo "$label_debian_download"
+		echo "$label_ubuntu_download"
 		echo "100"
 		sleep 2
 
-	) | dialog --gauge "$label_debian_download" 6 40 0
+	) | dialog --gauge "$label_ubuntu_download" 6 40 0
 	###
 	if wait $debootstrap_pid; then
 		echo "Instalação concluída com sucesso!"

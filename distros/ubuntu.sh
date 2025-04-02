@@ -106,7 +106,7 @@ if [ "$first" != 1 ];then
 	esac
 	debootstrap --arch=$archurl $codinome $folder http://ftp.ubuntu.com/ubuntu/ > /dev/null 2>&1 &
 
-    wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename  >/dev/null 2>&1 &
+    wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder  >/dev/null 2>&1 &
     #GUI
     (
         while pkill -0 wget >/dev/null 2>&1; do

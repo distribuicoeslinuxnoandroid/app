@@ -75,7 +75,7 @@ update_progress() {
     else
         for i in {66..100}; do update_progress $i; done  # Avança rapidamente
     fi
-) | dialog --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 6 40 0
 clear
 
 chmod +x "$HOME/fixed_variables.sh"
@@ -147,7 +147,7 @@ if [ "$first" != 1 ];then
 		echo "100"
 		sleep 2
 
-	) | dialog --gauge "$label_debian_download" 0 0 0
+	) | dialog --gauge "$label_debian_download" 6 40 0
 	###
 	if wait $debootstrap_pid; then
 		echo "Instalação concluída com sucesso!"
@@ -226,7 +226,7 @@ fi
 
     chmod +x "$folder/root/system-config.sh"
     echo 34  # Finaliza
-) | dialog --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 6 40 0
 
 # Baixar dois papei de parede
 (
@@ -252,7 +252,7 @@ fi
     done
 
     echo 100  # Finaliza
-) | dialog --gauge "${label_progress}" 0 0 0
+) | dialog --gauge "${label_progress}" 6 40 0
 
 
 # Idioma
@@ -288,7 +288,7 @@ export PORT=1
 					fi
 				done
 				echo 14  # Finaliza
-			) | dialog --gauge "${label_language_download}" 0 0 0
+			) | dialog --gauge "${label_language_download}" 6 40 0
 			chmod +x $folder/root/locale_pt-BR.sh
 			;;
 		2)
@@ -354,7 +354,7 @@ export PORT=1
 	chmod +x $folder/usr/local/bin/startvncserver
 
 	echo 100  # Finaliza
-) | dialog --gauge "${label_language_download}" 0 0 0
+) | dialog --gauge "${label_language_download}" 6 40 0
 clear
 
 #Copiando arquivos para dentro do linux
@@ -426,7 +426,7 @@ case $CHOICE in
 		done
 		sleep 1
 		echo 100  # Finaliza em 100%
-		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 6 40 0
 	;;
 	2)	
 		(
@@ -441,7 +441,7 @@ case $CHOICE in
 			done
 			sleep 1
 			echo 100  # Finaliza em 100%
-		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 6 40 0
 	;;
 	3)
 		(
@@ -456,7 +456,7 @@ case $CHOICE in
 			done
 			sleep 1
 			echo 100  # Finaliza em 100%
-		) | dialog --gauge "${label_config_environment_gui}" 0 0 0
+		) | dialog --gauge "${label_config_environment_gui}" 6 40 0
 		
 		# Sem isso o gnome não funciona
 		apt install dbus -y > /dev/null 2>&1
@@ -517,7 +517,7 @@ if [ -f "fixed_variables.sh" ]; then
 		done
 
 		echo 50  # Finaliza em 50%
-		) | dialog --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 6 40 0
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
 fi
@@ -536,7 +536,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 			fi
 		done
 		echo 100  # Finaliza
-		) | dialog --gauge "${label_progress}" 0 0 0
+		) | dialog --gauge "${label_progress}" 6 40 0
 		chmod +x l10n_$system_icu_locale_code.sh
 		source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -548,21 +548,21 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
     sudo apt update > /dev/null 2>&1
     
 	echo 25  # Atualiza para 100% após a atualização
-) | dialog --gauge "${label_find_update}" 0 0 0
+) | dialog --gauge "${label_find_update}" 6 40 0
 
 (
     echo 26  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y > /dev/null 2>&1
 
     echo 50  # Atualiza para 100% após a atualização
-) | dialog --gauge "${label_keyboard_settings}" 0 0 0
+) | dialog --gauge "${label_keyboard_settings}" 6 40 0
 (
     echo 75  # Inicia em 0%
     sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y > /dev/null 2>&1 
 
     echo 100  # Atualiza para 100% após a atualização
 	sudo apt autoremove whiptail -y > /dev/null 2>&1
-) | dialog --gauge "${label_tzdata_settings}" 0 0 0
+) | dialog --gauge "${label_tzdata_settings}" 6 40 0
 
 sudo dpkg-reconfigure keyboard-configuration
 clear
@@ -599,7 +599,7 @@ sudo apt install dialog -y > /dev/null 2>&1
 
     echo 100  # Finaliza em 100%
     
- ) | dialog --gauge "${label_system_setup}" 0 0 0
+ ) | dialog --gauge "${label_system_setup}" 6 40 0
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

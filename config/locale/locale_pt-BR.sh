@@ -17,7 +17,7 @@ if [ -f "fixed_variables.sh" ]; then
                 fi
             done
             echo 50  # Finaliza em 50%
-        ) | dialog --gauge "${label_progress}" 0 0 0
+        ) | dialog --gauge "${label_progress}" 6 40 0
 
         chmod +x fixed_variables.sh
         source fixed_variables.sh
@@ -36,7 +36,7 @@ if [ -f "l10n_pt-BR.sh" ]; then
                 fi
             done
             echo 100  # Finaliza em 100%
-        ) | dialog --gauge "${label_progress}" 0 0 0
+        ) | dialog --gauge "${label_progress}" 6 40 0
         chmod +x l10n_pt-BR.sh
         source l10n_pt-BR.sh
 fi
@@ -70,7 +70,7 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
     locale-gen > /dev/null 2>&1
     echo 100 
     
- ) | dialog --gauge "${label_system_language}" 0 0 0
+ ) | dialog --gauge "${label_system_language}" 6 40 0
 
 
 ## Exportar os comandos de configuração de idioma para ~/.bashrc

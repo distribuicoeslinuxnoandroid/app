@@ -19,7 +19,7 @@ if [ -f "fixed_variables.sh" ]; then
 				done
 
 				echo 50  # Finaliza em 50%
-			) | dialog --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 6 40 0
 
 		chmod +x fixed_variables.sh
 		source fixed_variables.sh
@@ -40,7 +40,7 @@ if [ -f "l10n_${system_icu_locale_code}.sh" ]; then
 				done
 
 				echo 100  # Finaliza
-			) | dialog --gauge "${label_progress}" 0 0 0
+			) | dialog --gauge "${label_progress}" 6 40 0
 		chmod +x l10n_$system_icu_locale_code.sh
     source "l10n_${system_icu_locale_code}.sh"
 fi
@@ -130,7 +130,7 @@ gnome-shell --x11' > ~/.vnc/xstartup
 	sudo dpkg --configure -a > /dev/null 2>&1
 	sudo apt --fix-broken install -y > /dev/null 2>&1
 
-) | dialog --gauge "${label_install_environment_gui}" 0 0 0
+) | dialog --gauge "${label_install_environment_gui}" 6 40 0
 
 
 vncpasswd

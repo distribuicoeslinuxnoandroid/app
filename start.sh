@@ -120,7 +120,7 @@ chmod +x sys-info
   echo "100"
   sleep 2
   clear
-) | dialog --gauge "${system_info}" 0 0 0
+) | dialog --gauge "${system_info}" 6 40 0
 
 # Limpar a tela
 clear
@@ -154,7 +154,7 @@ case $CHOICE in
 
     echo "75"
     sleep 2
-  ) | dialog --gauge "${label_progress}" 0 0 0
+  ) | dialog --gauge "${label_progress}" 6 40 0
 
   clear
 ;;
@@ -175,7 +175,7 @@ case $CHOICE in
 
     echo "75"
     sleep 2
-  ) | dialog --gauge "${label_progress}" 0 0 0
+  ) | dialog --gauge "${label_progress}" 6 40 0
 
   clear
 ;;

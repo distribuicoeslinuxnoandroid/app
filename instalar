@@ -192,7 +192,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
             echo "75"
             sleep 2
             clear
-        ) | dialog --gauge "${label_progress}" 0 0 0
+        ) | dialog --gauge "${label_progress}" 6 40 0
         clear
 
     #=============================================================================================

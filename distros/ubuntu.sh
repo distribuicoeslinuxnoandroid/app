@@ -114,8 +114,13 @@ if [ "$first" != 1 ];then
         done
         echo "${label_ubuntu_download}"
         echo "100"
+        mkdir -p "$folder"
+        cd "$folder" || exit
+        proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
+        cd "$cur"
         sleep 2
     ) | dialog --gauge "${label_ubuntu_download}" 6 40 0
+
 fi
 
 mkdir -p $binds

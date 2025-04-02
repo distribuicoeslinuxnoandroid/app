@@ -84,6 +84,8 @@ source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
 
 bin=start-debian.sh
+codinome="stable"
+folder=debian-stable
 
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
@@ -101,9 +103,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	codinome="stable"
-	folder=debian-stable
-	debootstrap --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
+	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>&1 &
 	debootstrap_pid=$!
 	(
 		while kill -0 $debootstrap_pid >/dev/null 2>&1; do

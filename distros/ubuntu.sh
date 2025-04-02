@@ -105,34 +105,19 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
 	debootstrap --arch=$archurl $codinome $folder http://ftp.ubuntu.com/ubuntu/ > /dev/null 2>&1 &
-	debootstrap_pid=$!
-	(
-		while kill -0 $debootstrap_pid >/dev/null 2>&1; do
-			sleep $dialog_intervalo
-			((percentage+=2))
 
-			# Limita a barra a 95% até a conclusão
-			if [ $percentage -gt 95 ]; then
-			percentage=95
-			fi
-
-			echo "$label_ubuntu_download"
-			echo "$percentage"
-		done
-
-		# Finaliza a barra 
-		echo "$label_ubuntu_download"
-		echo "100"
-		sleep 2
-
-	) | dialog --gauge "$label_ubuntu_download" 6 40 0
-	###
-	if wait $debootstrap_pid; then
-		echo "Instalação concluída com sucesso!"
-		else
-			echo "Erro durante a instalação do Debian!"
-	fi
-
+    wget "https://partner-images.canonical.com/core/${codinome}/current/ubuntu-${codinome}-core-cloudimg-${archurl}-root.tar.gz" -O $cloudimagename  >/dev/null 2>&1 &
+    #GUI
+    (
+        while pkill -0 wget >/dev/null 2>&1; do
+        sleep $whiptail_intervalo
+        echo "${label_ubuntu_download}"
+        echo "$((++percentage))"
+        done
+        echo "${label_ubuntu_download}"
+        echo "100"
+        sleep 2
+    ) | dialog --gauge "${label_ubuntu_download}" 6 40 0
 fi
 
 mkdir -p $binds

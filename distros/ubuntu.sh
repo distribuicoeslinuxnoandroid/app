@@ -86,6 +86,7 @@ source $HOME/l10n_$system_icu_locale_code.sh
 bin=start-debian.sh
 codinome="stable"
 folder=ubuntu-stable
+binds=ubuntu-binds
 
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
@@ -134,7 +135,7 @@ if [ "$first" != 1 ];then
 
 fi
 
-mkdir -p ubuntu-binds
+mkdir -p $binds
 mkdir -p ${folder}/proc/fakethings
 
 if [ ! -f "${cur}/${folder}/proc/fakethings/stat" ]; then
@@ -284,8 +285,8 @@ command+=" --kill-on-exit"
 command+=" --link2symlink"
 command+=" -0"
 command+=" -r $folder"
-if [ -n "\$(ls -A debian-binds)" ]; then
-    for f in debian-binds/* ;do
+if [ -n "\$(ls -A $binds)" ]; then
+    for f in $binds/* ;do
       . \$f
     done
 fi

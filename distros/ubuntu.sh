@@ -83,7 +83,7 @@ chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
 
-bin=start-debian.sh
+bin=start-ubuntu.sh
 codinome="noble"
 folder=ubuntu-noble
 binds=ubuntu-binds
@@ -104,8 +104,6 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --arch=$archurl $codinome $folder http://ftp.ubuntu.com/ubuntu/ > /dev/null 2>&1 &
-
     wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder  >/dev/null 2>&1 &
     #GUI
     (

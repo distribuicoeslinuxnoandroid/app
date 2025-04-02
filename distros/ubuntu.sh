@@ -1,6 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
+source $HOME/fixed_variables.sh
+source $HOME/l10n_$system_icu_locale_code.sh
+
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
@@ -478,12 +481,6 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
-#echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
-#deb http://security.debian.org/debian-security stable-security main contrib non-free
-#deb http://deb.debian.org/debian stable-updates main contrib non-free
-#deb http://ftp.debian.org/debian buster main
-#deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
-
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 

@@ -108,8 +108,8 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
     wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder.tar.xz  >/dev/null 2>&1 &
-    #wget "https://cdimage.ubuntu.com/ubuntu-base/releases/${codinome}/current/${codinome}/release/ubuntu-base-24.04.2-base-${archurl}.tar.gz" -O $folder.tar.gz  >/dev/null 2>&1 &
-    arm64
+    #wget "https://cdimage.ubuntu.com/ubuntu-base/releases/${codinome}/release/ubuntu-base-24.04.2-base-${archurl}.tar.gz" -O $folder.tar.gz  >/dev/null 2>&1 &
+	#https://cdimage.ubuntu.com/ubuntu-base/releases/noble/release/ubuntu-base-24.04.2-base-arm64.tar.gz
     #GUI
     (
         while pkill -0 wget >/dev/null 2>&1; do

@@ -104,7 +104,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-    wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder  >/dev/null 2>&1 &
+    wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder.tar.xz  >/dev/null 2>&1 &
     #GUI
     (
         while pkill -0 wget >/dev/null 2>&1; do

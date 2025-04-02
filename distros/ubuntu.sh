@@ -105,6 +105,8 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
     wget "https://cloud-images.ubuntu.com/${codinome}/current/${codinome}-server-cloudimg-${archurl}-root.tar.xz" -O $folder.tar.xz  >/dev/null 2>&1 &
+    #wget "https://cdimage.ubuntu.com/ubuntu-base/releases/${codinome}/current/${codinome}/release/ubuntu-base-24.04.2-base-${archurl}.tar.gz" -O $folder.tar.gz  >/dev/null 2>&1 &
+    arm64
     #GUI
     (
         while pkill -0 wget >/dev/null 2>&1; do
@@ -116,7 +118,7 @@ if [ "$first" != 1 ];then
         echo "100"
         mkdir -p "$folder"
         cd "$folder" || exit
-        proot --link2symlink tar -xf "${cur}/${cloudimagename}" --exclude=dev || :
+        proot --link2symlink tar -xf "${cur}/${folder}.tar.xz" --exclude=dev || :
         cd "$cur"
         sleep 2
     ) | dialog --gauge "${label_ubuntu_download}" 6 40 0

@@ -110,7 +110,7 @@ if [ "$first" != 1 ];then
     #GUI
     (
         while pkill -0 wget >/dev/null 2>&1; do
-        sleep $whiptail_intervalo
+        sleep $dialog_intervalo
         echo "${label_ubuntu_download}"
         echo "$((++percentage))"
         done

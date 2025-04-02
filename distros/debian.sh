@@ -83,31 +83,6 @@ chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
 
-# Escolher a versão do Debian a ser baixada
-export PORT=1
-
-OPTIONS=(1 "Bookworm 12.0 ($label_distro_stable)"
-         2  "Bullseye ($label_distro_previous_version)")
-
-CHOICE=$(dialog --clear \
-				--title "$TITLE" \
-				--menu "$MENU_operating_system_select" \
-				$HEIGHT $WIDTH $CHOICE_HEIGHT \
-				"${OPTIONS[@]}" \
-				2>&1 >/dev/tty)
-
-clear
-case $CHOICE in
-	1)
-		codinome="bookworm"
-		folder=debian-bookworm
-	;;
-	2)
-		codinome="bullseye"
-		folder=debian-bullseye
-	;;
-esac
-
 bin=start-debian.sh
 
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
@@ -126,6 +101,8 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
+	codinome="stable"
+	folder=debian-stable
 	debootstrap --arch=$archurl $codinome $folder http://deb.debian.org/debian > /dev/null 2>&1 &
 	debootstrap_pid=$!
 	(

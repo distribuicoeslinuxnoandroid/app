@@ -121,7 +121,8 @@ if [ "$first" != 1 ];then
         echo "95"
         mkdir -p "$folder"
         cd "$folder" || exit
-        proot --link2symlink tar -xf "${HOME}/${folder}.tar.gz" --exclude=dev || :
+        proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :
+        #proot --link2symlink tar -xf "${HOME}/${folder}.tar.gz" --exclude=dev || :
         cd $HOME
         echo "100"
         sleep 2

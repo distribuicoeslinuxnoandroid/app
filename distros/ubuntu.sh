@@ -1,9 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
+# Novo possível caminho de instalação do sistema $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu
 extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
-
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
@@ -118,11 +118,12 @@ if [ "$first" != 1 ];then
         echo "$((++percentage))"
         done
         echo "${label_ubuntu_download}"
-        echo "100"
+        echo "95"
         mkdir -p "$folder"
         cd "$folder" || exit
-        proot --link2symlink tar -xf "${cur}/${folder}.tar.xz" --exclude=dev || :
-        cd "$cur"
+        proot --link2symlink tar -xf "${HOME}/${folder}.tar.gz" --exclude=dev || :
+        cd $HOME
+        echo "100"
         sleep 2
     ) | dialog --gauge "${label_ubuntu_download}" 6 40 0
 
@@ -131,35 +132,37 @@ fi
 mkdir -p $binds
 mkdir -p ${folder}/proc/fakethings
 
-if [ ! -f "${cur}/${folder}/proc/fakethings/stat" ]; then
-	cat <<- EOF > "${cur}/${folder}/proc/fakethings/stat"
-	cpu  5502487 1417100 4379831 62829678 354709 539972 363929 0 0 0
-	cpu0 611411 171363 667442 7404799 61301 253898 205544 0 0 0
-	cpu1 660993 192673 571402 7853047 39647 49434 29179 0 0 0
-	cpu2 666965 186509 576296 7853110 39012 48973 26407 0 0 0
-	cpu3 657630 183343 573805 7863627 38895 48768 26636 0 0 0
-	cpu4 620516 161440 594973 7899146 39438 47605 26467 0 0 0
-	cpu5 610849 155665 594684 7912479 40258 46870 26044 0 0 0
-	cpu6 857685 92294 387182 8096756 46609 22110 12364 0 0 0
-	cpu7 816434 273809 414043 7946709 49546 22311 11284 0 0 0
-	intr 601715486 0 0 0 0 70612466 0 2949552 0 93228 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12862684 625329 10382717 16209 55315 8510 0 0 0 0 11 11 13 270 192 40694 95 7 0 0 0 36850 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 286 6378 0 0 0 54 0 3239423 2575191 82725 0 0 127 0 0 0 1791277 850609 20 9076504 0 301 0 0 0 0 0 3834621 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 806645 0 0 0 0 0 7243 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2445850 52 1783 0 0 5091520 0 0 0 3 0 0 0 0 0 5475 0 198001 0 2 42 1289224 0 2 202483 4 0 8390 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3563336 4202122 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0 1 0 1 0 17948 0 0 612 0 0 0 0 2103 0 0 20 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 0 0 0 0 0 0 11 11 12 0 12 0 52 752 0 0 0 0 0 0 0 743 0 14 0 0 12 0 0 1863 229 0 464 0 0 0 0 0 0 8588 97 7236426 92766 622 31 0 0 0 18 4 4 0 5 0 0 116013 7 0 0 752406
-	ctxt 826091808
-	btime 1611513513
-	processes 288493
-	procs_running 1
-	procs_blocked 0
-	softirq 175407567 14659158 51739474 28359 5901272 8879590 0 11988166 46104015 0 36107533
+if [ ! -f "${HOME}/${folder}/proc/fakethings/stat" ]; then
+	cat <<- EOF > "${HOME}/${folder}/proc/fakethings/stat"
+cpu  5502487 1417100 4379831 62829678 354709 539972 363929 0 0 0
+cpu0 611411 171363 667442 7404799 61301 253898 205544 0 0 0
+cpu1 660993 192673 571402 7853047 39647 49434 29179 0 0 0
+cpu2 666965 186509 576296 7853110 39012 48973 26407 0 0 0
+cpu3 657630 183343 573805 7863627 38895 48768 26636 0 0 0
+cpu4 620516 161440 594973 7899146 39438 47605 26467 0 0 0
+cpu5 610849 155665 594684 7912479 40258 46870 26044 0 0 0
+cpu6 857685 92294 387182 8096756 46609 22110 12364 0 0 0
+cpu7 816434 273809 414043 7946709 49546 22311 11284 0 0 0
+intr 601715486 0 0 0 0 70612466 0 2949552 0 93228 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 12862684 625329 10382717 16209 55315 8510 0 0 0 0 11 11 13 270 192 40694 95 7 0 0 0 36850 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 286 6378 0 0 0 54 0 3239423 2575191 82725 0 0 127 0 0 0 1791277 850609 20 9076504 0 301 0 0 0 0 0 3834621 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 806645 0 0 0 0 0 7243 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2445850 52 1783 0 0 5091520 0 0 0 3 0 0 0 0 0 5475 0 198001 0 2 42 1289224 0 2 202483 4 0 8390 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3563336 4202122 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0 1 0 1 0 17948 0 0 612 0 0 0 0 2103 0 0 20 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 0 0 0 0 0 0 11 11 12 0 12 0 52 752 0 0 0 0 0 0 0 743 0 14 0 0 12 0 0 1863 229 0 464 0 0 0 0 0 0 8588 97 7236426 92766 622 31 0 0 0 18 4 4 0 5 0 0 116013 7 0 0 752406
+ctxt 826091808
+btime 1611513513
+processes 288493
+procs_running 1
+procs_blocked 0
+softirq 175407567 14659158 51739474 28359 5901272 8879590 0 11988166 46104015 0 36107533
 	EOF
 fi
 
-if [ ! -f "${cur}/${folder}/proc/fakethings/version" ]; then
-	cat <<- EOF > "${cur}/${folder}/proc/fakethings/version"
-	Linux version 5.4.0-faked (distribuicoeslinuxnoandroid@fakeandroid) (gcc version 4.9.x (Fake Distribuicoes Linux no Android /proc/version) ) #1 SMP PREEMPT Tue Apr 01 00:00:00 BRT 2025
+
+KERNEL_VERSON=$(uname -r)
+if [ ! -f "${HOME}/${folder}/proc/fakethings/version" ]; then
+	cat <<- EOF > "${HOME}/${folder}/proc/fakethings/version"
+	$KERNEL_VERSION (FakeAndroid) #1 SMP PREEMPT Sat Apr  5 02:10:31 -03 2025
 	EOF
 fi
 
-if [ ! -f "${cur}/${folder}/proc/fakethings/vmstat" ]; then
-	cat <<- EOF > "${cur}/${folder}/proc/fakethings/vmstat"
+if [ ! -f "${HOME}/${folder}/proc/fakethings/vmstat" ]; then
+	cat <<- EOF > "${HOME}/${folder}/proc/fakethings/vmstat"
 	nr_free_pages 15717
 	nr_zone_inactive_anon 87325
 	nr_zone_active_anon 259521
@@ -285,13 +288,23 @@ if [ -n "\$(ls -A $binds)" ]; then
 fi
 command+=" -b /dev"
 command+=" -b /proc"
+command+=" -b /sys"
+command+=" -b /data"
 command+=" -b $folder/root:/dev/shm"
+command+=" -b /proc/self/fd/2:/dev/stderr"
+command+=" -b /proc/self/fd/1:/dev/stdout"
+command+=" -b /proc/self/fd/0:/dev/stdin"
+command+=" -b /dev/urandom:/dev/random"
+command+=" -b /proc/self/fd:/dev/fd"
+command+=" -b ${HOME}/${folder}/proc/fakethings/stat:/proc/stat"
+command+=" -b ${HOME}/${folder}/proc/fakethings/vmstat:/proc/vmstat"
+command+=" -b ${HOME}/${folder}/proc/fakethings/version:/proc/version"
 ## uncomment the following line to have access to the home directory of termux
 #command+=" -b /data/data/com.termux/files/home:/root"
-## uncomment the following line to mount /sdcard directly to / 
 command+=" -b /sdcard"
 command+=" -w /root"
 command+=" /usr/bin/env -i"
+command+=" MOZ_FAKE_NO_SANDBOX=1"
 command+=" HOME=/root"
 command+=" PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/games"
 command+=" TERM=\$TERM"
@@ -386,7 +399,7 @@ export PORT=1
 			fi
 			(
 				echo 0  # Inicia 
-				sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+				#sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
 				wget --tries=20 "${extralink}/config/locale/locale_pt-BR.sh" -P $folder/root > /dev/null --progress=dot:giga 2>&1 | while read -r line; do
 				# Extraindo a porcentagem do progresso do wget
 					if [[ $line =~ ([0-9]+)% ]]; then
@@ -467,11 +480,13 @@ clear
 #Copiando arquivos para dentro do linux
 mkdir -p $folder/root/.vnc
 cp l10n_*.sh $folder/root/
-cp l10n_*.sh $folder/root/.vnc
+cp l10n_*.sh $folder/root/.vnc/
 chmod +x $folder/root/l10n_*.sh
 chmod +x $folder/root/.vnc/l10n_*.sh
 cp fixed_variables.sh $folder/root/
+cp fixed_variables.sh $folder/root/.vnc/
 chmod +x $folder/root/fixed_variables.sh
+chmod +x $folder/root/.vnc/fixed_variables.sh
 
 #echo "fixing shebang of $bin"
 termux-fix-shebang $bin
@@ -481,6 +496,7 @@ chmod +x $bin
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
+echo -e 'nameserver 8.8.8.8\nnameserver 8.8.4.4' >> /etc/resolv.conf
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
 apt install sudo wget -y > /dev/null 2>&1 

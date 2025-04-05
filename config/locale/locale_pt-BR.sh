@@ -55,9 +55,6 @@ export NEWT_COLORS='window=,white border=black,white title=black,white textbox=b
     echo "Instalando pacotes de idioma..."
     sudo apt-get install locales -y > /dev/null 2>&1
     
-    echo 32
-    sudo apt-get install language-pack-pt -y > /dev/null 2>&1
-    
     echo 48
     sudo apt-get install language-pack-pt-base -y > /dev/null 2>&1
     

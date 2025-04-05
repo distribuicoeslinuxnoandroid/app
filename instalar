@@ -12,39 +12,53 @@ clear
 # ==============================================================================================
 # Variável com o link do script no GitHub
 # Função para atualizar a barra de progresso
+# update_progress() precisa ser definido antes de ser usado
 update_progress() {
-    echo "$1"  # Envia a porcentagem para o dialog
-    sleep 0.1  # Ajuste o tempo conforme necessário
+    percent=$1
+    stage=$((percent / 33 + 1))
+    bar_length=30
+    filled_length=$((percent * bar_length / 100))
+    empty_length=$((bar_length - filled_length))
+
+    filled_bar=$(printf "%${filled_length}s" | tr " " "=")
+    empty_bar=$(printf "%${empty_length}s" | tr " " " ")
+
+    printf "\r%d/3 [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
 }
 
 # Executa todas as etapas em um único bloco para a barra de progresso
-(
+# Move a definição de update_progress para antes do bloco
+
+# Remove o pipe para dialog
+{
     # Verifica e baixa fixed_variables.sh (0-33%)
     if [ ! -f "$HOME/fixed_variables.sh" ]; then
         curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
-        for i in {0..33}; do update_progress $i; done
+        for i in {0..33}; do update_progress $i; sleep 0.1; done
     else
-        for i in {0..33}; do update_progress $i; done  # Avança rapidamente se o arquivo já existe
+        for i in {0..33}; do update_progress $i; sleep 0.1; done  # Avança rapidamente se o arquivo já existe
     fi
     source $HOME/fixed_variables.sh
+
     # Verifica e baixa l10n_${locale}.sh (34-65%)
     if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
-        for i in {34..65}; do update_progress $i; done
+        for i in {34..65}; do update_progress $i; sleep 0.1; done
     else
-        for i in {34..65}; do update_progress $i; done  # Avança rapidamente
+        for i in {34..65}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
     source $HOME/l10n_$system_icu_locale_code.sh
+
     # Verifica e baixa $distro_del (66-100%)
     if [ ! -f "$PREFIX/bin/$distro_del" ]; then
         curl -s -o "$HOME/$distro_del" "${extralink}/$distro_del"
-        for i in {66..100}; do update_progress $i; done
+        for i in {66..100}; do update_progress $i; sleep 0.1; done
         mv "$HOME/$distro_del" "$PREFIX/bin/$distro_del"
         chmod +x "$PREFIX/bin/$distro_del"
     else
-        for i in {66..100}; do update_progress $i; done  # Avança rapidamente
+        for i in {66..100}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
-) | dialog --gauge "Iniciando..." 6 40 0
+} &
 
 # Carrega os arquivos após o download
 chmod +x "$PREFIX/bin/$distro_del"
@@ -52,14 +66,13 @@ chmod +x "$HOME/fixed_variables.sh"
 chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
-clear
+
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
 # Lista de pacotes necessários
-PACKAGES=("wget" "dialog" "dialog" "proot" "curl" "tar")
-
+PACKAGES=("wget" "dialog" "proot" "curl" "tar")
 # Função para verificar se um pacote está instalado
 is_installed() {
     dpkg -l | grep -qw "$1"
@@ -76,22 +89,35 @@ done
 
 # Executa a instalação apenas se algum pacote estiver faltando
 if [ "$ALL_INSTALLED" = false ]; then
-    apt install wget dialog dialog proot curl tar -y &> /dev/null &
-    PID=$!
-    
-    # Barra de progresso personalizada
-    (
-        for ((i=0; i<=100; i++)); do
-            echo $i  # Atualiza a barra de progresso
-            sleep 0.1  # Ajuste o tempo para simular o progresso
-        done
-    ) | dialog --gauge "Instalando pacotes..." 6 40 0
-    
-    # Aguarda o término do apt install
-    wait $PID
+    apt update -y &> /dev/null
+    total_packages=$(echo $PACKAGES | wc -w)
+    installed_count=0
+
+    # Função para exibir a barra de progresso
+    show_progress() {
+        percent=$1
+        bar_length=20  # Comprimento da barra de progresso
+        filled_length=$((percent * bar_length / 100))
+        empty_length=$((bar_length - filled_length))
+
+        filled_bar=$(printf "%${filled_length}s" | tr " " "#")
+        empty_bar=$(printf "%${empty_length}s" | tr " " " ")
+
+        printf "\r[%s%s] %3d%% (%d/%d)" "$filled_bar" "$empty_bar" "$percent" "$installed_count" "$total_packages"
+    }
+
+    # Loop para instalar os pacotes
+    for package in $PACKAGES; do
+        apt install "$package" -y &> /dev/null
+        installed_count=$((installed_count + 1))
+        percent=$((installed_count * 100 / total_packages))
+        show_progress $percent
+    done
+    echo  # Adiciona uma nova linha após a conclusão
 else
     echo "Todos os pacotes já estão instalados."
 fi
+
 
 # Mensagem final
 clear

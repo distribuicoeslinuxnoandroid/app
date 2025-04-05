@@ -58,7 +58,7 @@ update_progress() {
     else
         for i in {66..100}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
-} &
+}
 
 # Carrega os arquivos após o download
 chmod +x "$PREFIX/bin/$distro_del"
@@ -66,7 +66,7 @@ chmod +x "$HOME/fixed_variables.sh"
 chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
 source $HOME/fixed_variables.sh
 source $HOME/l10n_$system_icu_locale_code.sh
-
+clear
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta

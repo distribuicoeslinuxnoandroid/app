@@ -16,7 +16,6 @@ clear
 # Variável com o link do script no GitHub
 # Função para atualizar a barra de progresso
 # update_progress() precisa ser definido antes de ser usado
-
 estagio=10
 
 update_progress() {
@@ -30,56 +29,55 @@ update_progress() {
     empty_bar=$(printf "%${empty_length}s" | tr " " " ")
 
     printf "\r%d/%d [%s%s] %3d%%" "$stage" "$estagio" "$filled_bar" "$empty_bar" "$percent"
-
 }
 
 {
     # Verifica se o proot está instalado
     if dpkg -l | grep -qw proot; then
-        for i in {0..10}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 0 10); do update_progress $i; sleep 0.1; done
     else
-        apt install proot -y 
-        for i in {0..10}; do update_progress $i; sleep 0.1; done
+        apt install proot -y
+        for i in $(seq 0 10); do update_progress $i; sleep 0.1; done
     fi
 
     # Verifica se o wget está instalado
     if dpkg -l | grep -qw wget; then
-        for i in {11..20}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 11 20); do update_progress $i; sleep 0.1; done
     else
-        apt install wget -y 
-        for i in {11..20}; do update_progress $i; sleep 0.1; done
+        apt install wget -y
+        for i in $(seq 11 20); do update_progress $i; sleep 0.1; done
     fi
 
     # Verifica se o dialog está instalado
     if dpkg -l | grep -qw dialog; then
-        for i in {21..30}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 21 30); do update_progress $i; sleep 0.1; done
     else
-        apt install dialog -y 
-        for i in {21..30}; do update_progress $i; sleep 0.1; done
+        apt install dialog -y
+        for i in $(seq 21 30); do update_progress $i; sleep 0.1; done
     fi
 
     # Verifica se o tar está instalado
     if dpkg -l | grep -qw tar; then
-        for i in {31..40}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 31 40); do update_progress $i; sleep 0.1; done
     else
-        apt install tar -y 
-        for i in {31..40}; do update_progress $i; sleep 0.1; done
+        apt install tar -y
+        for i in $(seq 31 40); do update_progress $i; sleep 0.1; done
     fi
 
-    # Verifica se o cur está instalado
+    # Verifica se o curl está instalado
     if dpkg -l | grep -qw curl; then
-        for i in {41..50}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 41 50); do update_progress $i; sleep 0.1; done
     else
-        apt install curl -y 
-        for i in {41..50}; do update_progress $i; sleep 0.1; done
+        apt install curl -y
+        for i in $(seq 41 50); do update_progress $i; sleep 0.1; done
     fi
 
     # Verifica e baixa fixed_variables.sh (0-33%)
     if [ ! -f "$HOME/fixed_variables.sh" ]; then
         curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
-        for i in {51..60}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 51 60); do update_progress $i; sleep 0.1; done
     else
-        for i in {51..60}; do update_progress $i; sleep 0.1; done  # Avança rapidamente se o arquivo já existe
+        for i in $(seq 51 60); do update_progress $i; sleep 0.1; done  # Avança rapidamente se o arquivo já existe
     fi
     chmod +x "$HOME/fixed_variables.sh"
     source "$HOME/fixed_variables.sh"
@@ -87,29 +85,29 @@ update_progress() {
     # Verifica e baixa l10n_${locale}.sh (34-65%)
     if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
-        for i in {61..70}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 61 70); do update_progress $i; sleep 0.1; done
     else
-        for i in {61..70}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+        for i in $(seq 61 70); do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
     chmod +x "$HOME/l10n_$system_icu_locale_code.sh"
-    source "$HOME/l10n_$system_icu_locale_code.sh" 
+    source "$HOME/l10n_$system_icu_locale_code.sh"
 
     # Verifica se o arquivo está em $HOME
     if [ -f "$HOME/andistro" ]; then
         mv "$HOME/andistro" "$PREFIX/bin/andistro" # Move para o binário para virar um comando executável
-        for i in {71..80}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 71 80); do update_progress $i; sleep 0.1; done
         rm -rf "$HOME/andistro" # Remove o arquivo presente em $HOME
     else
-        for i in {71..80}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+        for i in $(seq 71 80); do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
     chmod +x "$PREFIX/bin/andistro"
 
     # Baixa uma versão do arquivo para comparar as versões
     if [ ! -f "$HOME/andistro.check" ]; then
         curl -s -o "$HOME/andistro.check" "${extralink}/andistro"
-        for i in {81..90}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 81 90); do update_progress $i; sleep 0.1; done
     else
-        for i in {81..90}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+        for i in $(seq 81 90); do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
 
     # Verifica se o arquivo está em $PREFIX/bin/
@@ -123,11 +121,12 @@ update_progress() {
             # Arquivos são iguais: mantém o local e remove o temporário
             rm "$HOME/andistro.check"
         fi
-        for i in {91..100}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 91 100); do update_progress $i; sleep 0.1; done
     else
-        for i in {91..100}; do update_progress $i; sleep 0.1; done
+        for i in $(seq 91 100); do update_progress $i; sleep 0.1; done
     fi
 }
+
 clear
 
 

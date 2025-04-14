@@ -202,8 +202,8 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
         if [ -z "$2" ]; then
             echo -e "Uso correto: andistro desintalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
             echo -e "Distribuições disponíveis:\n"
-            echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
-            echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+            echo -e "\033[1m\033[36mdebian:\033[0m desinstala o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m desinstala o sistema Ubuntu."
             exit 1
         fi
 
@@ -249,7 +249,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
         exit 1
     fi
 
-    # Desinstala o sistema operacional escolhido
+    # Inicia o sistema operacional escolhido
     if [ "$1" == "iniciar" ]; then
         if [ -z "$2" ]; then
             echo -e "Uso correto: andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"

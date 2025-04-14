@@ -43,16 +43,16 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 # update_progress() precisa ser definido antes de ser usado
 
 
-#estagio=33 #33% completos
+estagio=10
 update_progress() {
     percent=$1
-    stage=$((percent / $estagio + 1)) #precisa criar o "estagio=<número>" no código onde será executado"
+    stage=$((percent / $estagio + 1))
     bar_length=30
     filled_length=$((percent * bar_length / 100))
     empty_length=$((bar_length - filled_length))
 
     filled_bar=$(printf "%${filled_length}s" | tr " " "=")
     empty_bar=$(printf "%${empty_length}s" | tr " " " ")
-
-    printf "\r%d/3 [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
+    
+    printf "\r%d/%d [%s%s] %3d%%" "$stage" "$total_stages" "$filled_bar" "$empty_bar" "$percent"
 }

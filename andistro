@@ -95,6 +95,7 @@ update_progress() {
     if [ ! -f "$HOME/andistro" ]; then
         mv "$HOME/andistro" "$PREFIX/bin/andistro"
         for i in {71..80}; do update_progress $i; sleep 0.1; done
+        rm -rf "$HOME/andistro"
     else
         for i in {71..80}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi

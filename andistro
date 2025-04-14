@@ -29,7 +29,8 @@ update_progress() {
     filled_bar=$(printf "%${filled_length}s" | tr " " "=")
     empty_bar=$(printf "%${empty_length}s" | tr " " " ")
     
-    printf "\r%d/%d [%s%s] %3d%%" "$stage" "$total_stages" "$filled_bar" "$empty_bar" "$percent"
+    printf "\rInstalando... %d/${estagio} [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
+
 }
 
 {

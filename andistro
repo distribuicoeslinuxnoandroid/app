@@ -1,0 +1,251 @@
+#!/data/data/com.termux/files/usr/bin/bash
+extralink="https://raw.githubusercontent.com/andistro/app/main"
+system_icu_locale_code=$(getprop persist.sys.locale)
+
+apt update > /dev/null 2>&1 &
+apt upgrade -y
+
+if [ ! -d "$HOME/storage" ];then
+    termux-setup-storage
+fi
+
+clear
+
+# ==============================================================================================
+# GLOBAL
+# ==============================================================================================
+# Variável com o link do script no GitHub
+# Função para atualizar a barra de progresso
+# update_progress() precisa ser definido antes de ser usado
+update_progress() {
+    percent=$1
+    stage=$((percent / 10 + 1))
+    bar_length=30
+    filled_length=$((percent * bar_length / 100))
+    empty_length=$((bar_length - filled_length))
+
+    filled_bar=$(printf "%${filled_length}s" | tr " " "=")
+    empty_bar=$(printf "%${empty_length}s" | tr " " " ")
+
+    printf "\r%d/3 [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
+}
+
+{
+    # Verifica se o proot está instalado
+    if dpkg -l | grep -qw proot; then
+        for i in {0..10}; do update_progress $i; sleep 0.1; done
+    else
+        apt install proot -y 
+        for i in {0..10}; do update_progress $i; sleep 0.1; done
+    fi
+
+    # Verifica se o wget está instalado
+    if dpkg -l | grep -qw wget; then
+        for i in {11..20}; do update_progress $i; sleep 0.1; done
+    else
+        apt install wget -y 
+        for i in {11..20}; do update_progress $i; sleep 0.1; done
+    fi
+
+    # Verifica se o dialog está instalado
+    if dpkg -l | grep -qw dialog; then
+        for i in {21..30}; do update_progress $i; sleep 0.1; done
+    else
+        apt install dialog -y 
+        for i in {21..30}; do update_progress $i; sleep 0.1; done
+    fi
+
+    # Verifica se o tar está instalado
+    if dpkg -l | grep -qw tar; then
+        for i in {31..40}; do update_progress $i; sleep 0.1; done
+    else
+        apt install tar -y 
+        for i in {31..40}; do update_progress $i; sleep 0.1; done
+    fi
+
+    # Verifica se o cur está instalado
+    if dpkg -l | grep -qw curl; then
+        for i in {41..50}; do update_progress $i; sleep 0.1; done
+    else
+        apt install curl -y 
+        for i in {41..50}; do update_progress $i; sleep 0.1; done
+    fi
+
+    # Verifica e baixa fixed_variables.sh (0-33%)
+    if [ ! -f "$HOME/fixed_variables.sh" ]; then
+        curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
+        for i in {51..60}; do update_progress $i; sleep 0.1; done
+    else
+        for i in {51..60}; do update_progress $i; sleep 0.1; done  # Avança rapidamente se o arquivo já existe
+    fi
+    chmod +x "$HOME/fixed_variables.sh"
+    source "$HOME/fixed_variables.sh"
+
+    # Verifica e baixa l10n_${locale}.sh (34-65%)
+    if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
+        curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+        for i in {61..70}; do update_progress $i; sleep 0.1; done
+    else
+        for i in {61..70}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+    fi
+    chmod +x "$HOME/l10n_$system_icu_locale_code.sh"
+    source "$HOME/l10n_$system_icu_locale_code.sh"
+
+    # Verifica se o arquivo está em $HOME
+    if [ ! -f "$HOME/andistro" ]; then
+        mv "$HOME/andistro" "$PREFIX/bin/andistro"
+        for i in {71..80}; do update_progress $i; sleep 0.1; done
+    else
+        for i in {71..80}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+    fi
+    chmod +x "$PREFIX/bin/andistro"
+
+    # Baixa uma versão do arquivo para comparar as versões
+    if [ ! -f "$HOME/andistro.check" ]; then
+        curl -s -o "$HOME/andistro.check" "${extralink}/andistro"
+        for i in {81..90}; do update_progress $i; sleep 0.1; done
+    else
+        for i in {81..90}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
+    fi
+
+    # Verifica se o arquivo está em $PREFIX/bin/
+    if [ -f "$PREFIX/bin/andistro" ]; then
+        if ! cmp -s "$PREFIX/bin/andistro" "$HOME/andistro.check"; then
+            # Arquivos são diferentes: substitui o arquivo local pelo remoto
+            rm "$PREFIX/bin/andistro"
+            mv "$HOME/andistro.check" "$PREFIX/bin/andistro"
+            chmod +x "$PREFIX/bin/andistro"
+        else
+            # Arquivos são iguais: mantém o local e remove o temporário
+            rm "$HOME/andistro.check"
+        fi
+        for i in {91..100}; do update_progress $i; sleep 0.1; done
+    else
+        for i in {91..100}; do update_progress $i; sleep 0.1; done
+    fi
+}
+
+
+#=============================================================================================
+# COMANDOS
+#=============================================================================================
+
+# Verifica os argumentos passados ao script
+if [ -z "$1" ]; then
+    # Caso nenhum argumento seja passado, exibe a mensagem de instrução
+echo -e "Digite o comando 'andistro instalar' seguido do nome da distribuição para iniciar a instalação.\n
+Digite o comando 'andistro desinstalar' seguido do nome da distribuição para iniciar a instalação.\n
+
+Exemplo de instalação: andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
+Exemplo de desinstalação: andistro desinstalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
+
+
+NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
+\033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
+\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+    
+    # Instala o sistema operacional escolhido
+    if [ "$1" == "instalar" ]; then
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+            exit 1
+        fi
+
+        if [ "$2" == "debian" ]; then
+            echo -e "Instalando o Debian...\nAguarde..."
+            wget --tries=20 "${extralink}/distros/debian.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
+            (
+                while pkill -0 wget >/dev/null 2>&1; do
+                    sleep $dialog_intervalo
+                    echo "${label_progress}"
+                    echo "$((++percentage))"
+                done
+                echo "${label_progress}"
+                echo "75"
+                sleep 2
+            ) | dialog --gauge "${label_progress}" 6 40 0
+            clear
+
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Instalando o Ubuntu...\nAguarde..."
+            wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
+            (
+                while pkill -0 wget >/dev/null 2>&1; do
+                    sleep $dialog_intervalo
+                    echo "${label_progress}"
+                    echo "$((++percentage))"
+                done
+                echo "${label_progress}"
+                echo "75"
+                sleep 2
+            ) | dialog --gauge "${label_progress}" 6 40 0
+            clear
+
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+    chmod +x $HOME/start-distro.sh
+    bash $HOME/start-distro.sh
+    rm -rf $HOME/start-distro.sh
+    else
+        echo "Comando não reconhecido: $1"
+        echo "Uso: andistro instalar <debian|ubuntu>"
+        exit 1
+    fi
+
+    # Desinstala o sistema operacional escolhido
+    if [ "$1" == "desinstalar" ]; then
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro desintalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+            exit 1
+        fi
+
+        if [ "$2" == "debian" ]; then
+            echo -e "Desinstalando o Debian...\nAguarde..."
+            rm -rf $HOME/debian-stable
+            rm -rf $HOME/debian-binds
+            rm -rf $HOME/start-debian.sh
+            rm -rf $HOME/start-distro.sh
+            rm -rf $HOME/l10n*.sh
+            rm -rf $HOME/fixed_variables.sh
+            rm -rf $HOME/storage
+            rm -rf $HOME/debian-stable
+            rm -rf $HOME/debian-bookworm
+            rm -rf $HOME/debian-bullseye
+            rm -rf $PREFIX/bin/start-debian
+            rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+            rm -rf system_bus_socket
+            echo "Desisntalação concluída!"
+            clear
+
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Desinstalando o Ubuntu...\nAguarde..."
+            rm -rf $HOME/ubuntu-fs
+            rm -rf $HOME/ubuntu-binds
+            rm -rf $HOME/start-ubuntu.sh
+            rm -rf $HOME/start-distro.sh
+            rm -rf $HOME/l10n*.sh
+            rm -rf $HOME/fixed_variables.sh
+            rm -rf $PREFIX/bin/start-ubuntu
+            rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+            rm -rf system_bus_socket
+            echo "Desisntalação concluída!"
+            clear
+
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+    else
+        echo "Comando não reconhecido: $1"
+        echo "Uso: andistro desinstalar <debian|ubuntu>"
+        exit 1
+    fi
+fi

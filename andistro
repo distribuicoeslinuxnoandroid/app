@@ -156,7 +156,7 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
 \033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
 
     else
-        echo "Comando não reconhecido: $1"
+        echo "Comando não reconhecido"
         exit 1
 
 fi

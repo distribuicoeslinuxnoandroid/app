@@ -95,7 +95,7 @@ update_progress() {
     source "$HOME/l10n_$system_icu_locale_code.sh"
 
     # Verifica se o arquivo está em $HOME
-    if [ ! -f "$HOME/andistro" ]; then
+    if [ -f "$HOME/andistro" ]; then
         mv "$HOME/andistro" "$PREFIX/bin/andistro" # Move para o binário para virar um comando executável
         for i in {71..80}; do update_progress $i; sleep 0.1; done
         rm -rf "$HOME/andistro" # Remove o arquivo presente em $HOME
@@ -113,7 +113,7 @@ update_progress() {
     fi
 
     # Verifica se o arquivo está em $PREFIX/bin/
-    if [ -f "$PREFIX/bin/andistro" ]; then
+    if [ -f "$PREFIX/bin/andistro" ]  && [ -f "$HOME/andistro.check" ]; then
         if ! cmp -s "$PREFIX/bin/andistro" "$HOME/andistro.check"; then
             # Arquivos são diferentes: substitui o arquivo local pelo remoto
             rm "$PREFIX/bin/andistro"

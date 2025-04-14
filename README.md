@@ -139,7 +139,7 @@ instalar <NOME_DA_DISTRIBUIÇÃO>
 >[!NOTE]
 > Caso prefira que os passos sejam feitos de uma unica vez, copie o código abaixo
 ```bash
-curl -O https://raw.githubusercontent.com/andistro/app/main/instalar && chmod +x instalar && bash instalar && clear && instalar
+curl -O https://raw.githubusercontent.com/andistro/app/main/andistro && chmod +x andistro && bash andistro && clear && instalar
 ```
 ---
 

@@ -248,4 +248,35 @@ NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
         echo "Uso: andistro desinstalar <debian|ubuntu>"
         exit 1
     fi
+
+    # Desinstala o sistema operacional escolhido
+    if [ "$1" == "iniciar" ]; then
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m inicia o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m inicia o sistema Ubuntu."
+            exit 1
+        fi
+
+        if [ "$2" == "debian" ]; then
+            echo -e "Iniciando o Debian...\nAguarde..."
+            start-debian
+            clear
+
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Iniciando o Ubuntu...\nAguarde..."
+            start-ubuntu
+            clear
+
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+    else
+        echo "Comando não reconhecido: $1"
+        echo "Uso: andistro iniciar <debian|ubuntu>"
+        exit 1
+    fi
+
 fi

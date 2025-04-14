@@ -3,7 +3,7 @@
 # Variável com o link do script no GitHub
 
 # Teste
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 script_url="${extralink}/desinstalar"
 
 # Nome do arquivo local

@@ -2,7 +2,7 @@
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
 
 # Ajuste das cores da GUI
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 
 if [ -f "fixed_variables.sh" ]; then
     source fixed_variables.sh

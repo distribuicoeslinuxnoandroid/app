@@ -112,7 +112,7 @@ Após o Termux ter sido instalado no aparelho e iniciado, agora será a vez de b
 
 1. Copie e cole o código abaixo no Termux e após, tecle enter (↵) para baixar o arquivo:
 ```bash
-curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar > /dev/null 2>&1
+curl -O https://raw.githubusercontent.com/andistro/app/main/instalar > /dev/null 2>&1
 ```
 2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:
 ```bash
@@ -139,7 +139,7 @@ instalar <NOME_DA_DISTRIBUIÇÃO>
 >[!NOTE]
 > Caso prefira que os passos sejam feitos de uma unica vez, copie o código abaixo
 ```bash
-curl -O https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/instalar && chmod +x instalar && bash instalar && clear && instalar
+curl -O https://raw.githubusercontent.com/andistro/app/main/instalar && chmod +x instalar && bash instalar && clear && instalar
 ```
 ---
 

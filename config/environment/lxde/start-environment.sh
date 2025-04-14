@@ -1,5 +1,5 @@
 #!/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 
 if [ -f "fixed_variables.sh" ]; then

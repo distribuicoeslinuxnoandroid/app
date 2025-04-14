@@ -1,8 +1,7 @@
 #!/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 
 #dialog
-
 dialog_total_time=2 ## Configurar o intervalo de atualização da barra de progresso
 dialog_intervalo=1 ## Número de etapas na barra de progresso
 steps=$((dialog_total_time / dialog_intervalo))
@@ -35,6 +34,25 @@ fi
 #Formato GMT
 GMT_date=$(date +"%Z":00)
 
-cur=`pwd`
+#cur=`pwd`
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
+
+
+# Função para atualizar a barra de progresso
+# update_progress() precisa ser definido antes de ser usado
+
+
+#estagio=33 #33% completos
+update_progress() {
+    percent=$1
+    stage=$((percent / $estagio + 1)) #precisa criar o "estagio=<número>" no código onde será executado"
+    bar_length=30
+    filled_length=$((percent * bar_length / 100))
+    empty_length=$((bar_length - filled_length))
+
+    filled_bar=$(printf "%${filled_length}s" | tr " " "=")
+    empty_bar=$(printf "%${empty_length}s" | tr " " " ")
+
+    printf "\r%d/3 [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
+}

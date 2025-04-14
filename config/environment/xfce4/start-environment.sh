@@ -1,5 +1,5 @@
 #!/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 
 if [ -f "fixed_variables.sh" ]; then
@@ -80,7 +80,7 @@ source /etc/profile
   sed -i 's|property name="last-image" type="string" value="/usr/share/backgrounds/xfce/xfce-verticals.png"property name="last-image" type="string" value="/usr/share/backgrounds/wai-hsuen-chan-DnmMLipPktY.jpg"|' $HOME/.config/xfce4/xconf/xfce-perchannel-xml/xfce4-desktop.xml
 
   echo 60
-  wget --tries=20 "https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 > /dev/null 2>&1
+  wget --tries=20 "https://raw.githubusercontent.com/andistro/app/main/config/environment/xfce4/xfce4-panel.tar.bz2"  -O ~/xfce4-panel.tar.bz2 > /dev/null 2>&1
   chmod +x ~/xfce4-panel.tar.bz2
 
   echo 70

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 
 # Se o arquivo ~/.bashrc não existir, cria um vazio
 if [ ! -f ~/.bashrc ]; then

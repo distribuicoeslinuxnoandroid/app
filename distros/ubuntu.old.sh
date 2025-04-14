@@ -3,7 +3,7 @@
 apt install wget -y >/dev/null 2>&1
 
 
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 
@@ -764,7 +764,7 @@ sed -i '\|command+=" /bin/bash --login"|a command+=" -b /data/data/com.termux/fi
 touch $folder/root/.hushlogin
 
 echo '#!/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 
 if [ -f "fixed_variables.sh" ]; then
 	chmod +x fixed_variables.sh

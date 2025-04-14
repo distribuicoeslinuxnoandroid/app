@@ -20,7 +20,7 @@ clear
 
 # Vai pedir o acesso a memória do celular
 #Logs do sistema
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 if [ -f "fixed_variables.sh" ]; then
@@ -85,25 +85,6 @@ if [ -f "$PREFIX/bin/$distro_del" ]; then
 		chmod +x $distro_del
     mv $distro_del "$PREFIX/bin/"
 fi
-
-
-system_info="${label_system_info}
-
-${label_android_version}: ${android_version}
-
-${label_device_manufacturer}: ${device_manufacturer}
-${label_device_model} / ${device_model_complete}
-
-${label_device_hardware}: ${device_hardware}
-${label_android_architecture}: ${android_architecture}
-
-${label_system_country}: ${system_country}
-${label_system_country_iso}: ${system_country_iso}
-${label_system_icu_locale_code}: ${system_icu_locale_code}
-${label_system_timezone}: (GMT${GMT_date}) ${system_timezone}
-
-${desc_system_info}
-"
 
 wget --tries=20 "${extralink}/sys-info" -O sys-info > /dev/null 2>&1 &
 chmod +x sys-info

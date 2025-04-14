@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 #=============================================================================================
@@ -475,7 +475,7 @@ chmod +x $folder/root/config-environment.sh
 touch $folder/root/.hushlogin
 
 echo '#!/bin/bash
-extralink="https://raw.githubusercontent.com/distribuicoeslinuxnoandroid/app/main"
+extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 
 

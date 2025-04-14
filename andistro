@@ -95,9 +95,9 @@ update_progress() {
 
     # Verifica se o arquivo está em $HOME
     if [ ! -f "$HOME/andistro" ]; then
-        mv "$HOME/andistro" "$PREFIX/bin/andistro"
+        mv "$HOME/andistro" "$PREFIX/bin/andistro" # Move para o binário para virar um comando executável
         for i in {71..80}; do update_progress $i; sleep 0.1; done
-        rm -rf "$HOME/andistro"
+        rm -rf "$HOME/andistro" # Remove o arquivo presente em $HOME
     else
         for i in {71..80}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi

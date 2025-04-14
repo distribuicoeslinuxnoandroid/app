@@ -2,8 +2,7 @@
 extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
-apt update > /dev/null 2>&1 &
-apt upgrade -y
+apt update > /dev/null 2>&1 && apt upgrade -y
 
 if [ ! -d "$HOME/storage" ];then
     termux-setup-storage
@@ -29,7 +28,8 @@ update_progress() {
     filled_bar=$(printf "%${filled_length}s" | tr " " "=")
     empty_bar=$(printf "%${empty_length}s" | tr " " " ")
 
-    printf "\r%d/$estagio [%s%s] %3d%%" "$stage" "$filled_bar" "$empty_bar" "$percent"
+    printf "\r%d/%d [%s%s] %3d%%" "$stage" "$estagio" "$filled_bar" "$empty_bar" "$percent"
+
 }
 
 {
@@ -158,137 +158,127 @@ exit 0
 
 fi
 
-# Instala o sistema operacional escolhido
-if [ "$1" == "instalar" ]; then
-    if [ -z "$2" ]; then
-        echo -e "Uso correto: andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-        echo -e "Distribuições disponíveis:\n"
-        echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
-        echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
-        exit 1
-    fi
+case "$1" in
+    instalar)
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+            exit 1
+        fi
 
-    if [ "$2" == "debian" ]; then
-        echo -e "Instalando o Debian...\nAguarde..."
-        wget --tries=20 "${extralink}/distros/debian.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
-        (
-            while pkill -0 wget >/dev/null 2>&1; do
-                sleep $dialog_intervalo
+        if [ "$2" == "debian" ]; then
+            echo -e "Instalando o Debian...\nAguarde..."
+            wget --tries=20 "${extralink}/distros/debian.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
+            (
+                while pkill -0 wget >/dev/null 2>&1; do
+                    sleep $dialog_intervalo
+                    echo "${label_progress}"
+                    echo "$((++percentage))"
+                done
                 echo "${label_progress}"
-                echo "$((++percentage))"
-            done
-            echo "${label_progress}"
-            echo "75"
-            sleep 2
-        ) | dialog --gauge "${label_progress}" 6 40 0
-        clear
+                echo "75"
+                sleep 2
+            ) | dialog --gauge "${label_progress}" 6 40 0
+            clear
 
-    elif [ "$2" == "ubuntu" ]; then
-        echo -e "Instalando o Ubuntu...\nAguarde..."
-        wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
-        (
-            while pkill -0 wget >/dev/null 2>&1; do
-                sleep $dialog_intervalo
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Instalando o Ubuntu...\nAguarde..."
+            wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
+            (
+                while pkill -0 wget >/dev/null 2>&1; do
+                    sleep $dialog_intervalo
+                    echo "${label_progress}"
+                    echo "$((++percentage))"
+                done
                 echo "${label_progress}"
-                echo "$((++percentage))"
-            done
-            echo "${label_progress}"
-            echo "75"
-            sleep 2
-        ) | dialog --gauge "${label_progress}" 6 40 0
-        clear
+                echo "75"
+                sleep 2
+            ) | dialog --gauge "${label_progress}" 6 40 0
+            clear
 
-    else
-        echo "Distribuição não reconhecida: $2"
-        exit 1
-    fi
-chmod +x $HOME/start-distro.sh
-bash $HOME/start-distro.sh
-rm -rf $HOME/start-distro.sh
-else
-    echo "Comando não reconhecido: $1"
-    echo "Uso: andistro instalar <debian|ubuntu>"
-    exit 1
-fi
-
-# Desinstala o sistema operacional escolhido
-if [ "$1" == "desinstalar" ]; then
-    if [ -z "$2" ]; then
-        echo -e "Uso correto: andistro desintalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-        echo -e "Distribuições disponíveis:\n"
-        echo -e "\033[1m\033[36mdebian:\033[0m desinstala o sistema Debian."
-        echo -e "\033[1m\033[36mubuntu:\033[0m desinstala o sistema Ubuntu."
-        exit 1
-    fi
-
-    if [ "$2" == "debian" ]; then
-        echo -e "Desinstalando o Debian...\nAguarde..."
-        rm -rf $HOME/debian-stable
-        rm -rf $HOME/debian-binds
-        rm -rf $HOME/start-debian.sh
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+        chmod +x $HOME/start-distro.sh
+        bash $HOME/start-distro.sh
         rm -rf $HOME/start-distro.sh
-        rm -rf $HOME/l10n*.sh
-        rm -rf $HOME/fixed_variables.sh
-        rm -rf $HOME/storage
-        rm -rf $HOME/debian-stable
-        rm -rf $HOME/debian-bookworm
-        rm -rf $HOME/debian-bullseye
-        rm -rf $PREFIX/bin/start-debian
-        rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
-        rm -rf system_bus_socket
-        echo "Desisntalação concluída!"
-        clear
+        ;;
+    desinstalar)
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro desintalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m desinstala o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m desinstala o sistema Ubuntu."
+            exit 1
+        fi
 
-    elif [ "$2" == "ubuntu" ]; then
-        echo -e "Desinstalando o Ubuntu...\nAguarde..."
-        rm -rf $HOME/ubuntu-fs
-        rm -rf $HOME/ubuntu-binds
-        rm -rf $HOME/start-ubuntu.sh
-        rm -rf $HOME/start-distro.sh
-        rm -rf $HOME/l10n*.sh
-        rm -rf $HOME/fixed_variables.sh
-        rm -rf $PREFIX/bin/start-ubuntu
-        rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
-        rm -rf system_bus_socket
-        echo "Desisntalação concluída!"
-        clear
+        if [ "$2" == "debian" ]; then
+            echo -e "Desinstalando o Debian...\nAguarde..."
+            rm -rf $HOME/debian-stable
+            rm -rf $HOME/debian-binds
+            rm -rf $HOME/start-debian.sh
+            rm -rf $HOME/start-distro.sh
+            rm -rf $HOME/l10n*.sh
+            rm -rf $HOME/fixed_variables.sh
+            rm -rf $HOME/storage
+            rm -rf $HOME/debian-stable
+            rm -rf $HOME/debian-bookworm
+            rm -rf $HOME/debian-bullseye
+            rm -rf $PREFIX/bin/start-debian
+            rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+            rm -rf system_bus_socket
+            echo "Desinstalação concluída!"
+            clear
 
-    else
-        echo "Distribuição não reconhecida: $2"
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Desinstalando o Ubuntu...\nAguarde..."
+            rm -rf $HOME/ubuntu-fs
+            rm -rf $HOME/ubuntu-binds
+            rm -rf $HOME/start-ubuntu.sh
+            rm -rf $HOME/start-distro.sh
+            rm -rf $HOME/l10n*.sh
+            rm -rf $HOME/fixed_variables.sh
+            rm -rf $PREFIX/bin/start-ubuntu
+            rm -rf /data/data/com.termux/files/usr/var/run/dbus/pid 
+            rm -rf system_bus_socket
+            echo "Desinstalação concluída!"
+            clear
+
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+        ;;
+    iniciar)
+        if [ -z "$2" ]; then
+            echo -e "Uso correto: andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
+            echo -e "Distribuições disponíveis:\n"
+            echo -e "\033[1m\033[36mdebian:\033[0m inicia o sistema Debian."
+            echo -e "\033[1m\033[36mubuntu:\033[0m inicia o sistema Ubuntu."
+            exit 1
+        fi
+
+        if [ "$2" == "debian" ]; then
+            echo -e "Iniciando o Debian...\nAguarde..."
+            start-debian
+            clear
+
+        elif [ "$2" == "ubuntu" ]; then
+            echo -e "Iniciando o Ubuntu...\nAguarde..."
+            start-ubuntu
+            clear
+
+        else
+            echo "Distribuição não reconhecida: $2"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Comando não reconhecido: $1"
+        echo "Uso: andistro <instalar|desinstalar|iniciar> <debian|ubuntu>"
         exit 1
-    fi
-else
-    echo "Comando não reconhecido: $1"
-    echo "Uso: andistro desinstalar <debian|ubuntu>"
-    exit 1
-fi
-
-# Inicia o sistema operacional escolhido
-if [ "$1" == "iniciar" ]; then
-    if [ -z "$2" ]; then
-        echo -e "Uso correto: andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-        echo -e "Distribuições disponíveis:\n"
-        echo -e "\033[1m\033[36mdebian:\033[0m inicia o sistema Debian."
-        echo -e "\033[1m\033[36mubuntu:\033[0m inicia o sistema Ubuntu."
-        exit 1
-    fi
-
-    if [ "$2" == "debian" ]; then
-        echo -e "Iniciando o Debian...\nAguarde..."
-        start-debian
-        clear
-
-    elif [ "$2" == "ubuntu" ]; then
-        echo -e "Iniciando o Ubuntu...\nAguarde..."
-        start-ubuntu
-        clear
-
-    else
-        echo "Distribuição não reconhecida: $2"
-        exit 1
-    fi
-else
-    echo "Comando não reconhecido: $1"
-    echo "Uso: andistro iniciar <debian|ubuntu>"
-    exit 1
-fi
+        ;;
+esac

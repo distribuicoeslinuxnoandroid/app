@@ -58,10 +58,10 @@ O script de instalação deste repositório usa o [PRoot](https://wiki.termux.co
 <br>
 
 # Qual a função desse script?
-- Instalar o Ubuntu em dispositivos Android;
+- instalar o Ubuntu em dispositivos Android;
 - Adicionar repositórios que não estão presentes nos repositórios do Ubuntu;
 - Atualizar o repositório do Firefox para que possa ser instalado a partir de um PPA ao invés do instalador snap (padrão) que não funciona no android;
-- Instalar o Figma para linux com suporte ao arm;
+- instalar o Figma para linux com suporte ao arm;
 - Corrigir o problema de iniciação do vscode, figma linux, brave-browser e vivaldi, que não são auto-abertos em máquina virtual sem o comando `--no-sandbox`;
 - Trocar o idioma do sistema operacional para o Português do Brasil.
 
@@ -112,15 +112,15 @@ Após o Termux ter sido instalado no aparelho e iniciado, agora será a vez de b
 
 1. Copie e cole o código abaixo no Termux e após, tecle enter (↵) para baixar o arquivo:
 ```bash
-curl -O https://raw.githubusercontent.com/andistro/app/main/instalar > /dev/null 2>&1
+curl -O https://raw.githubusercontent.com/andistro/app/main/andistro > /dev/null 2>&1
 ```
 2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:
 ```bash
-chmod +x instalar
+chmod +x andistro
 ```
 3. Copie e cole o código abaixo no Termux para que o arquivo seja iniciado:
 ```bash
-./instalar
+./andistro
 ```
 >[!NOTE]
 > Irá aparecer uma mensagem de erro por ser a primeira vez que está sendo usado e o arquivo não está na pasta correta. O próprio irá de forma automática ser salvo na pasta correta e irá mostrar um tutorial de como ser usado.<br>
@@ -130,16 +130,16 @@ chmod +x instalar
 > Instalação direta <br>
 > No lugar de `<NOME_DA_DISTRIBUIÇÃO>` digite o nome do sistema que será instalado.
 ```bash
-instalar <NOME_DA_DISTRIBUIÇÃO>
+andistro <NOME_DA_DISTRIBUIÇÃO>
 ```
 >[!NOTE]
-> Caso digite o comando `instalar` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona. O mesmo também irá procurar uma atualização para se manter na última versão.
+> Caso digite o comando `andistro` sem nenhum acréscimo e tecle enter (↵), aparecerá um mini guia de como funciona. O mesmo também irá procurar uma atualização para se manter na última versão.
 
 ---
 >[!NOTE]
 > Caso prefira que os passos sejam feitos de uma unica vez, copie o código abaixo
 ```bash
-curl -O https://raw.githubusercontent.com/andistro/app/main/andistro && chmod +x andistro && bash andistro && clear && instalar
+curl -O https://raw.githubusercontent.com/andistro/app/main/andistro && chmod +x andistro && bash andistro && clear && andistro
 ```
 ---
 
@@ -151,16 +151,16 @@ curl -O https://raw.githubusercontent.com/andistro/app/main/andistro && chmod +x
 > Os sistemas baseados em Debian tem o mesmo processo de instalação.
 ---
 ### Instalando direta 
-Para fazer a instalação direta de qualquer um dos sistemas operacionais suportados, será usado o comando `instalar <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
+Para fazer a instalação direta de qualquer um dos sistemas operacionais suportados, será usado o comando `andistro <NOME_DA_DISTRIBUIÇÃO>` para iniciar a instalação. Após isso, Aparecerá uma barra de progresso referente aos pacotes que estão sendo baixados para o sistema funcionar e logo após irá perguntar qual versão irá usar. O instalador organiza com o mais recente primeiro.
 
 1. Baixar o Debian
 ```bash
-instalar debian
+andistro debian
 ```
 
 2. Baixar o Ubuntu
 ```bash
-instalar ubuntu
+andistro ubuntu
 ```
 ---
 >[!WARNING]

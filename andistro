@@ -154,10 +154,7 @@ andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
 NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
 \033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
 \033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
-
-else
-    echo "Comando não reconhecido"
-    exit 1
+exit 0
 
 fi
 

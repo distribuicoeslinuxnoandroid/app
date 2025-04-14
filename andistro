@@ -92,7 +92,7 @@ update_progress() {
         for i in {61..70}; do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
     chmod +x "$HOME/l10n_$system_icu_locale_code.sh"
-    source "$HOME/l10n_$system_icu_locale_code.sh"
+    source "$HOME/l10n_$system_icu_locale_code.sh" 
 
     # Verifica se o arquivo está em $HOME
     if [ -f "$HOME/andistro" ]; then

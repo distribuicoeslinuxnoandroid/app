@@ -154,8 +154,8 @@ if [ -z "$1" ]; then
     echo -e "    iniciar     - inicializa a versão escolhida."
     echo " "
     echo -e "Opções:"
-    echo -e "debian"
-    echo -e "ubuntu"
+    echo -e "   debian"
+    echo -e "   ubuntu"
     echo " "
 exit 0
 
@@ -165,16 +165,17 @@ case "$1" in
     instalar)
         if [ -z "$2" ]; then
             echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
-            echo -e "Exemplo de comando que permite a instalação do Debian:"
+            echo ""
+            echo -e "Exemplo de comando que permite a instalação:"
             echo -e "   andistro instalar debian"
-            echo -e " "
+            echo " "
             echo -e "Comandos:"
             echo -e "    instalar    - instala a opção escolhida."
-            echo -e " "
+            echo " "
             echo -e "Opções:"
-            echo -e "debian"
-            echo -e "ubuntu"
-            echo -e " "
+            echo -e "   debian"
+            echo -e "   ubuntu"
+            echo " "
             exit 1
         fi
 
@@ -219,15 +220,17 @@ case "$1" in
     desinstalar)
         if [ -z "$2" ]; then
             echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+            echon ""
             echo -e "Exemplo de comando que permite a desinstalação do Debian:"
             echo -e "   andistro desinstalar debian"
-            echo -e " "
+            echo " "
             echo -e "Comandos:"
             echo -e "    desinstalar - desinstala a opção escolhida."
-            echo -e " "
+            echo " "
             echo -e "Opções:\n"
-            echo -e "debian\n"
-            echo -e "ubuntu\n"
+            echo -e "   debian\n"
+            echo -e "   ubuntu\n"
+            echo " "
             exit 1
         fi
 
@@ -271,15 +274,16 @@ case "$1" in
     iniciar)
         if [ -z "$2" ]; then
             echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
-            echo -e "Exemplo de comando que permite a inicialização do Debian:"
+            echo -e "Exemplo de comando que permite a inicialização:"
             echo -e "   andistro iniciar debian"
-            echo -e " "
+            echo " "
             echo -e "Comandos:"
             echo -e "    iniciar     - inicia a versão escolhida."
-            echo -e " "
-            echo -e "Opções:\n"
-            echo -e "debian\n"
-            echo -e "ubuntu\n"
+            echo " "
+            echo -e "Opções:"
+            echo -e "   debian"
+            echo -e "   ubuntu"
+
             exit 1
         fi
 
@@ -300,25 +304,27 @@ case "$1" in
         ;;
     *)
         echo "Comando não reconhecido: $1"
+        echo ""
         echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
-        echo -e "Exemplo de comando que permite a instalação do Debian:"
+        echo ""
+        echo -e "Exemplo de comando que permite a instalação:"
         echo -e "   andistro instalar debian"
-        echo -e " "
-        echo -e "Exemplo de comando que permite a desinstalação do Debian:"
+        echo " "
+        echo -e "Exemplo de comando que permite a desinstalação:"
         echo -e "   andistro desinstalar debian"
-        echo -e " "
-        echo -e "Exemplo de comando que permite a inicialização do Debian:"
+        echo " "
+        echo -e "Exemplo de comando que permite a inicialização:"
         echo -e "   andistro iniciar debian"
-        echo -e " "
+        echo " "
         echo -e "Comandos:"
         echo -e "    instalar    - instala a opção escolhida."
         echo -e "    desinstalar - desinstala a opção escolhida."
         echo -e "    iniciar     - inicializa a versão escolhida."
-        echo -e " "
+        echo " "
         echo -e "Opções:"
-        echo -e "debian"
-        echo -e "ubuntu"
-        echo -e " "
+        echo -e "   debian"
+        echo -e "   ubuntu"
+        echo " "
         exit 1
         ;;
 esac

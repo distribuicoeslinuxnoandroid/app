@@ -111,6 +111,7 @@ current_step=0
             rm "$PREFIX/bin/andistro"
             mv "$HOME/andistro.check" "$PREFIX/bin/andistro"
             chmod +x "$PREFIX/bin/andistro"
+            status_atualizacao_andistro="Houve uma atuaalização finalizada com sucesso!\n\nA nova versão será usada na próxima vez que usar o comando."
         else
             rm "$HOME/andistro.check"
         fi
@@ -132,6 +133,10 @@ clear
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
+    if [[ -n "$status_atualizacao_andistro" ]]; then
+        echo -e "$status_atualizacao_andistro"
+        echo " "
+    fi
     echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
     echo -e "Exemplo de comando que permite a instalação do Debian:"
     echo -e "   andistro instalar debian"

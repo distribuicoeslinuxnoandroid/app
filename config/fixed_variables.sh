@@ -41,3 +41,27 @@ export NEWT_COLORS="window=,white border=black,white title=black,white textbox=b
 
 # Função para atualizar a barra de progresso
 # update_progress() precisa ser definido antes de ser usado
+
+update_progress() {
+    current_step=$1
+    total_steps=$2
+
+    percent=$((current_step * 100 / total_steps))
+    bar_length=30
+    filled_length=$((percent * bar_length / 100))
+    empty_length=$((bar_length - filled_length))
+
+    filled_bar=$(printf "%${filled_length}s" | tr " " "=")
+    empty_bar=$(printf "%${empty_length}s" | tr " " " ")
+
+    printf "\r[%s%s] %3d%%" "$filled_bar" "$empty_bar" "$percent"
+}
+
+# Valores padrão. Toque inserir as váriáveis antes de cada código que usar essa barra de progresso.
+total_steps=10  # Número total de etapas que você quer monitorar
+current_step=0
+
+# Usar o:
+# ((current_step++))
+# update_progress "$current_step" "$total_steps"; sleep 0.1
+# Abaixo do código dentro do {} para que haja uma etapa de progresso

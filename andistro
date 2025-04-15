@@ -16,11 +16,11 @@ clear
 # Variável com o link do script no GitHub
 # Função para atualizar a barra de progresso
 # update_progress() precisa ser definido antes de ser usado
-estagio=10
-
 update_progress() {
-    percent=$1
-    stage=$(( (percent * estagio + 99) / 100))
+    current_step=$1
+    total_steps=$2
+
+    percent=$((current_step * 100 / total_steps))
     bar_length=30
     filled_length=$((percent * bar_length / 100))
     empty_length=$((bar_length - filled_length))
@@ -28,104 +28,99 @@ update_progress() {
     filled_bar=$(printf "%${filled_length}s" | tr " " "=")
     empty_bar=$(printf "%${empty_length}s" | tr " " " ")
 
-    printf "\r%d/%d [%s%s] %3d%%" "$stage" "$estagio" "$filled_bar" "$empty_bar" "$percent"
+    printf "\r[%s%s] %3d%%" "$filled_bar" "$empty_bar" "$percent"
 }
+
+
+total_steps=10  # Número total de etapas que você quer monitorar
+current_step=0
 
 {
     # Verifica se o proot está instalado
-    if dpkg -l | grep -qw proot; then
-        for i in $(seq 0 10); do update_progress $i; sleep 0.1; done
-    else
+    if ! dpkg -l | grep -qw proot; then
         apt install proot -y
-        for i in $(seq 0 10); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
     # Verifica se o wget está instalado
-    if dpkg -l | grep -qw wget; then
-        for i in $(seq 11 20); do update_progress $i; sleep 0.1; done
-    else
+    if ! dpkg -l | grep -qw wget; then
         apt install wget -y
-        for i in $(seq 11 20); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
     # Verifica se o dialog está instalado
-    if dpkg -l | grep -qw dialog; then
-        for i in $(seq 21 30); do update_progress $i; sleep 0.1; done
-    else
+    if ! dpkg -l | grep -qw dialog; then
         apt install dialog -y
-        for i in $(seq 21 30); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
     # Verifica se o tar está instalado
-    if dpkg -l | grep -qw tar; then
-        for i in $(seq 31 40); do update_progress $i; sleep 0.1; done
-    else
+    if ! dpkg -l | grep -qw tar; then
         apt install tar -y
-        for i in $(seq 31 40); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
     # Verifica se o curl está instalado
-    if dpkg -l | grep -qw curl; then
-        for i in $(seq 41 50); do update_progress $i; sleep 0.1; done
-    else
+    if ! dpkg -l | grep -qw curl; then
         apt install curl -y
-        for i in $(seq 41 50); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica e baixa fixed_variables.sh (0-33%)
+    # Verifica e baixa fixed_variables.sh
     if [ ! -f "$HOME/fixed_variables.sh" ]; then
         curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
-        for i in $(seq 51 60); do update_progress $i; sleep 0.1; done
-    else
-        for i in $(seq 51 60); do update_progress $i; sleep 0.1; done  # Avança rapidamente se o arquivo já existe
     fi
     chmod +x "$HOME/fixed_variables.sh"
     source "$HOME/fixed_variables.sh"
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica e baixa l10n_${locale}.sh (34-65%)
+    # Verifica e baixa l10n_${locale}.sh
     if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
-        for i in $(seq 61 70); do update_progress $i; sleep 0.1; done
-    else
-        for i in $(seq 61 70); do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
-    chmod +x "$HOME/l10n_$system_icu_locale_code.sh"
-    source "$HOME/l10n_$system_icu_locale_code.sh"
+    chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
+    source "$HOME/l10n_${system_icu_locale_code}.sh"
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o arquivo está em $HOME
+    # Verifica se o andistro está em $HOME
     if [ -f "$HOME/andistro" ]; then
-        mv "$HOME/andistro" "$PREFIX/bin/andistro" # Move para o binário para virar um comando executável
-        for i in $(seq 71 80); do update_progress $i; sleep 0.1; done
-        rm -rf "$HOME/andistro" # Remove o arquivo presente em $HOME
-    else
-        for i in $(seq 71 80); do update_progress $i; sleep 0.1; done  # Avança rapidamente
+        mv "$HOME/andistro" "$PREFIX/bin/andistro"
+        rm -rf "$HOME/andistro"
     fi
     chmod +x "$PREFIX/bin/andistro"
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Baixa uma versão do arquivo para comparar as versões
+    # Baixa uma versão para comparação
     if [ ! -f "$HOME/andistro.check" ]; then
         curl -s -o "$HOME/andistro.check" "${extralink}/andistro"
-        for i in $(seq 81 90); do update_progress $i; sleep 0.1; done
-    else
-        for i in $(seq 81 90); do update_progress $i; sleep 0.1; done  # Avança rapidamente
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o arquivo está em $PREFIX/bin/
-    if [ -f "$PREFIX/bin/andistro" ]  && [ -f "$HOME/andistro.check" ]; then
+    # Verifica e substitui se for necessário
+    if [ -f "$PREFIX/bin/andistro" ] && [ -f "$HOME/andistro.check" ]; then
         if ! cmp -s "$PREFIX/bin/andistro" "$HOME/andistro.check"; then
-            # Arquivos são diferentes: substitui o arquivo local pelo remoto
             rm "$PREFIX/bin/andistro"
             mv "$HOME/andistro.check" "$PREFIX/bin/andistro"
             chmod +x "$PREFIX/bin/andistro"
         else
-            # Arquivos são iguais: mantém o local e remove o temporário
             rm "$HOME/andistro.check"
         fi
-        for i in $(seq 91 100); do update_progress $i; sleep 0.1; done
-    else
-        for i in $(seq 91 100); do update_progress $i; sleep 0.1; done
     fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    echo  # pular linha no fim
 }
+
 
 clear
 
@@ -137,23 +132,25 @@ clear
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
-echo -e "Digite o comando 'andistro instalar' seguido do nome da distribuição para iniciar a instalação.\n
-Digite o comando 'andistro desinstalar' seguido do nome da distribuição para iniciar a desinstalação.\n
-Digite o comando 'andistro iniciar' seguido do nome da distribuição para iniciar o sistema.\n
-
-Exemplo de instalação:
-andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
-
-Exemplo de desinstalação:
-andistro desinstalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
-
-Exemplo de inicialização do sistema:
-andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m \n
-
-
-NOME DA DISTRIBUIÇÃO: DESCRIÇÃO\n
-\033[1m\033[36mdebian:\033[0m instala o sistema Debian.\n
-\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+    echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+    echo -e "Exemplo de comando que permite a instalação do Debian:"
+    echo -e "   andistro instalar debian"
+    echo -e " "
+    echo -e "Exemplo de comando que permite a desinstalação do Debian:"
+    echo -e "   andistro desinstalar debian"
+    echo -e " "
+    echo -e "Exemplo de comando que permite a inicialização do Debian:"
+    echo -e "   andistro iniciar debian"
+    echo -e " "
+    echo -e "Comandos:"
+    echo -e "    instalar    - instala a opção escolhida."
+    echo -e "    desinstalar - desinstala a opção escolhida."
+    echo -e "    iniciar     - inicializa a versão escolhida."
+    echo -e " "
+    echo -e "Opções:"
+    echo -e "debian"
+    echo -e "ubuntu"
+    echo -e " "
 exit 0
 
 fi
@@ -161,10 +158,17 @@ fi
 case "$1" in
     instalar)
         if [ -z "$2" ]; then
-            echo -e "Uso correto: andistro instalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-            echo -e "Distribuições disponíveis:\n"
-            echo -e "\033[1m\033[36mdebian:\033[0m instala o sistema Debian."
-            echo -e "\033[1m\033[36mubuntu:\033[0m instala o sistema Ubuntu."
+            echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+            echo -e "Exemplo de comando que permite a instalação do Debian:"
+            echo -e "   andistro instalar debian"
+            echo -e " "
+            echo -e "Comandos:"
+            echo -e "    instalar    - instala a opção escolhida."
+            echo -e " "
+            echo -e "Opções:"
+            echo -e "debian"
+            echo -e "ubuntu"
+            echo -e " "
             exit 1
         fi
 
@@ -208,10 +212,16 @@ case "$1" in
         ;;
     desinstalar)
         if [ -z "$2" ]; then
-            echo -e "Uso correto: andistro desintalar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-            echo -e "Distribuições disponíveis:\n"
-            echo -e "\033[1m\033[36mdebian:\033[0m desinstala o sistema Debian."
-            echo -e "\033[1m\033[36mubuntu:\033[0m desinstala o sistema Ubuntu."
+            echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+            echo -e "Exemplo de comando que permite a desinstalação do Debian:"
+            echo -e "   andistro desinstalar debian"
+            echo -e " "
+            echo -e "Comandos:"
+            echo -e "    desinstalar - desinstala a opção escolhida."
+            echo -e " "
+            echo -e "Opções:\n"
+            echo -e "debian\n"
+            echo -e "ubuntu\n"
             exit 1
         fi
 
@@ -254,10 +264,16 @@ case "$1" in
         ;;
     iniciar)
         if [ -z "$2" ]; then
-            echo -e "Uso correto: andistro iniciar \033[1m\033[36m<NOME_DA_DISTRIBUIÇÃO>\033[0m\n"
-            echo -e "Distribuições disponíveis:\n"
-            echo -e "\033[1m\033[36mdebian:\033[0m inicia o sistema Debian."
-            echo -e "\033[1m\033[36mubuntu:\033[0m inicia o sistema Ubuntu."
+            echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+            echo -e "Exemplo de comando que permite a inicialização do Debian:"
+            echo -e "   andistro iniciar debian"
+            echo -e " "
+            echo -e "Comandos:"
+            echo -e "    iniciar     - inicia a versão escolhida."
+            echo -e " "
+            echo -e "Opções:\n"
+            echo -e "debian\n"
+            echo -e "ubuntu\n"
             exit 1
         fi
 
@@ -278,7 +294,25 @@ case "$1" in
         ;;
     *)
         echo "Comando não reconhecido: $1"
-        echo "Uso: andistro <instalar|desinstalar|iniciar> <debian|ubuntu>"
+        echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
+        echo -e "Exemplo de comando que permite a instalação do Debian:"
+        echo -e "   andistro instalar debian"
+        echo -e " "
+        echo -e "Exemplo de comando que permite a desinstalação do Debian:"
+        echo -e "   andistro desinstalar debian"
+        echo -e " "
+        echo -e "Exemplo de comando que permite a inicialização do Debian:"
+        echo -e "   andistro iniciar debian"
+        echo -e " "
+        echo -e "Comandos:"
+        echo -e "    instalar    - instala a opção escolhida."
+        echo -e "    desinstalar - desinstala a opção escolhida."
+        echo -e "    iniciar     - inicializa a versão escolhida."
+        echo -e " "
+        echo -e "Opções:"
+        echo -e "debian"
+        echo -e "ubuntu"
+        echo -e " "
         exit 1
         ;;
 esac

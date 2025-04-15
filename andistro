@@ -75,8 +75,6 @@ current_step=0
     if [ ! -f "$HOME/fixed_variables.sh" ]; then
         curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
     fi
-    chmod +x "$HOME/fixed_variables.sh"
-    source "$HOME/fixed_variables.sh"
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
@@ -84,8 +82,6 @@ current_step=0
     if [ ! -f "$HOME/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
     fi
-    chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
-    source "$HOME/l10n_${system_icu_locale_code}.sh"
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
@@ -123,9 +119,12 @@ current_step=0
     echo  # pular linha no fim
 }
 
-
 clear
 
+chmod +x "$HOME/fixed_variables.sh"
+source "$HOME/fixed_variables.sh"
+chmod +x "$HOME/l10n_${system_icu_locale_code}.sh"
+source "$HOME/l10n_${system_icu_locale_code}.sh"
 
 #=============================================================================================
 # COMANDOS

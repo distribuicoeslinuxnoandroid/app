@@ -181,32 +181,20 @@ case "$1" in
 
         if [ "$2" == "debian" ]; then
             echo -e "Instalando o Debian...\nAguarde..."
-            wget --tries=20 "${extralink}/distros/debian.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
-            (
-                while pkill -0 wget >/dev/null 2>&1; do
-                    sleep $dialog_intervalo
-                    echo "${label_progress}"
-                    echo "$((++percentage))"
-                done
-                echo "${label_progress}"
-                echo "75"
-                sleep 2
-            ) | dialog --gauge "${label_progress}" 6 40 0
+            system_install=(
+			-O $HOME/start-distro.sh
+			"${extralink}/distros/debian.sh"
+            )
+            show_progress_dialog "${label_progress}" wget 1 "${system_install[@]}"
             clear
 
         elif [ "$2" == "ubuntu" ]; then
             echo -e "Instalando o Ubuntu...\nAguarde..."
-            wget --tries=20 "${extralink}/distros/ubuntu.sh" -O $HOME/start-distro.sh > /dev/null 2>&1 &
-            (
-                while pkill -0 wget >/dev/null 2>&1; do
-                    sleep $dialog_intervalo
-                    echo "${label_progress}"
-                    echo "$((++percentage))"
-                done
-                echo "${label_progress}"
-                echo "75"
-                sleep 2
-            ) | dialog --gauge "${label_progress}" 6 40 0
+            system_install=(
+			-O $HOME/start-distro.sh
+			"${extralink}/distros/ubuntu.sh"
+            )
+            show_progress_dialog "${label_progress}" wget 1 "${system_install[@]}"
             clear
 
         else

@@ -65,3 +65,137 @@ current_step=0
 # ((current_step++))
 # update_progress "$current_step" "$total_steps"; sleep 0.1
 # Abaixo do código dentro do {} para que haja uma etapa de progresso
+
+show_progress_dialog() {
+    local mode="$1"         # "background", "wget", "steps"
+    local title="$2"        # Título da barra
+    local steps_or_pid="$3" # total de etapas (modo steps/wget) ou PID (modo background)
+    local command_list=("${@:4}")  # Comandos (modo steps)
+
+    (
+        case "$mode" in
+            background)
+                local percentage=0
+                local pid="$steps_or_pid"
+
+                while kill -0 "$pid" >/dev/null 2>&1; do
+                    sleep 0.5
+                    ((percentage+=2))
+                    [ $percentage -gt 95 ] && percentage=95
+                    echo "$title"
+                    echo "$percentage"
+                done
+                echo "$title"
+                echo 100
+                sleep 1
+                ;;
+
+            wget)
+                local wget_opts=()
+                local urls=()
+                local parsing_opts=true
+
+                for arg in "${command_list[@]}"; do
+                    if $parsing_opts && [[ "$arg" =~ ^- ]]; then
+                        wget_opts+=("$arg")
+                    elif $parsing_opts && [[ "$arg" =~ ^/.* || "$arg" =~ ^\$ ]]; then
+                        wget_opts+=("$arg")
+                    else
+                        parsing_opts=false
+                        urls+=("$arg")
+                    fi
+                done
+
+                local total="${#urls[@]}"
+                local count=0
+
+                for url in "${urls[@]}"; do
+                    wget --tries=20 "${wget_opts[@]}" "$url" --progress=dot:giga 2>&1 |
+                    while read -r line; do
+                        if [[ $line =~ ([0-9]+)% ]]; then
+                            percent=$(( (count * 100 + BASH_REMATCH[1]) / total ))
+                            echo "$title"
+                            echo "$percent"
+                        fi
+                    done
+                    ((count++))
+                done
+
+                echo "$title"
+                echo 100
+                ;;
+            
+            wget-labeled)
+                local total="${steps_or_pid}"
+                local count=0
+                local current_label=""
+                local url=""
+                local wget_opts=()
+
+                shift 3
+                while [ $# -gt 0 ]; do
+                    if [[ ! "$1" =~ ^- ]]; then
+                        current_label="$1"
+                        shift
+                        wget_opts=()
+                        while [[ "$1" =~ ^- ]]; do
+                            wget_opts+=("$1")
+                            shift
+                            if [[ "$1" && ! "$1" =~ ^- && "$1" != */* ]]; then
+                                wget_opts+=("$1")
+                                shift
+                            fi
+                        done
+                        url="$1"
+                        shift
+
+                        wget --tries=20 "${wget_opts[@]}" "$url" --progress=dot:giga 2>&1 |
+                        while read -r line; do
+                            if [[ $line =~ ([0-9]+)% ]]; then
+                                percent=$(( (count * 100 + BASH_REMATCH[1]) / total ))
+                                echo "$current_label"
+                                echo "$percent"
+                            fi
+                        done
+                        ((count++))
+                    fi
+                done
+                echo "$current_label"
+                echo 100
+                ;;
+
+            steps)
+                local total="${steps_or_pid}"
+                local current=0
+
+                for cmd in "${command_list[@]}"; do
+                    eval "$cmd" > /dev/null 2>&1
+                    current=$((current + 1))
+                    percent=$((current * 100 / total))
+                    echo "$title"
+                    echo "$percent"
+                done
+                echo "$title"
+                echo 100
+                ;;
+            
+            apt-labeled)
+                local total="${steps_or_pid}"
+                local count=0
+
+                shift 3
+                while [ $# -gt 1 ]; do
+                    local label="$1"
+                    local cmd="$2"
+                    shift 2
+
+                    eval "$cmd" > /dev/null 2>&1
+                    percent=$(( (count + 1) * 100 / total ))
+                    echo "$label"
+                    echo "$percent"
+                    ((count++))
+                done
+                ;;
+        esac
+    ) | dialog --gauge "$title" 6 40 0
+}

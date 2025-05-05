@@ -155,20 +155,22 @@ show_progress_dialog() {
                         url="$1"
                         shift
 
-                        wget --tries=20 "${wget_opts[@]}" "$url" --progress=dot:giga 2>&1 |
-                        while read -r line; do
-                            if [[ $line =~ ([0-9]+)% ]]; then
-                                percent=$(( (count * 100 + BASH_REMATCH[1]) / total ))
-                                echo "$current_label"
-                                echo "$percent"
-                            fi
-                        done
+                        wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
+                        stdbuf -oL grep --line-buffered "%" |
+                        stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
+                            {
+                                match($0, /([0-9]{1,3})%/, arr);
+                                if (arr[1] != "") {
+                                    percent = int((count * 100 + arr[1]) / total);
+                                    print "XXX\n" percent "\n" label "\nXXX";
+                                }
+                            }'
                         ((count++))
                     fi
                 done
                 echo "$current_label"
-                echo 100
                 ;;
+
 
             steps)
                 local total="${steps_or_pid}"

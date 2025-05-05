@@ -125,7 +125,7 @@ show_progress_dialog() {
                 echo "$title"
                 echo 100
                 ;;
-            
+
             wget-labeled)
                 local total="${steps_or_pid}"
                 local count=0
@@ -141,7 +141,6 @@ show_progress_dialog() {
                         shift
                         wget_opts=()
                         expect_arg=false
-
                         while [[ $# -gt 0 && ( "$1" =~ ^- || $expect_arg ) ]]; do
                             wget_opts+=("$1")
                             if $expect_arg; then
@@ -151,7 +150,6 @@ show_progress_dialog() {
                             fi
                             shift
                         done
-
                         url="$1"
                         shift
 
@@ -170,7 +168,6 @@ show_progress_dialog() {
                 echo 100
                 ;;
 
-
             steps)
                 local total="${steps_or_pid}"
                 local current=0
@@ -185,7 +182,7 @@ show_progress_dialog() {
                 echo "$title"
                 echo 100
                 ;;
-            
+
             apt-labeled)
                 local total="${steps_or_pid}"
                 local count=0

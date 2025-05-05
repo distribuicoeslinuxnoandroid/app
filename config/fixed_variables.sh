@@ -93,15 +93,16 @@ show_progress_dialog() {
             wget)
                 local wget_opts=()
                 local urls=()
-                local parsing_opts=true
+                local expect_arg=false
 
                 for arg in "${command_list[@]}"; do
-                    if $parsing_opts && [[ "$arg" =~ ^- ]]; then
+                    if $expect_arg; then
                         wget_opts+=("$arg")
-                    elif $parsing_opts && [[ "$arg" =~ ^/.* || "$arg" =~ ^\$ ]]; then
+                        expect_arg=false
+                    elif [[ "$arg" =~ ^- ]]; then
                         wget_opts+=("$arg")
+                        [[ "$arg" == "-O" || "$arg" == "--output-document" || "$arg" == "-P" || "$arg" == "--directory-prefix" ]] && expect_arg=true
                     else
-                        parsing_opts=false
                         urls+=("$arg")
                     fi
                 done
@@ -131,6 +132,7 @@ show_progress_dialog() {
                 local current_label=""
                 local url=""
                 local wget_opts=()
+                local expect_arg=false
 
                 shift 3
                 while [ $# -gt 0 ]; do
@@ -138,14 +140,18 @@ show_progress_dialog() {
                         current_label="$1"
                         shift
                         wget_opts=()
-                        while [[ "$1" =~ ^- ]]; do
+                        expect_arg=false
+
+                        while [[ $# -gt 0 && ( "$1" =~ ^- || $expect_arg ) ]]; do
                             wget_opts+=("$1")
-                            shift
-                            if [[ "$1" && ! "$1" =~ ^- && "$1" != */* ]]; then
-                                wget_opts+=("$1")
-                                shift
+                            if $expect_arg; then
+                                expect_arg=false
+                            elif [[ "$1" == "-O" || "$1" == "--output-document" || "$1" == "-P" || "$1" == "--directory-prefix" ]]; then
+                                expect_arg=true
                             fi
+                            shift
                         done
+
                         url="$1"
                         shift
 
@@ -163,6 +169,7 @@ show_progress_dialog() {
                 echo "$current_label"
                 echo 100
                 ;;
+
 
             steps)
                 local total="${steps_or_pid}"

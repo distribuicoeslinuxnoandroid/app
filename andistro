@@ -183,11 +183,7 @@ case "$1" in
 
         if [ "$2" == "debian" ]; then
             echo -e "Instalando o Debian...\nAguarde..."
-            system_install=(
-			-O "$HOME/start-distro.sh"
-			"${extralink}/distros/debian.sh"
-            )
-            show_progress_dialog "${label_progress}" wget 1 "${system_install[@]}"
+            show_progress_dialog "wget" "${label_progress}" 1 -O "$HOME/start-distro.sh" "${extralink}/distros/debian.sh"
             clear
 
         elif [ "$2" == "ubuntu" ]; then

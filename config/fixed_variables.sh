@@ -95,16 +95,11 @@ show_progress_dialog() {
                 local urls=()
                 local parsing_opts=true
 
-                for ((i = 0; i < ${#command_list[@]}; i++)); do
-                    arg="${command_list[$i]}"
+                for arg in "${command_list[@]}"; do
                     if $parsing_opts && [[ "$arg" == -* ]]; then
                         wget_opts+=("$arg")
-                        next="${command_list[$((i + 1))]}"
-                        # Verifica se é argumento de -O ou -P, ou outro valor que não começa com -
-                        if [[ -n "$next" && "$next" != -* ]]; then
-                            wget_opts+=("$next")
-                            ((i++))
-                        fi
+                    elif $parsing_opts && [[ "$arg" =~ ^/.* || "$arg" =~ ^\$ ]]; then
+                        wget_opts+=("$arg")
                     else
                         parsing_opts=false
                         urls+=("$arg")
@@ -115,14 +110,16 @@ show_progress_dialog() {
                 local count=0
 
                 for url in "${urls[@]}"; do
-                    wget --tries=20 "${wget_opts[@]}" "$url" --progress=dot:giga 2>&1 |
-                    while read -r line; do
-                        if [[ $line =~ ([0-9]+)% ]]; then
-                            percent=$(( (count * 100 + BASH_REMATCH[1]) / total ))
-                            echo "$title"
-                            echo "$percent"
-                        fi
-                    done
+                    wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
+                    stdbuf -oL grep --line-buffered "%" | \
+                    stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v title="$title" '
+                        {
+                            match($0, /([0-9]{1,3})%/, arr);
+                            if (arr[1] != "") {
+                                percent = int((count * 100 + arr[1]) / total);
+                                print title "\n" percent;
+                            }
+                        }'
                     ((count++))
                 done
 

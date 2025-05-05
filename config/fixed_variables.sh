@@ -93,16 +93,20 @@ show_progress_dialog() {
             wget)
                 local wget_opts=()
                 local urls=()
-                local expect_arg=false
+                local parsing_opts=true
 
-                for arg in "${command_list[@]}"; do
-                    if $expect_arg; then
+                for ((i = 0; i < ${#command_list[@]}; i++)); do
+                    arg="${command_list[$i]}"
+                    if $parsing_opts && [[ "$arg" == -* ]]; then
                         wget_opts+=("$arg")
-                        expect_arg=false
-                    elif [[ "$arg" =~ ^- ]]; then
-                        wget_opts+=("$arg")
-                        [[ "$arg" == "-O" || "$arg" == "--output-document" || "$arg" == "-P" || "$arg" == "--directory-prefix" ]] && expect_arg=true
+                        next="${command_list[$((i + 1))]}"
+                        # Verifica se é argumento de -O ou -P, ou outro valor que não começa com -
+                        if [[ -n "$next" && "$next" != -* ]]; then
+                            wget_opts+=("$next")
+                            ((i++))
+                        fi
                     else
+                        parsing_opts=false
                         urls+=("$arg")
                     fi
                 done
@@ -125,6 +129,7 @@ show_progress_dialog() {
                 echo "$title"
                 echo 100
                 ;;
+
 
             wget-labeled)
                 local total="${steps_or_pid}"

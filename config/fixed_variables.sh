@@ -73,6 +73,9 @@ show_progress_dialog() {
     local command_list=("${@:4}")  # Comandos (modo steps)
 
     (
+
+        echo "[DEBUG] mode=$mode, title=$title, steps_or_pid=$steps_or_pid" >&2  # VERIFICAÇÃO EXTRA
+
         case "$mode" in
             background)
                 local percentage=0
@@ -136,7 +139,7 @@ show_progress_dialog() {
                 local wget_opts=()
                 local expect_arg=false
 
-                shift 3
+                set -- "${command_list[@]}"
                 while [ $# -gt 0 ]; do
                     if [[ ! "$1" =~ ^- ]]; then
                         current_label="$1"
@@ -155,6 +158,8 @@ show_progress_dialog() {
                         url="$1"
                         shift
 
+                        echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
+
                         wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
                         stdbuf -oL grep --line-buffered "%" |
                         stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
@@ -168,7 +173,8 @@ show_progress_dialog() {
                         ((count++))
                     fi
                 done
-                echo "$current_label"
+
+                echo -e "XXX\n100\nConcluído\nXXX"
                 ;;
 
 

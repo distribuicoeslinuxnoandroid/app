@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
-source $HOME/fixed_variables.sh
-source $HOME/l10n_$system_icu_locale_code.sh
+source "$PREFIX/bin/andistro_files/fixed_variables.sh"
+source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 bin=start-debian.sh
 codinome="stable"
 folder=debian-stable

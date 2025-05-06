@@ -55,6 +55,12 @@ GMT_date=$(date +"%Z":00)
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 
+exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
+  if [ $? -ne 0 ]; then
+    echo "Erro na execução. Abortando instalação. Código ${error_code}"
+    exit 1
+  fi
+}
 
 # Função para atualizar a barra de progresso
 # update_progress() precisa ser definido antes de ser usado
@@ -247,11 +253,4 @@ show_progress_dialog() {
                 ;;
         esac
     ) | dialog --gauge "$title" 6 40 0
-}
-
-exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
-  if [ $? -ne 0 ]; then
-    echo "Erro na execução. Abortando instalação. Código ${error_code}"
-    exit 1
-  fi
 }

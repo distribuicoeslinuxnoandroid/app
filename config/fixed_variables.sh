@@ -96,9 +96,6 @@ show_progress_dialog() {
     local command_list=("${@:4}")  # Comandos (modo steps)
 
     (
-
-        echo "[DEBUG] mode=$mode, title=$title, steps_or_pid=$steps_or_pid" >&2  # VERIFICAÇÃO EXTRA
-
         case "$mode" in
             background)
                 local percentage=0
@@ -252,5 +249,5 @@ show_progress_dialog() {
                 done
                 ;;
         esac
-    ) | dialog --gauge "$title" 6 40 0
+    ) | dialog --gauge "$title" 10 40 0
 }

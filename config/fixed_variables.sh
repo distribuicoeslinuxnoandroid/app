@@ -117,11 +117,11 @@ show_progress_dialog() {
                 ;;
 
             wget)
-                local total="$steps_or_pid"  # Correção 1: usa o terceiro parâmetro
-                shift 3                      # Correção 2: ajuste no shift
+                local total="$steps_or_pid"  # Total de arquivos (5 no exemplo)
+                shift 3  # Remove mode/title/steps_or_pid
 
                 local count=0
-                local title="$title"         # Correção 3: título correto
+                local title="$title"  # Título correto da barra
 
                 while [[ "$#" -gt 0 ]]; do
                     case "$1" in
@@ -171,6 +171,7 @@ show_progress_dialog() {
                 echo "$title"
                 echo 100
                 ;;
+
 
             wget-labeled)
                 local total="${steps_or_pid}"

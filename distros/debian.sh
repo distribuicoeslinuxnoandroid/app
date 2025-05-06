@@ -12,6 +12,9 @@ binds=debian-binds
 
 # Lista de pacotes necessários
 
+dialog --infobox "Etapa 1 \nBaixar pacotes necessários..." 5 50
+sleep 4
+
 total_steps=5
 #current_step=0
 {
@@ -55,13 +58,15 @@ total_steps=5
 clear
 
 #=============================================================================================
-
+dialog --infobox "Etapa 2 \nVerificar se o ${folder} existe..." 5 50
+sleep 4
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
 	first=1
 	echo "${label_skip_download}"
 fi
-
+dialog --infobox "Etapa 3 \nBaixar o sistema..." 5 50
+sleep 4
 # Baixa
 if [ "$first" != 1 ];then
 	case `dpkg --print-architecture` in
@@ -81,7 +86,8 @@ if [ "$first" != 1 ];then
 			echo "Erro durante a instalação do Debian!"
 	fi
 fi
-
+dialog --infobox "Etapa 4 \nCriar o arquivo executável e inicador do sistema..." 5 50
+sleep 4
 mkdir -p $binds
 
 echo "${label_start_script}"
@@ -125,6 +131,8 @@ EOM
 
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
+dialog --infobox "Etapa 5 \nCriar umas pastas..." 5 50
+sleep 4
 # Se não existir, será criado
 if [ ! -d "$folder/usr/share/backgrounds/" ];then
 	mkdir -p "$folder/usr/share/backgrounds/"
@@ -141,22 +149,15 @@ if [ ! -d "$folder/root/.vnc/" ];then
 	echo "pasta criada"
 fi
 
-show_progress_dialog wget-labeled 3 \
-  "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
-  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/wallpapers/img1.jpg" \
-  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/wallpapers/img2.jpg"
-
+dialog --infobox "Etapa 6 \nBaixar papeis de parede e o arquivo de configuração..." 5 50
+sleep 4
 show_progress_dialog wget-labeled "${label_progress}" 3 \
   "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg"
 
-chmod +x "$folder/root/system-config.sh"
-
-
-
-
-
+dialog --infobox "Etapa 7 \nSeletor de idioma..." 5 50
+sleep 4
 # Idioma
 export PORT=1
 #Definir o idioma
@@ -184,7 +185,8 @@ case $CHOICE in
 		echo ""
 	;;
 esac
-
+dialog --infobox "Etapa 8 \nBaixar arquivos do VNC..." 5 50
+sleep 4
 urls_combinados=(
 	-P "$folder/usr/local/bin"
 	"${extralink}/config/tigervnc/vnc"
@@ -218,18 +220,21 @@ termux-fix-shebang $bin
 #echo "making $bin executable"
 chmod +x $bin
 
+dialog --infobox "Etapa 9 \nVamos entrar no sistema agora..." 5 50
+sleep 4
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
+source "/usr/local/bin/fixed_variables.sh"
+source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 #echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
 #deb http://security.debian.org/debian-security stable-security main contrib non-free
 #deb http://deb.debian.org/debian stable-updates main contrib non-free
 #deb http://ftp.debian.org/debian buster main
 #deb http://ftp.debian.org/debian buster-updates main' >> /etc/apt/sources.list
 
-source "/usr/local/bin/fixed_variables.sh"
-source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
-
+dialog --infobox 'Etapa 10 \nbaixar pacotes necessários...' 5 50
+sleep 4
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
 total_steps=3
@@ -258,7 +263,8 @@ total_steps=3
 	echo
 }
 clear
-
+dialog --infobox 'Etapa 11 \nConfigurar o idioma...' 5 50
+sleep 4
 bash ~/locale*.sh
 
 apt update -y > /dev/null 2>&1
@@ -352,6 +358,7 @@ source "/usr/local/bin/fixed_variables.sh"
 source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
+
 show_progress_dialog apt-labeled 4 \
 	"${label_find_update}" 'sudo apt update -y ' \
 	"${label_keyboard_settings}" 'sudo apt autoremove whiptail -y' \

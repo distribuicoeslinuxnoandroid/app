@@ -79,9 +79,6 @@ label_vncserver_chose_resolution_custom="Você escolheu definir a resolução e 
 label_vncserver_chose_resolution_custom_desc="Insira a resolução personalizada no formato LARGURAxALTURA. Exemplo: 1920x1200"
 label_vncserver_chose_resolution_custom_desc_port="Insira o número da porta. Exemplo: 2. A porta padrão é 1"
 
-
-
-
 # Sobre downloads
 label_install_script_download="Baixando script de instalação..."
 label_skip_download="Pulando o download"

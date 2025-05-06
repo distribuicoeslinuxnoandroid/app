@@ -174,11 +174,7 @@ clear
 case $CHOICE in
 	1)
 		sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
-		url_lang=(
-			-P "$folder/root"
-			"${extralink}/config/locale/locale_pt-BR.sh"
-		)
-		show_progress_dialog "${label_language_download}" wget 1 "${url_lang[@]}"
+		show_progress_dialog "wget" "${label_language_download}" 1 -P "$folder/root/" "${extralink}/config/locale/locale_pt-BR.sh"
 		chmod +x $folder/root/locale_pt-BR.sh
 		;;
 	2)
@@ -187,15 +183,17 @@ case $CHOICE in
 esac
 dialog --infobox "Etapa 8 \nBaixar arquivos do VNC..." 5 50
 sleep 4
-urls_combinados=(
-	-P "$folder/usr/local/bin"
-	"${extralink}/config/tigervnc/vnc"
-	"${extralink}/config/tigervnc/vncpasswd"
-	"${extralink}/config/tigervnc/startvnc"
-	"${extralink}/config/tigervnc/stopvnc"
-    "${extralink}/config/tigervnc/startvncserver"
-)
-show_progress_dialog "${label_language_download}" wget 5 "${urls_combinados[@]}"
+error_code="VNC001x"
+show_progress_dialog "wget" "${label_progress}" 5 \
+  -P "$folder/usr/local/bin" \
+  "${extralink}/config/tigervnc/vnc" \
+  "${extralink}/config/tigervnc/vncpasswd" \
+  "${extralink}/config/tigervnc/startvnc" \
+  "${extralink}/config/tigervnc/stopvnc" \
+  "${extralink}/config/tigervnc/startvncserver"
+
+exit_erro
+
 chmod +x $folder/usr/local/bin/vnc
 chmod +x $folder/usr/local/bin/vncpasswd
 chmod +x $folder/usr/local/bin/startvnc
@@ -295,27 +293,15 @@ clear
 case $CHOICE in
 	1)	
 		echo "LXDE UI"
-		environment_selected=(
-			-O "$folder/root/config-environment.sh"
-			"${extralink}/config/environment/lxde/config.sh"
-		)
-		show_progress_dialog "${label_config_environment_gui}" wget 1 "${environment_selected[@]}"
+		show_progress_dialog "wget" "${label_config_environment_gui}" 1 -O "$folder/root/config-environment.sh" "${extralink}/config/environment/lxde/config.sh"
 	;;
 	2)	
 		echo "XFCE UI"
-		environment_selected=(
-			-O "$folder/root/config-environment.sh"
-			"${extralink}/config/environment/xfce4/config.sh"
-		)
-		show_progress_dialog "${label_config_environment_gui}" wget 1 "${environment_selected[@]}"
+		show_progress_dialog "wget" "${label_config_environment_gui}" 1 -O "$folder/root/config-environment.sh" "${extralink}/config/environment/xcfe4/config.sh"
 	;;
 	3)
 		echo "Gnome UI"
-		environment_selected=(
-			-O "$folder/root/config-environment.sh"
-			"${extralink}/config/environment/gnome/config.sh"
-		)
-		show_progress_dialog "${label_config_environment_gui}" wget 1 "${environment_selected[@]}"
+		show_progress_dialog "wget" "${label_config_environment_gui}" 1 -O "$folder/root/config-environment.sh" "${extralink}/config/environment/gnome/config.sh"
 
 		# Parte da resolução do problema do gnome e do systemd
 		if [ ! -d "/data/data/com.termux/files/usr/var/run/dbus" ];then

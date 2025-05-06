@@ -174,7 +174,9 @@ clear
 case $CHOICE in
 	1)
 		sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+		error_code="LG001br"
 		show_progress_dialog "wget" "${label_language_download}" 1 -P "$folder/root/" "${extralink}/config/locale/locale_pt-BR.sh"
+		exit_erro
 		chmod +x $folder/root/locale_pt-BR.sh
 		;;
 	2)

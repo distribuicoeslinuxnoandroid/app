@@ -30,6 +30,23 @@ else
     system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 fi
 
+if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
+    source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
+elif [ -f "$PREFIX/bin/andistro_files/l10n_*.sh" ]; then
+    source "$PREFIX/bin/andistro_files/l10n_*.sh"
+elif [ -f "/usr/local/bin/l10n_${system_icu_locale_code}.sh" ]; then
+    source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
+elif [ -f "/usr/local/bin/l10n_*.sh" ]; then
+    source "/usr/local/bin/l10n_*.sh"
+elif [ -f "/root/l10n_${system_icu_locale_code}.sh" ]; then
+    source "/root/l10n_${system_icu_locale_code}.sh"
+elif [ -f "/root/l10n_*.sh" ]; then
+    source "/root/l10n_*.sh"
+else
+    echo "Arquivo de localização não encontrado para o código: $system_icu_locale_code"
+    exit 1
+fi
+
 
 #Formato GMT
 GMT_date=$(date +"%Z":00)

@@ -94,42 +94,55 @@ show_progress_dialog() {
                 ;;
 
             wget)
-                local wget_opts=()
-                local urls=()
-                local parsing_opts=true
-
-                for arg in "${command_list[@]}"; do
-                    if $parsing_opts && [[ "$arg" == -* ]]; then
-                        wget_opts+=("$arg")
-                    elif $parsing_opts && [[ "$arg" =~ ^/.* || "$arg" =~ ^\$ ]]; then
-                        wget_opts+=("$arg")
-                    else
-                        parsing_opts=false
-                        urls+=("$arg")
-                    fi
-                done
-
-                local total="${#urls[@]}"
+                local total="$4"
+                shift 4
                 local count=0
 
-                for url in "${urls[@]}"; do
-                    wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
-                    stdbuf -oL grep --line-buffered "%" | \
-                    stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v title="$title" '
-                        {
-                            match($0, /([0-9]{1,3})%/, arr);
-                            if (arr[1] != "") {
-                                percent = int((count * 100 + arr[1]) / total);
-                                print title "\n" percent;
-                            }
-                        }'
+                while [[ "$#" -gt 0 ]]; do
+                    if [[ "$1" == "-O" ]]; then
+                        local output="$2"
+                        local url="$3"
+                        wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
+                        stdbuf -oL grep --line-buffered "%" | \
+                        stdbuf -oL sed -u -e "s,\.,,g" | \
+                        awk -v count="$count" -v total="$total" -v title="$title" '
+                            {
+                                match($0, /([0-9]{1,3})%/, arr);
+                                if (arr[1] != "") {
+                                    percent = int((count * 100 + arr[1]) / total);
+                                    print title "\n" percent;
+                                }
+                            }'
+                        shift 3
+                    elif [[ "$1" == "-P" ]]; then
+                        local dest_dir="$2"
+                        shift 2
+                        while [[ "$1" != -* && "$1" != "" ]]; do
+                            local url="$1"
+                            wget --tries=20 --progress=bar:force:noscroll -P "$dest_dir" "$url" 2>&1 | \
+                            stdbuf -oL grep --line-buffered "%" | \
+                            stdbuf -oL sed -u -e "s,\.,,g" | \
+                            awk -v count="$count" -v total="$total" -v title="$title" '
+                                {
+                                    match($0, /([0-9]{1,3})%/, arr);
+                                    if (arr[1] != "") {
+                                        percent = int((count * 100 + arr[1]) / total);
+                                        print title "\n" percent;
+                                    }
+                                }'
+                            ((count++))
+                            shift
+                        done
+                    else
+                        echo "Erro: argumento inesperado: $1"
+                        return 1
+                    fi
                     ((count++))
                 done
 
                 echo "$title"
                 echo 100
                 ;;
-
 
             wget-labeled)
                 local total="${steps_or_pid}"

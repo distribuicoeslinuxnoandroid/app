@@ -176,8 +176,10 @@ case $CHOICE in
 		sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
 		error_code="LG001br"
 		show_progress_dialog "wget" "${label_language_download}" 1 -P "$folder/root/" "${extralink}/config/locale/locale_pt-BR.sh"
+		sleep 5
 		exit_erro
 		chmod +x $folder/root/locale_pt-BR.sh
+
 		;;
 	2)
 		echo ""

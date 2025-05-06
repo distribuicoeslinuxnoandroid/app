@@ -96,30 +96,16 @@ show_progress_dialog() {
             wget)
                 local total="$4"
                 shift 4
+
                 local count=0
+                local title="$label"
 
                 while [[ "$#" -gt 0 ]]; do
-                    if [[ "$1" == "-O" ]]; then
-                        local output="$2"
-                        local url="$3"
-                        wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
-                        stdbuf -oL grep --line-buffered "%" | \
-                        stdbuf -oL sed -u -e "s,\.,,g" | \
-                        awk -v count="$count" -v total="$total" -v title="$title" '
-                            {
-                                match($0, /([0-9]{1,3})%/, arr);
-                                if (arr[1] != "") {
-                                    percent = int((count * 100 + arr[1]) / total);
-                                    print title "\n" percent;
-                                }
-                            }'
-                        shift 3
-                    elif [[ "$1" == "-P" ]]; then
-                        local dest_dir="$2"
-                        shift 2
-                        while [[ "$1" != -* && "$1" != "" ]]; do
-                            local url="$1"
-                            wget --tries=20 --progress=bar:force:noscroll -P "$dest_dir" "$url" 2>&1 | \
+                    case "$1" in
+                        -O)
+                            local output="$2"
+                            local url="$3"
+                            wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
                             stdbuf -oL grep --line-buffered "%" | \
                             stdbuf -oL sed -u -e "s,\.,,g" | \
                             awk -v count="$count" -v total="$total" -v title="$title" '
@@ -130,19 +116,39 @@ show_progress_dialog() {
                                         print title "\n" percent;
                                     }
                                 }'
-                            ((count++))
-                            shift
-                        done
-                    else
-                        echo "Erro: argumento inesperado: $1"
-                        return 1
-                    fi
-                    ((count++))
+                            shift 3
+                            ;;
+                        -P)
+                            local dest="$2"
+                            shift 2
+                            while [[ "$#" -gt 0 && "$1" != -* ]]; do
+                                local url="$1"
+                                wget --tries=20 --progress=bar:force:noscroll -P "$dest" "$url" 2>&1 | \
+                                stdbuf -oL grep --line-buffered "%" | \
+                                stdbuf -oL sed -u -e "s,\.,,g" | \
+                                awk -v count="$count" -v total="$total" -v title="$title" '
+                                    {
+                                        match($0, /([0-9]{1,3})%/, arr);
+                                        if (arr[1] != "") {
+                                            percent = int((count * 100 + arr[1]) / total);
+                                            print title "\n" percent;
+                                        }
+                                    }'
+                                ((count++))
+                                shift
+                            done
+                            ;;
+                        *)
+                            echo "Erro: argumento inesperado '$1'"
+                            return 1
+                            ;;
+                    esac
                 done
 
                 echo "$title"
                 echo 100
                 ;;
+
 
             wget-labeled)
                 local total="${steps_or_pid}"

@@ -137,46 +137,45 @@ show_progress_dialog() {
                 local current_label=""
                 local url=""
                 local wget_opts=()
-                local expect_arg=false
 
                 set -- "${command_list[@]}"
                 while [ $# -gt 0 ]; do
-                    if [[ ! "$1" =~ ^- ]]; then
-                        current_label="$1"
-                        shift
-                        wget_opts=()
-                        expect_arg=false
-                        while [[ $# -gt 0 && ( "$1" =~ ^- || $expect_arg ) ]]; do
+                    current_label="$1"
+                    shift
+                    wget_opts=()
+                    
+                    while [ $# -gt 1 ]; do
+                        case "$1" in
+                            -*) wget_opts+=("$1"); shift ;;
+                            *) break ;;
+                        esac
+                        if [[ "$1" != -* ]]; then
                             wget_opts+=("$1")
-                            if $expect_arg; then
-                                expect_arg=false
-                            elif [[ "$1" == "-O" || "$1" == "--output-document" || "$1" == "-P" || "$1" == "--directory-prefix" ]]; then
-                                expect_arg=true
-                            fi
                             shift
-                        done
-                        url="$1"
-                        shift
+                        fi
+                    done
 
-                        echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
+                    url="$1"
+                    shift
 
-                        wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
-                        stdbuf -oL grep --line-buffered "%" |
-                        stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
-                            {
-                                match($0, /([0-9]{1,3})%/, arr);
-                                if (arr[1] != "") {
-                                    percent = int((count * 100 + arr[1]) / total);
-                                    print "XXX\n" percent "\n" label "\nXXX";
-                                }
-                            }'
-                        ((count++))
-                    fi
+                    echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
+
+                    wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
+                    stdbuf -oL grep --line-buffered "%" |
+                    stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
+                        {
+                            match($0, /([0-9]{1,3})%/, arr);
+                            if (arr[1] != "") {
+                                percent = int((count * 100 + arr[1]) / total);
+                                print "XXX\n" percent "\n" label "\nXXX";
+                            }
+                        }'
+
+                    ((count++))
                 done
 
                 echo -e "XXX\n100\nConcluído\nXXX"
                 ;;
-
 
             steps)
                 local total="${steps_or_pid}"

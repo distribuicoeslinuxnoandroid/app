@@ -142,11 +142,19 @@ if [ ! -d "$folder/root/.vnc/" ];then
 fi
 
 show_progress_dialog wget-labeled 3 \
-    "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
-    "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
-    "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg"
+  "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
+  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/wallpapers/img1.jpg" \
+  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/wallpapers/img2.jpg"
+
+show_progress_dialog wget-labeled "${label_progress}" 3 \
+  "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
+  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
+  "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg"
 
 chmod +x "$folder/root/system-config.sh"
+
+
+
 
 
 # Idioma

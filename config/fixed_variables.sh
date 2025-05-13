@@ -112,38 +112,23 @@ show_progress_dialog() {
                 echo 100
                 sleep 1
                 ;;
-
+            
             wget)
-                local total="$steps_or_pid"  # Total de arquivos (5 no exemplo)
-                shift 3  # Remove mode/title/steps_or_pid
+                local total="$steps_or_pid"
+                shift 3
 
                 local count=0
-                local title="$title"  # Título correto da barra
+                local title="$title"
 
                 while [[ "$#" -gt 0 ]]; do
                     case "$1" in
                         -O)
                             local output="$2"
                             local url="$3"
+                            # Criar diretório se não existir
+                            mkdir -p "$(dirname "$output")"
+                            # Executar wget e capturar status
                             wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
-                            stdbuf -oL grep --line-buffered "%" | \
-                            stdbuf -oL sed -u -e "s,\.,,g" | \
-                            awk -v count="$count" -v total="$total" -v title="$title" '
-                                {
-                                    match($0, /([0-9]{1,3})%/, arr);
-                                    if (arr[1] != "") {
-                                        percent = int((count * 100 + arr[1]) / total);
-                                        print title "\n" percent;
-                                    }
-                                }'
-                            shift 3
-                            ;;
-                        -P)
-                            local dest="$2"
-                            shift 2
-                            while [[ "$#" -gt 0 && "$1" != -* ]]; do
-                                local url="$1"
-                                wget --tries=20 --progress=bar:force:noscroll -P "$dest" "$url" 2>&1 | \
                                 stdbuf -oL grep --line-buffered "%" | \
                                 stdbuf -oL sed -u -e "s,\.,,g" | \
                                 awk -v count="$count" -v total="$total" -v title="$title" '
@@ -154,10 +139,42 @@ show_progress_dialog() {
                                             print title "\n" percent;
                                         }
                                     }'
+                            # Verificar se wget teve erro
+                            if [ ${PIPESTATUS[0]} -ne 0 ]; then
+                                echo "Erro: Falha ao baixar $url" >&2
+                                return 1
+                            fi
+                            shift 3
+                            ;;
+
+                        -P)
+                            local dest="$2"
+                            # Criar diretório se não existir
+                            mkdir -p "$dest"
+                            shift 2
+                            while [[ "$#" -gt 0 && "$1" != -* ]]; do
+                                local url="$1"
+                                wget --tries=20 --progress=bar:force:noscroll -P "$dest" "$url" 2>&1 | \
+                                    stdbuf -oL grep --line-buffered "%" | \
+                                    stdbuf -oL sed -u -e "s,\.,,g" | \
+                                    awk -v count="$count" -v total="$total" -v title="$title" '
+                                        {
+                                            match($0, /([0-9]{1,3})%/, arr);
+                                            if (arr[1] != "") {
+                                                percent = int((count * 100 + arr[1]) / total);
+                                                print title "\n" percent;
+                                            }
+                                        }'
+                                # Verificar se wget teve erro
+                                if [ ${PIPESTATUS[0]} -ne 0 ]; then
+                                    echo "Erro: Falha ao baixar $url" >&2
+                                    return 1
+                                fi
                                 ((count++))
                                 shift
                             done
                             ;;
+
                         *)
                             echo "Erro: argumento inesperado '$1'"
                             return 1

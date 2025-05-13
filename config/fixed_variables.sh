@@ -149,11 +149,18 @@ show_progress_dialog() {
 
                         -P)
                             local dest="$2"
-                            # Criar diretório se não existir
-                            mkdir -p "$dest"
+                            mkdir -p "$dest"  # Criar diretório se não existir
                             shift 2
+                            
+                            # Lista de URLs a serem processadas
+                            local urls=()
                             while [[ "$#" -gt 0 && "$1" != -* ]]; do
-                                local url="$1"
+                                urls+=("$1")
+                                shift
+                            done
+
+                            # Processar cada URL individualmente
+                            for url in "${urls[@]}"; do
                                 wget --tries=20 --progress=bar:force:noscroll -P "$dest" "$url" 2>&1 | \
                                     stdbuf -oL grep --line-buffered "%" | \
                                     stdbuf -oL sed -u -e "s,\.,,g" | \
@@ -165,13 +172,12 @@ show_progress_dialog() {
                                                 print title "\n" percent;
                                             }
                                         }'
-                                # Verificar se wget teve erro
+                                # Verificar se o wget teve sucesso
                                 if [ ${PIPESTATUS[0]} -ne 0 ]; then
                                     echo "Erro: Falha ao baixar $url" >&2
                                     return 1
                                 fi
                                 ((count++))
-                                shift
                             done
                             ;;
 

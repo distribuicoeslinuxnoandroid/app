@@ -156,6 +156,8 @@ show_progress_dialog wget-labeled "${label_progress}" 3 \
   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg"
 
+chmod +x "$folder/root/system-config.sh"
+
 dialog --infobox "Etapa 7 \nSeletor de idioma..." 5 50
 sleep 4
 # Idioma

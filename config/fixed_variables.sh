@@ -149,36 +149,48 @@ show_progress_dialog() {
 
                         -P)
                             local dest="$2"
-                            mkdir -p "$dest"  # Criar diretório se não existir
+                            mkdir -p "$dest" || { echo "Erro: Diretório não pode ser criado: $dest" >&2; return 1; }
                             shift 2
-                            
-                            # Lista de URLs a serem processadas
+
+                            # Capturar todos os URLs restantes até o próximo argumento (ou fim)
                             local urls=()
                             while [[ "$#" -gt 0 && "$1" != -* ]]; do
                                 urls+=("$1")
                                 shift
                             done
 
-                            # Processar cada URL individualmente
+                            # Verificar se o número de URLs corresponde ao "total"
+                            if [[ "${#urls[@]}" -ne "$total" ]]; then
+                                echo "Erro: Total de URLs (${#urls[@]}) não corresponde ao esperado ($total)." >&2
+                                return 1
+                            fi
+
+                            # Baixar cada URL e atualizar o progresso
+                            local count=0
                             for url in "${urls[@]}"; do
                                 wget --tries=20 --progress=bar:force:noscroll -P "$dest" "$url" 2>&1 | \
-                                    stdbuf -oL grep --line-buffered "%" | \
-                                    stdbuf -oL sed -u -e "s,\.,,g" | \
+                                    stdbuf -oL tr '\r' '\n' | \
+                                    stdbuf -oL grep -oE '[0-9]{1,3}%' | \
+                                    stdbuf -oL sed 's/%//' | \
                                     awk -v count="$count" -v total="$total" -v title="$title" '
                                         {
-                                            match($0, /([0-9]{1,3})%/, arr);
-                                            if (arr[1] != "") {
-                                                percent = int((count * 100 + arr[1]) / total);
-                                                print title "\n" percent;
-                                            }
+                                            percent = int( (count * 100 + $0) / total );
+                                            print title "\n" percent;
+                                            fflush();  # Forçar saída imediata
                                         }'
-                                # Verificar se o wget teve sucesso
-                                if [ ${PIPESTATUS[0]} -ne 0 ]; then
+                                
+                                # Verificar se o wget teve erro
+                                if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
                                     echo "Erro: Falha ao baixar $url" >&2
                                     return 1
                                 fi
+                                
                                 ((count++))
                             done
+
+                            # Forçar 100% ao finalizar todos os downloads
+                            echo "$title"
+                            echo "100"
                             ;;
 
                         *)

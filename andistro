@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #rm -rf * && rm -rf "$PREFIX/bin/andistro_files/" && rm -rf "$PREFIX/bin/andistro"
-
+mkdir "$PREFIX/bin/andistro_files/"
 extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(getprop persist.sys.locale)
 
@@ -75,14 +75,38 @@ current_step=0
 
     # Verifica e baixa fixed_variables.sh
     if [ ! -f "$PREFIX/bin/andistro_files/fixed_variables.sh" ]; then
-        curl -s -o "$HOME/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
+        curl -s -o "$PREFIX/bin/andistro_files/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
+        else
+            curl -s -o "$PREFIX/bin/andistro_files/fixed_variables.check" "${extralink}/config/fixed_variables.sh"
+            if [ -f "$PREFIX/bin/andistro_files/fixed_variables.sh" ] && [ -f "$PREFIX/bin/andistro_files/fixed_variables.check" ]; then
+                if ! cmp -s "$PREFIX/bin/andistro_files/fixed_variables.sh" "$PREFIX/bin/andistro_files/fixed_variables.check"; then
+                    rm "$PREFIX/bin/andistro_files/fixed_variables.sh"
+                    mv "$PREFIX/bin/andistro_files/fixed_variables.check" "$PREFIX/bin/andistro_files/fixed_variables.sh"
+                    chmod +x "$PREFIX/bin/andistro_files/fixed_variables.sh"
+                    status_atualizacao_andistro_1="*Houve uma atualização dos modulos globais!"
+                else
+                    rm "$PREFIX/bin/andistro_files/fixed_variables.check"
+                fi
+            fi
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
     # Verifica e baixa l10n_${locale}.sh
     if [ ! -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
-        curl -s -o "$HOME/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+        curl -s -o "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+        else
+            curl -s -o "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
+            if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ] && [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.check" ]; then
+                if ! cmp -s "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.check"; then
+                    rm "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
+                    mv "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.check" "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
+                    chmod +x "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
+                    status_atualizacao_andistro_2="*Houve uma atualização do pacote de idioma!"
+                else
+                    rm "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.check"
+                fi
+            fi
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
@@ -123,9 +147,6 @@ current_step=0
 
 clear
 
-mkdir "$PREFIX/bin/andistro_files/"
-mv "$HOME/fixed_variables.sh" "$PREFIX/bin/andistro_files/"
-mv "$HOME/l10n_${system_icu_locale_code}.sh" "$PREFIX/bin/andistro_files/"
 chmod +x "$PREFIX/bin/andistro_files/fixed_variables.sh"
 chmod +x "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 source "$PREFIX/bin/andistro_files/fixed_variables.sh"

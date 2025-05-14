@@ -1,6 +1,6 @@
 #!/bin/bash
 extralink="https://raw.githubusercontent.com/andistro/app/main"
-
+#novo
 #dialog
 dialog_total_time=2 ## Configurar o intervalo de atualização da barra de progresso
 dialog_intervalo=1 ## Número de etapas na barra de progresso
@@ -204,7 +204,7 @@ show_progress_dialog() {
                             echo "$title"
                             echo "100"
                             ;;
-                            
+
                         *)
                             echo "Erro: argumento inesperado '$1'"
                             return 1

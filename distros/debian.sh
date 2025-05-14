@@ -72,11 +72,11 @@ if [ "$first" != 1 ];then
 	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>&1 &
 	debootstrap_pid=$!
 	show_progress_dialog "background" "$label_debian_download" "$debootstrap_pid"
-	if wait $debootstrap_pid; then
-		echo "Instalação concluída com sucesso!"
-		else
-			echo "Erro durante a instalação do Debian!"
-	fi
+	#if wait $debootstrap_pid; then
+	#	echo "Instalação concluída com sucesso!"
+	#	else
+	#		echo "Erro durante a instalação do Debian!"
+	#fi
 fi
 
 echo "${label_start_script}"

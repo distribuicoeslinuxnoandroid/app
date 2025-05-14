@@ -69,7 +69,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian
+	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>&1 &
 	debootstrap_pid=$!
 	show_progress_dialog "background" "$label_debian_download" "$debootstrap_pid"
 	#if wait $debootstrap_pid; then

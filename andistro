@@ -11,6 +11,11 @@ apt update > /dev/null 2>&1 && apt upgrade -y
 if [ ! -d "$HOME/storage" ];then
     termux-setup-storage
 fi
+# Log de erros
+if [ ! -d "$HOME/storage/termux/andistro_logs" ];then
+    mkdir "$HOME/storage/termux/"
+    mkdir "$HOME/storage/termux/andistro_logs"
+fi
 
 clear
 

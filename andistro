@@ -140,7 +140,7 @@ current_step=0
             rm "$PREFIX/bin/andistro"
             mv "$HOME/andistro.check" "$PREFIX/bin/andistro"
             chmod +x "$PREFIX/bin/andistro"
-            status_atualizacao_andistro="Houve uma atualização finalizada com sucesso. A nova versão será usada na próxima vez que usar o comando."
+            status_atualizacao_andistro="Houve uma atualização finalizada com sucesso!"
         else
             rm "$HOME/andistro.check"
         fi
@@ -165,6 +165,8 @@ source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
     if [[ -n "$status_atualizacao_andistro" ]]; then
+        exit
+        andistro
         echo -e "$status_atualizacao_andistro"
         echo -e "$status_atualizacao_andistro_1"
         echo -e "$status_atualizacao_andistro_2"

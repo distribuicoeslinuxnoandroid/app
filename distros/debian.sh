@@ -3,7 +3,7 @@ source "$PREFIX/bin/andistro_files/fixed_variables.sh"
 bin=start-debian.sh
 codinome="stable"
 folder=debian-stable
-binds=debian-binds
+
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
@@ -79,8 +79,6 @@ if [ "$first" != 1 ];then
 	fi
 fi
 
-mkdir -p $binds
-
 echo "${label_start_script}"
 cat > $bin <<- EOM
 #!/bin/bash
@@ -93,11 +91,6 @@ command+=" --kill-on-exit"
 command+=" --link2symlink"
 command+=" -0"
 command+=" -r $folder"
-if [ -n "\$(ls -A $binds)" ]; then
-    for f in $binds/* ;do
-      . \$f
-    done
-fi
 command+=" -b /dev"
 command+=" -b /proc"
 command+=" -b $folder/root:/dev/shm"
@@ -160,7 +153,7 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
 	1)
-		sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
+		#sed -i 's|command+=" LANG=C.UTF-8"|command+=" LANG=pt_BR.UTF-8"|' $bin
 		error_code="LG001br"
 		show_progress_dialog "wget" "${label_language_download}" 1 -P "$folder/root/" "${extralink}/config/locale/locale_pt-BR.sh"
 		sleep 5

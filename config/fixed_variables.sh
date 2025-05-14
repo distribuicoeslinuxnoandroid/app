@@ -99,41 +99,17 @@ show_progress_dialog() {
             background)
                 local percentage=0
                 local pid="$steps_or_pid"
-                local max_attempts=120  # Máximo de 60 segundos (120 tentativas * 0.5s)
-                local attempts=0
 
-                # Simular progresso inicial até 95%
-                while kill -0 "$pid" >/dev/null 2>&1 && [ $attempts -lt $max_attempts ]; do
+                while kill -0 "$pid" >/dev/null 2>&1; do
                     sleep 0.5
                     ((percentage+=2))
                     [ $percentage -gt 95 ] && percentage=95
                     echo "$title"
                     echo "$percentage"
-                    ((attempts++))
                 done
-
-                # Se o processo ainda estiver ativo após 95%, aguardar conclusão
-                if kill -0 "$pid" >/dev/null 2>&1; then
-                    # Atualizar mensagem para "Finalizando..."
-                    echo "Faltando pouco para finalizar... Aguarde"
-                    echo "95"
-                    
-                    # Aguardar término real do processo
-                    wait "$pid" >/dev/null 2>&1
-                fi
-
-                # Garantir 100% após conclusão
                 echo "$title"
-                echo "100"
+                echo 100
                 sleep 1
-
-                # Verificar se o debootstrap foi bem-sucedido
-                if [ -d "$folder/etc" ] && [ -d "$folder/bin" ]; then
-                    echo "Debootstrap concluído com sucesso!" >&2
-                else
-                    echo "Erro: Debootstrap falhou ou está incompleto!" >&2
-                    return 1
-                fi
                 ;;
             
             wget)

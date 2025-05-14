@@ -168,7 +168,7 @@ show_progress_dialog() {
                                 local output="$dest/$filename"
                                 
                                 # Debug: mostrar URL e destino
-                                echo "DEBUG: Baixando $url para $output" >&2
+                                #echo "DEBUG: Baixando $url para $output" >&2
                                 
                                 # Executar wget com log detalhado
                                 if ! wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \

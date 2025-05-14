@@ -194,15 +194,9 @@ clear
 
 #Copiando arquivos para dentro do linux
 
-#move para root
-cp l10n_*.sh $folder/root/
-cp fixed_variables.sh $folder/root/
-#move para .vnc
-cp l10n_*.sh $folder/root/.vnc
-cp fixed_variables.sh $folder/root/.vnc
 #move para o bin
-cp l10n_*.sh $folder/usr/local/bin
-cp fixed_variables.sh $folder/usr/local/bin
+cp "$PREFIX/bin/andistro_files/l10n_*.sh" $folder/usr/local/bin
+cp "$PREFIX/bin/andistro_files/fixed_variables.sh" $folder/usr/local/bin
 
 #echo "fixing shebang of $bin"
 termux-fix-shebang $bin

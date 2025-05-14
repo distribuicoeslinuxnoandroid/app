@@ -69,7 +69,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>$HOME/storage/termux/andistro_logs/debootstrap_error.log &
+	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>"$HOME/storage/shared/termux/andistro_logs/debootstrap_error.log" &
 	debootstrap_pid=$!
 	show_progress_dialog "background" "$label_debian_download" "$debootstrap_pid"
 	#if wait $debootstrap_pid; then
@@ -80,7 +80,7 @@ if [ "$first" != 1 ];then
 	wait "$debootstrap_pid"
 	if [ $? -ne 0 ]; then
 		echo "Erro: debootstrap falhou. Verifique o log ou tente novamente." >&2
-		[ -f $HOME/storage/termux/andistro_logs/debootstrap_error.log ] && tail -n 20 $HOME/storage/termux/andistro_logs/debootstrap_error.log >&2
+		[ -f "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.log" ] && tail -n 20 "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.log" >&2
 		exit 1
 	fi
 fi

@@ -135,7 +135,7 @@ current_step=0
             rm "$PREFIX/bin/andistro"
             mv "$HOME/andistro.check" "$PREFIX/bin/andistro"
             chmod +x "$PREFIX/bin/andistro"
-            status_atualizacao_andistro="Houve uma atualização finalizada com sucesso!\nA nova versão será usada na próxima vez que usar o comando."
+            status_atualizacao_andistro="Houve uma atualização finalizada com sucesso. A nova versão será usada na próxima vez que usar o comando."
         else
             rm "$HOME/andistro.check"
         fi

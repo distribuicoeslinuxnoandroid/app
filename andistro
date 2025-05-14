@@ -158,12 +158,12 @@ source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 # Verifica os argumentos passados ao script
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
-    if [[ -n "$status_atualizacao_andistro" ]]; then
-        echo -e "$status_atualizacao_andistro"
-        echo -e "$status_atualizacao_andistro_1"
-        echo -e "$status_atualizacao_andistro_2"
-        echo " "
-    fi
+if [[ -n "$status_atualizacao_andistro" ]]; then
+echo -e "$status_atualizacao_andistro"
+echo -e "$status_atualizacao_andistro_1"
+echo -e "$status_atualizacao_andistro_2"
+echo " "
+fi
     echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
     echo ""
     echo -e "Exemplo de comando que permite a instalação:"

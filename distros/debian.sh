@@ -1,6 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
 source "$PREFIX/bin/andistro_files/fixed_variables.sh"
-source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 bin=start-debian.sh
 codinome="stable"
 folder=debian-stable
@@ -9,9 +8,6 @@ binds=debian-binds
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
 
 # Lista de pacotes necessários
-
-dialog --infobox "Etapa 1 \nBaixar pacotes necessários..." 5 50
-sleep 4
 
 total_steps=5
 #current_step=0
@@ -56,8 +52,6 @@ total_steps=5
 clear
 
 #=============================================================================================
-dialog --infobox "Etapa 2 \nVerificar se o ${folder} existe..." 5 50
-sleep 4
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
 	first=1
@@ -84,8 +78,7 @@ if [ "$first" != 1 ];then
 			echo "Erro durante a instalação do Debian!"
 	fi
 fi
-dialog --infobox "Etapa 4 \nCriar o arquivo executável e inicador do sistema..." 5 50
-sleep 4
+
 mkdir -p $binds
 
 echo "${label_start_script}"
@@ -129,8 +122,6 @@ EOM
 
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 
-dialog --infobox "Etapa 5 \nCriar umas pastas..." 5 50
-sleep 4
 # Se não existir, será criado
 if [ ! -d "$folder/usr/share/backgrounds/" ];then
 	mkdir -p "$folder/usr/share/backgrounds/"
@@ -147,8 +138,6 @@ if [ ! -d "$folder/root/.vnc/" ];then
 	echo "pasta criada"
 fi
 
-dialog --infobox "Etapa 6 \nBaixar papeis de parede e o arquivo de configuração..." 5 50
-sleep 4
 show_progress_dialog wget-labeled "${label_progress}" 3 \
   "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
@@ -156,8 +145,6 @@ show_progress_dialog wget-labeled "${label_progress}" 3 \
 
 chmod +x "$folder/root/system-config.sh"
 
-dialog --infobox "Etapa 7 \nSeletor de idioma..." 5 50
-sleep 4
 # Idioma
 export PORT=1
 #Definir o idioma

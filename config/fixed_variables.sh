@@ -294,6 +294,31 @@ show_progress_dialog() {
                     ((count++))
                 done
                 ;;
+            
+            debootstrap)
+                local pid="$steps_or_pid"
+                local percentage=0
+
+                while kill -0 "$pid" >/dev/null 2>&1; do
+                    sleep 0.5
+                    ((percentage+=2))
+                    [ $percentage -gt 95 ] && percentage=95
+                    echo "$title"
+                    echo "$percentage"
+                done
+
+                # Aguarda término real
+                wait "$pid"
+                local status=$?
+
+                echo "$title"
+                echo 100
+                sleep 1
+
+                # Retorna status para quem chamou
+                return $status
+                ;;
+
         esac
     ) | dialog --gauge "$title" 10 40 0
 }

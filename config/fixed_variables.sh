@@ -96,9 +96,25 @@ show_progress_dialog() {
 
     (
         case "$mode" in
+            # background)
+            #     local percentage=0
+            #     local pid="$steps_or_pid"
+
+            #     while kill -0 "$pid" >/dev/null 2>&1; do
+            #         sleep 0.5
+            #         ((percentage+=2))
+            #         [ $percentage -gt 95 ] && percentage=95
+            #         echo "$title"
+            #         echo "$percentage"
+            #     done
+            #     echo "$title"
+            #     echo 100
+            #     sleep 1
+            #     ;;
             background)
                 local percentage=0
                 local pid="$steps_or_pid"
+                local exit_code=0
 
                 while kill -0 "$pid" >/dev/null 2>&1; do
                     sleep 0.5
@@ -107,9 +123,16 @@ show_progress_dialog() {
                     echo "$title"
                     echo "$percentage"
                 done
+
+                # Aguardar término e capturar status
+                wait "$pid" >/dev/null 2>&1
+                exit_code=$?
+
                 echo "$title"
-                echo 100
+                echo "100"
                 sleep 1
+
+                return $exit_code  # Retornar código de saída do debootstrap
                 ;;
             
             wget)
@@ -293,30 +316,6 @@ show_progress_dialog() {
                     echo "$percent"
                     ((count++))
                 done
-                ;;
-            
-            debootstrap)
-                local pid="$steps_or_pid"
-                local percentage=0
-
-                while kill -0 "$pid" >/dev/null 2>&1; do
-                    sleep 0.5
-                    ((percentage+=2))
-                    [ $percentage -gt 95 ] && percentage=95
-                    echo "$title"
-                    echo "$percentage"
-                done
-
-                # Aguarda término real
-                wait "$pid"
-                local status=$?
-
-                echo "$title"
-                echo 100
-                sleep 1
-
-                # Retorna status para quem chamou
-                return $status
                 ;;
 
         esac

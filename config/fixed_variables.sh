@@ -1,16 +1,20 @@
 #!/bin/bash
+export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 extralink="https://raw.githubusercontent.com/andistro/app/main"
 #dialog
 dialog_total_time=2 ## Configurar o intervalo de atualização da barra de progresso
 dialog_intervalo=1 ## Número de etapas na barra de progresso
 steps=$((dialog_total_time / dialog_intervalo))
 percentage=0
+#Formato GMT
+GMT_date=$(date +"%Z":00)
 
 export USER=$(whoami)
 HEIGHT=0
 WIDTH=100
 CHOICE_HEIGHT=5
 export PORT=1
+
 
 # Verifica se o comando getprop existe antes de executar
 if command -v getprop > /dev/null 2>&1; then
@@ -45,14 +49,6 @@ else
     echo "Arquivo de localização não encontrado para o código: $system_icu_locale_code"
     exit 1
 fi
-
-
-#Formato GMT
-GMT_date=$(date +"%Z":00)
-
-#cur=`pwd`
-
-export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 
 exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
   if [ $? -ne 0 ]; then

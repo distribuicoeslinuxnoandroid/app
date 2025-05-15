@@ -69,15 +69,28 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>"$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" &
+	# debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian > /dev/null 2>"$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" &
+	# debootstrap_pid=$!
+	# show_progress_dialog "debootstrap" "$label_debian_download" "$debootstrap_pid"
+	# status=$?
+
+	# if [ $status -ne 0 ]; then
+	# 	echo "Erro: debootstrap falhou. Verifique o log ou tente novamente." >&2
+	# 	[ -f "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" ] && \
+	# 		tail -n 20 "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" >&2
+	# 	exit 1
+	# fi
+	debootstrap --arch="$archurl" "$codinome" "$folder" http://ftp.debian.org/debian 2>"$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" &
 	debootstrap_pid=$!
-	show_progress_dialog "debootstrap" "$label_debian_download" "$debootstrap_pid"
+
+	show_progress_dialog "background" "$label_debian_download" "$debootstrap_pid"
 	status=$?
 
-	if [ $status -ne 0 ]; then
-		echo "Erro: debootstrap falhou. Verifique o log ou tente novamente." >&2
+	# Verificar status e integridade
+	if [ $status -ne 0 ] || [ ! -d "$folder/etc" ]; then
+		echo "Erro: debootstrap falhou ou está incompleto!" >&2
 		[ -f "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" ] && \
-			tail -n 20 "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" >&2
+		tail -n 20 "$HOME/storage/shared/termux/andistro_logs/debootstrap_error.txt" >&2
 		exit 1
 	fi
 

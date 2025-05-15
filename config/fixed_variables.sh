@@ -121,23 +121,7 @@ show_progress_dialog() {
                 wait "$pid" >/dev/null 2>&1
                 return $?
                 ;;
-
-            # background)
-            #     local percentage=0
-            #     local pid="$steps_or_pid"
-
-            #     while kill -0 "$pid" >/dev/null 2>&1; do
-            #         sleep 0.5
-            #         ((percentage+=2))
-            #         [ $percentage -gt 95 ] && percentage=95
-            #         echo "$title"
-            #         echo "$percentage"
-            #     done
-            #     echo "$title"
-            #     echo 100
-            #     sleep 1
-            #     ;;
-            
+                
             wget)
                 local total="$steps_or_pid"
                 shift 3

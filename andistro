@@ -167,9 +167,7 @@ if [ -z "$1" ]; then
     if [[ -n "$status_atualizacao_andistro" ]]; then
         exit
         andistro
-        echo -e "$status_atualizacao_andistro"
-        echo -e "$status_atualizacao_andistro_1"
-        echo -e "$status_atualizacao_andistro_2"
+        echo -e "Sistema atualizado"
     echo " "
     fi
     echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."

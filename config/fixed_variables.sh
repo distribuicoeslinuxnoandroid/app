@@ -92,6 +92,36 @@ show_progress_dialog() {
 
     (
         case "$mode" in
+            background)
+                local percentage=0
+                local pid="$steps_or_pid"
+                local dialog_intervalo=1  # Intervalo de atualização em segundos
+
+                (
+                    while kill -0 "$pid" >/dev/null 2>&1; do
+                        sleep "$dialog_intervalo"
+                        ((percentage+=2))
+                        
+                        # Limitar a 95% até conclusão
+                        if [ $percentage -gt 95 ]; then
+                            percentage=95
+                        fi
+                        
+                        echo "$title"
+                        echo "$percentage"
+                    done
+
+                    # Finalizar com 100%
+                    echo "$title"
+                    echo "100"
+                    sleep 2
+                ) | dialog --gauge "$title" 10 40 0
+
+                # Capturar status de saída do debootstrap
+                wait "$pid" >/dev/null 2>&1
+                return $?
+                ;;
+
             # background)
             #     local percentage=0
             #     local pid="$steps_or_pid"
@@ -107,29 +137,6 @@ show_progress_dialog() {
             #     echo 100
             #     sleep 1
             #     ;;
-            background)
-                local percentage=0
-                local pid="$steps_or_pid"
-                local exit_code=0
-
-                while kill -0 "$pid" >/dev/null 2>&1; do
-                    sleep 0.5
-                    ((percentage+=2))
-                    [ $percentage -gt 95 ] && percentage=95
-                    echo "$title"
-                    echo "$percentage"
-                done
-
-                # Aguardar término e capturar status
-                wait "$pid" >/dev/null 2>&1
-                exit_code=$?
-
-                echo "$title"
-                echo "100"
-                sleep 1
-
-                return $exit_code  # Retornar código de saída do debootstrap
-                ;;
             
             wget)
                 local total="$steps_or_pid"

@@ -41,53 +41,53 @@ update_progress() {
 }
 
 
-total_steps=10  # Número total de etapas que você quer monitorar
+total_steps=11  # Número total de etapas que você quer monitorar
 current_step=0
 
 {
-    # Verifica se o proot está instalado
+    #1 Verifica se o termux-exec está instalado
     if ! dpkg -l | grep -qw proot; then
         apt install termux-exec -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o proot está instalado
+    #2 Verifica se o proot está instalado
     if ! dpkg -l | grep -qw proot; then
         apt install proot -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o wget está instalado
+    #3 Verifica se o wget está instalado
     if ! dpkg -l | grep -qw wget; then
         apt install wget -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o dialog está instalado
+    #4 Verifica se o dialog está instalado
     if ! dpkg -l | grep -qw dialog; then
         apt install dialog -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o tar está instalado
+    #5 Verifica se o tar está instalado
     if ! dpkg -l | grep -qw tar; then
         apt install tar -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o curl está instalado
+    #6 Verifica se o curl está instalado
     if ! dpkg -l | grep -qw curl; then
         apt install curl -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica e baixa fixed_variables.sh
+    #7 Verifica e baixa fixed_variables.sh
     if [ ! -f "$PREFIX/bin/andistro_files/fixed_variables.sh" ]; then
         curl -s -o "$PREFIX/bin/andistro_files/fixed_variables.sh" "${extralink}/config/fixed_variables.sh"
         else
@@ -106,7 +106,7 @@ current_step=0
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica e baixa l10n_${locale}.sh
+    #8 Verifica e baixa l10n_${locale}.sh
     if [ ! -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
         curl -s -o "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" "${extralink}/config/locale/l10n_${system_icu_locale_code}.sh"
         else
@@ -125,7 +125,7 @@ current_step=0
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica se o andistro está em $HOME
+    #9 Verifica se o andistro está em $HOME
     if [ -f "$HOME/andistro" ]; then
         mv "$HOME/andistro" "$PREFIX/bin/andistro"
         rm -rf "$HOME/andistro"
@@ -134,14 +134,14 @@ current_step=0
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Baixa uma versão para comparação
+    #10 Baixa uma versão para comparação
     if [ ! -f "$HOME/andistro.check" ]; then
         curl -s -o "$HOME/andistro.check" "${extralink}/andistro"
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    # Verifica e substitui se for necessário
+    #11 Verifica e substitui se for necessário
     if [ -f "$PREFIX/bin/andistro" ] && [ -f "$HOME/andistro.check" ]; then
         if ! cmp -s "$PREFIX/bin/andistro" "$HOME/andistro.check"; then
             rm "$PREFIX/bin/andistro"

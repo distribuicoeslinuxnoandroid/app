@@ -47,6 +47,13 @@ current_step=0
 {
     # Verifica se o proot está instalado
     if ! dpkg -l | grep -qw proot; then
+        apt install termux-exec -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    # Verifica se o proot está instalado
+    if ! dpkg -l | grep -qw proot; then
         apt install proot -y
     fi
     ((current_step++))

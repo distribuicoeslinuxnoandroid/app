@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 source "$PREFIX/bin/andistro_files/fixed_variables.sh"
 bin=start-debian.sh
-codinome="stable"
-folder=debian-stable
+codinome="bookworm"
+folder=debian-bookworm
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
@@ -10,7 +10,7 @@ folder=debian-stable
 # Lista de pacotes necessários
 
 total_steps=5
-#current_step=0
+current_step=0
 {
     # Verifica se o proot está instalado
     if ! dpkg -l | grep -qw proot; then
@@ -69,16 +69,10 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-
-	debootstrap --arch=$archurl $codinome $folder http://ftp.debian.org/debian >/dev/null 2>&1 &
-	debootstrap_pid=$!
-	show_progress_dialog "background" "$label_debian_download" "$debootstrap_pid"
-	status=$?
-
-	if [ $status -ne 0 ]; then
-		echo "Erro: debootstrap falhou. Verifique sua conexão ou parâmetros." >&2
-		exit 1
-	fi
+	show_progress_dialog "wget" "${label_progress}" 1 -O "$HOME/$folder" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
+	cd "$folder" || exit
+    proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :
+    cd $HOME
 
 fi
 
@@ -145,7 +139,8 @@ chmod +x "$folder/root/system-config.sh"
 export PORT=1
 #Definir o idioma
 OPTIONS=(1 "Português do Brasil (pt-BR)"
-			2 "English (en-US)")
+		 2 "English (en-US)")
+		 
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
 				--menu "$MENU_language_select" \

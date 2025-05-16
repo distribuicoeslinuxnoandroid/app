@@ -69,7 +69,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	show_progress_dialog "wget" "${label_progress}" 1 -O "$HOME/$folder" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
+	show_progress_dialog "wget" "${label_progress}" 1 -O "$HOME/$folder.tar.xz" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
 	cd "$folder" || exit
     proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :
     cd $HOME
@@ -140,7 +140,7 @@ export PORT=1
 #Definir o idioma
 OPTIONS=(1 "Português do Brasil (pt-BR)"
 		 2 "English (en-US)")
-		 
+
 CHOICE=$(dialog --clear \
 				--title "$TITLE" \
 				--menu "$MENU_language_select" \

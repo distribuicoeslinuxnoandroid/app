@@ -172,10 +172,9 @@ source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 if [ -z "$1" ]; then
     # Caso nenhum argumento seja passado, exibe a mensagem de instrução
     if [[ -n "$status_atualizacao_andistro" ]]; then
-        exit
         andistro
         echo -e "Sistema atualizado"
-    echo " "
+        echo " "
     fi
     echo -e "Use: andistro <comando> <opção> para seja feito a tarefa desejada."
     echo ""

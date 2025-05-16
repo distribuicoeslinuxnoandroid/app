@@ -69,7 +69,8 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
-	show_progress_dialog "wget" "${label_progress}" 1 -O "$HOME/$folder.tar.xz" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
+	show_progress_dialog "wget" "${label_debian_download}" 1 -O "$HOME/$folder.tar.xz" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
+	mkdir -p "$folder"
 	cd "$folder" || exit
     proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :
     cd $HOME

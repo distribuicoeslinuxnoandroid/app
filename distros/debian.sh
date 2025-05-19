@@ -69,6 +69,7 @@ if [ "$first" != 1 ];then
 	*)
 		echo "unknown architecture"; exit 1 ;;
 	esac
+	error_code="DW001deb"
 	show_progress_dialog "wget" "${label_debian_download}" 1 -O "$HOME/$folder.tar.xz" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
 	sleep 10
 

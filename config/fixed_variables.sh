@@ -150,7 +150,7 @@ show_progress_dialog() {
                                     }'
                             # Verificar se wget teve erro
                             if [ ${PIPESTATUS[0]} -ne 0 ]; then
-                                echo "Erro: Falha ao baixar $url" >&2
+                                echo "Erro: Falha ao baixar $url. Código $error_code." >&2
                                 return 1
                             fi
                             shift 3

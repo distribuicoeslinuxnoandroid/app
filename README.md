@@ -116,9 +116,10 @@ curl -O https://raw.githubusercontent.com/andistro/app/main/andistro > /dev/null
 ```
 <details>
 <summary>Versão Alpha</summary>
-<pre class="highlight highlight-source-shell">
+
+```bash
 curl -O https://raw.githubusercontent.com/andistro/app/alpha/andistro > /dev/null 2>&1
-</pre>
+```
 </details>
 
 2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:

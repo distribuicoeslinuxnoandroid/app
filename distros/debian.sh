@@ -5,53 +5,6 @@ codinome="bookworm"
 folder="debian-bookworm"
 
 #=============================================================================================
-# Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
-
-# Lista de pacotes necessários
-
-total_steps=5
-current_step=0
-{
-    # Verifica se o proot está instalado
-    if ! dpkg -l | grep -qw proot; then
-        apt install proot -y
-    fi
-    ((current_step++))
-    update_progress "$current_step" "$total_steps"; sleep 0.1
-
-	# Verifica se o wget está instalado
-    if ! dpkg -l | grep -qw wget; then
-        apt install wget -y
-    fi
-    ((current_step++))
-    update_progress "$current_step" "$total_steps"; sleep 0.1
-
-	# Verifica se o dbus está instalado
-    if ! dpkg -l | grep -qw dbus; then
-        apt install dbus -y
-    fi
-    ((current_step++))
-    update_progress "$current_step" "$total_steps"; sleep 0.1
-
-	# Verifica se o dialog está instalado
-    if ! dpkg -l | grep -qw dialog; then
-        apt install dialog -y
-    fi
-    ((current_step++))
-    update_progress "$current_step" "$total_steps"; sleep 0.1
-
-	# Verifica se o debootstrap está instalado
-    if ! dpkg -l | grep -qw debootstrap; then
-        apt install debootstrap -y
-    fi
-    ((current_step++))
-    update_progress "$current_step" "$total_steps"; sleep 0.1
-
-	echo
-}
-clear
-
-#=============================================================================================
 # Caso a versão do debian já tenha sido baixada, não baixar novamente
 if [ -d "$folder" ]; then
 	first=1

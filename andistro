@@ -155,16 +155,23 @@ current_step=0
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    #12 Verifica se o termux-exec está instalado
+    #12 Verifica se o unzip está instalado
     if ! dpkg -l | grep -qw unzip; then
         apt install unzip -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-    #13 Verifica se o termux-exec está instalado
+    #13 Verifica se o xz-utils está instalado
     if ! dpkg -l | grep -qw xz-utils; then
         apt install xz-utils -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    #14 Verifica se o debootstrap está instalado
+    if ! dpkg -l | grep -qw debootstrap; then
+        apt install debootstrap -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1

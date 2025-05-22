@@ -114,6 +114,12 @@ Após o Termux ter sido instalado no aparelho e iniciado, agora será a vez de b
 ```bash
 curl -O https://raw.githubusercontent.com/andistro/app/main/andistro > /dev/null 2>&1
 ```
+<details>
+  <summary>Versão Alpha</summary>
+  <code clash="highlight highlight-source-shell notranslate position-relative overflow-auto">
+  curl -O https://raw.githubusercontent.com/andistro/app/alpha/andistro > /dev/null 2>&1</code>
+</details>
+
 2. Copie e cole o código abaixo no Termux para que o arquivo tenha permissão para funcionar:
 ```bash
 chmod +x andistro

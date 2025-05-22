@@ -1,5 +1,4 @@
 #!/bin/bash
-#extralink="https://raw.githubusercontent.com/andistro/app/main" # para a versão principal
 extralink="https://raw.githubusercontent.com/andistro/app/alpha" # Para a versão alpha
 
 check_dependencies() {

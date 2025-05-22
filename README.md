@@ -149,6 +149,13 @@ andistro <NOME_DA_DISTRIBUIÇÃO>
 ```bash
 curl -O https://raw.githubusercontent.com/andistro/app/main/andistro && chmod +x andistro && bash andistro && clear && andistro
 ```
+<details>
+<summary>Versão Alpha</summary>
+
+```bash
+curl -O https://raw.githubusercontent.com/andistro/app/alpha/andistro && chmod +x andistro && bash andistro && clear && andistro
+```
+</details>
 ---
 
 <br>

@@ -1,9 +1,11 @@
 #!/data/data/com.termux/files/usr/bin/bash
 #rm -rf * && rm -rf "$PREFIX/bin/andistro_files/" && rm -rf "$PREFIX/bin/andistro"
+#extralink="https://raw.githubusercontent.com/andistro/app/main" # para a versão principal
+extralink="https://raw.githubusercontent.com/andistro/app/alpha" # Para a versão alpha
 if [ ! -d "$PREFIX/bin/andistro_files/" ];then
 	mkdir -p "$PREFIX/bin/andistro_files/"
 fi
-extralink="https://raw.githubusercontent.com/andistro/app/main"
+
 system_icu_locale_code=$(getprop persist.sys.locale)
 
 apt update > /dev/null 2>&1 && apt upgrade -y

@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 source "$PREFIX/bin/andistro_files/fixed_variables.sh"
-bin=start-debian.sh
+bin="start-debian.sh"
 codinome="bookworm"
-folder=debian-bookworm
+folder="debian-bookworm"
 
 #=============================================================================================
 # Instalação dos pacotes iniciais necessários para o funcionamento da ferramenta
@@ -57,6 +57,7 @@ if [ -d "$folder" ]; then
 	first=1
 	echo "${label_skip_download}"
 fi
+
 dialog --infobox "Etapa 3 \nBaixar o sistema..." 5 50
 sleep 4
 # Baixa
@@ -70,13 +71,7 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
 	error_code="DW001deb"
-	show_progress_dialog "wget" "${label_debian_download}" 1 -O "$HOME/$folder.tar.xz" "${extralink}/distros/files/debian-$codinome-$archurl.tar.xz"
-	sleep 10
-
-	mkdir -p "$folder"
-	cd "$folder" || exit
-	proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :
-	cd $HOME
+	show_progress_dialog pid "${label_debian_download}" 100 debootstrap --arch="$archurl" "$codinome" "$HOME/$folder" http://ftp.debian.org/debian
 
 fi
 
@@ -113,6 +108,7 @@ else
     \$command -c "\$com"
 fi
 EOM
+
 
 echo "127.0.0.1 localhost localhost" > $folder/etc/hosts
 

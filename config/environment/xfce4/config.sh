@@ -1,4 +1,5 @@
 #!/bin/bash
+#XFCE4 config environment
 echo -e  "\033[0;32mXFCE UI\033[0m"
 
 extralink="https://raw.githubusercontent.com/andistro/app/main"

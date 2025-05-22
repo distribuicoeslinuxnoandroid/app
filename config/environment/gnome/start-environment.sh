@@ -1,4 +1,5 @@
 #!/bin/bash
+#Gnome Start enviroment
 extralink="https://raw.githubusercontent.com/andistro/app/main"
 system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 

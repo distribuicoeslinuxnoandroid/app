@@ -41,12 +41,12 @@ update_progress() {
 }
 
 
-total_steps=11  # Número total de etapas que você quer monitorar
+total_steps=13  # Número total de etapas que você quer monitorar
 current_step=0
 
 {
     #1 Verifica se o termux-exec está instalado
-    if ! dpkg -l | grep -qw proot; then
+    if ! dpkg -l | grep -qw termux-exec; then
         apt install termux-exec -y
     fi
     ((current_step++))
@@ -151,6 +151,20 @@ current_step=0
         else
             rm "$HOME/andistro.check"
         fi
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    #12 Verifica se o termux-exec está instalado
+    if ! dpkg -l | grep -qw unzip; then
+        apt install unzip -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    #13 Verifica se o termux-exec está instalado
+    if ! dpkg -l | grep -qw xz-utils; then
+        apt install xz-utils -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1

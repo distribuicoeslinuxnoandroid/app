@@ -1,4 +1,5 @@
 #!/bin/bash
+# GNOME Config
 echo -e  "\033[0;32mGnome UI\033[0m"
 
 extralink="https://raw.githubusercontent.com/andistro/app/main"

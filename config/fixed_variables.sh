@@ -1,5 +1,5 @@
 #!/bin/bash
-extralink="https://raw.githubusercontent.com/andistro/app/alpha" # Para a versão alpha
+export extralink="https://raw.githubusercontent.com/andistro/app/alpha"
 
 check_dependencies() {
     local deps=("$@")
@@ -86,9 +86,9 @@ update_progress() {
     printf "\r[%s%s] %3d%%" "$filled_bar" "$empty_bar" "$percent"
 }
 
-# Valores padrão. Toque inserir as váriáveis antes de cada código que usar essa barra de progresso.
-total_steps=10  # Número total de etapas que você quer monitorar
-current_step=0
+#total_steps=2  # Número total de etapas que você quer monitorar
+#current_step=0
+
 
 # Usar o:
 # ((current_step++))

@@ -1,6 +1,5 @@
 #!/bin/bash
-
-extralink="https://raw.githubusercontent.com/andistro/app/main"
+source "/usr/local/bin/fixed_variables.sh"
 
 # Se o arquivo ~/.bashrc não existir, cria um vazio
 if [ ! -f ~/.bashrc ]; then

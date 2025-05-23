@@ -1,9 +1,5 @@
 #!/bin/bash
-extralink="https://raw.githubusercontent.com/andistro/app/main"
-system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
-apt_system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/' | tr '[:upper:]' '[:lower:]')
 source "/usr/local/bin/fixed_variables.sh"
-source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 
 show_progress_dialog apt-labeled 68 \
     "${label_progress}" 'sudo apt autoremove --purge snapd -y' \

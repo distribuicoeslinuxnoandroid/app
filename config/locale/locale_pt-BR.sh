@@ -1,12 +1,7 @@
 #!/bin/bash
 # Mudar o idioma para o Portuguê Brasileiro [pt_BR]
-
-# Ajuste das cores da GUI
-extralink="https://raw.githubusercontent.com/andistro/app/main"
 source "/usr/local/bin/fixed_variables.sh"
 source "/usr/local/bin/l10n_pt-BR.sh"
-
-export NEWT_COLORS='window=,white border=black,white title=black,white textbox=black,white button=white,blue'
 
 error_code="LG002br"
 show_progress_dialog "steps" "${label_system_language}" 8 \

@@ -209,61 +209,153 @@ show_progress_dialog() {
 
         
         wget)
-            # Ex: show_progress_dialog wget "${label}" -O arquivo URL
-            # Ex: show_progress_dialog wget "${label_download}" \
-            #     -O "$HOME/arquivo.tar.xz" "${url_do_arquivo}"
+                local total="$steps_or_pid"
+                shift 3
 
-            local label="$1"
-            shift
-            {
-                wget "$@" &>/dev/null &
-                local pid=$!
-                local percent=0
-                while kill -0 "$pid" 2>/dev/null; do
-                    echo "XXX"
-                    echo "$percent"
-                    echo "$label"
-                    echo "XXX"
-                    percent=$(( percent < 95 ? percent + 1 : 95 ))
-                    sleep 0.3
+                local count=0
+                local title="$title"
+
+                while [[ "$#" -gt 0 ]]; do
+                    case "$1" in
+                        -O)
+                            local output="$2"
+                            local url="$3"
+                            # Criar diretório se não existir
+                            mkdir -p "$(dirname "$output")"
+                            # Executar wget e capturar status
+                            wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
+                                stdbuf -oL grep --line-buffered "%" | \
+                                stdbuf -oL sed -u -e "s,\.,,g" | \
+                                awk -v count="$count" -v total="$total" -v title="$title" '
+                                    {
+                                        match($0, /([0-9]{1,3})%/, arr);
+                                        if (arr[1] != "") {
+                                            percent = int((count * 100 + arr[1]) / total);
+                                            print title "\n" percent;
+                                        }
+                                    }'
+                            # Verificar se wget teve erro
+                            if [ ${PIPESTATUS[0]} -ne 0 ]; then
+                                echo "Erro: Falha ao baixar $url. Código $error_code." >&2
+                                return 1
+                            fi
+                            shift 3
+                            ;;
+
+                        -P)
+                            local dest="$2"
+                            mkdir -p "$dest" || { echo "Erro: Diretório não pode ser criado: $dest" >&2; return 1; }
+                            shift 2
+
+                            local urls=()
+                            while [[ "$#" -gt 0 && "$1" != -* ]]; do
+                                urls+=("$1")
+                                shift
+                            done
+
+                            if [[ "${#urls[@]}" -ne "$total" ]]; then
+                                echo "Erro: Número de URLs (${#urls[@]}) diferente do total informado ($total)" >&2
+                                return 1
+                            fi
+
+                            local count=0
+                            for url in "${urls[@]}"; do
+                                local filename=$(basename "$url")
+                                local output="$dest/$filename"
+                                
+                                # Debug: mostrar URL e destino
+                                #echo "DEBUG: Baixando $url para $output" >&2
+                                
+                                # Executar wget com log detalhado
+                                if ! wget --tries=20 --progress=bar:force:noscroll -O "$output" "$url" 2>&1 | \
+                                    stdbuf -oL tr '\r' '\n' | \
+                                    stdbuf -oL grep -oE '[0-9]{1,3}%' | \
+                                    stdbuf -oL sed 's/%//' | \
+                                    awk -v count="$count" -v total="$total" -v title="$title" '
+                                        {
+                                            percent = int( (count * 100 + $0) / total );
+                                            print title "\n" percent;
+                                            fflush();
+                                        }'
+                                then
+                                    echo "ERRO DETALHADO:" >&2
+                                    echo "Falha ao baixar: $url" >&2
+                                    echo "Verifique:" >&2
+                                    echo "1. Se a URL está acessível no navegador" >&2
+                                    echo "2. Permissões no diretório: $dest" >&2
+                                    echo "3. Conexão com a internet" >&2
+                                    return 1
+                                fi
+
+                                # Verificar se arquivo foi criado
+                                if [[ ! -f "$output" ]]; then
+                                    echo "Erro crítico: Arquivo não foi baixado: $output" >&2
+                                    return 1
+                                fi
+                                
+                                ((count++))
+                            done
+
+                            echo "$title"
+                            echo "100"
+                            ;;
+
+                        *)
+                            echo "Erro: argumento inesperado '$1'"
+                            return 1
+                            ;;
+                    esac
                 done
-                echo "XXX"
-                echo "100"
-                echo "${label_done:-Concluído}"
-                echo "XXX"
-            } | dialog --title "$label" --gauge "$label" 10 70 0
-            ;;
+
+                echo "$title"
+                echo 100
+                ;;
 
         wget-labeled)
-            # Ex: show_progress_dialog wget-labeled 2 \
-            #      "Baixando A" -O a.txt URL_A \
-            #      "Baixando B" -O b.txt URL_B
-            local steps="$1"
-            shift
-            {
-                local step=0 percent
-                while [ "$#" -gt 1 ]; do
-                    local label="$1"
+                local total="${steps_or_pid}"
+                local count=0
+                local current_label=""
+                local url=""
+                local wget_opts=()
+
+                set -- "${command_list[@]}"
+                while [ $# -gt 0 ]; do
+                    current_label="$1"
                     shift
-                    wget "$@" &>/dev/null &
-                    local pid=$!
-                    while kill -0 "$pid" 2>/dev/null; do
-                        echo "XXX"
-                        percent=$(( step * 100 / steps ))
-                        echo "$percent"
-                        echo "$label"
-                        echo "XXX"
-                        sleep 0.4
+                    wget_opts=()
+                    
+                    while [ $# -gt 1 ]; do
+                        case "$1" in
+                            -*) wget_opts+=("$1"); shift ;;
+                            *) break ;;
+                        esac
+                        if [[ "$1" != -* ]]; then
+                            wget_opts+=("$1")
+                            shift
+                        fi
                     done
-                    step=$((step + 1))
+
+                    url="$1"
                     shift
+
+                    echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
+
+                    wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
+                    stdbuf -oL grep --line-buffered "%" |
+                    stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
+                        {
+                            match($0, /([0-9]{1,3})%/, arr);
+                            if (arr[1] != "") {
+                                percent = int((count * 100 + arr[1]) / total);
+                                print "XXX\n" percent "\n" label "\nXXX";
+                            }
+                        }'
+
+                    ((count++))
                 done
-                echo "XXX"
-                echo "100"
-                echo "${label_done:-Concluído}"
-                echo "XXX"
-            } | dialog --title "$title_progress" --gauge "$title_progress" 10 70 0
-            ;;
+
+                echo -e "XXX\n100\nConcluído\nXXX"
+                ;;
 
         extract)
             # Uso: show_progress_dialog extract "Extraindo arquivos..." /caminho/arquivo.ext [diretório_destino]

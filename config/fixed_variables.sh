@@ -234,54 +234,50 @@ show_progress_dialog() {
             } | dialog --title "$label" --gauge "$label" 10 70 0
             ;;
 
-
         wget-labeled)
-                local total="${steps_or_pid}"
-                local count=0
-                local current_label=""
-                local url=""
+            # Exemplo de uso:
+            # show_progress_dialog wget-labeled "${label_progress}" 3 \
+            #   "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
+            #   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/john-towner-JgOeRuGD_Y4.jpg" \
+            #   "${label_wallpaper_download}" -P "$folder/usr/share/backgrounds" "${extralink}/config/wallpapers/unsplash/wai-hsuen-chan-DnmMLipPktY.jpg"
+
+            local label="$1"
+            local total="$2"
+            shift 2
+            local count=0
+
+            while [ $# -gt 0 ]; do
+                local current_label="$1"
+                shift
                 local wget_opts=()
-
-                set -- "${command_list[@]}"
-                while [ $# -gt 0 ]; do
-                    current_label="$1"
+                # Coleta opções do wget (-O arquivo, -P pasta, etc), até encontrar a URL
+                while [[ $# -gt 1 && "$1" == -* ]]; do
+                    wget_opts+=("$1")
                     shift
-                    wget_opts=()
-                    
-                    while [ $# -gt 1 ]; do
-                        case "$1" in
-                            -*) wget_opts+=("$1"); shift ;;
-                            *) break ;;
-                        esac
-                        if [[ "$1" != -* ]]; then
-                            wget_opts+=("$1")
-                            shift
-                        fi
-                    done
-
-                    url="$1"
+                    wget_opts+=("$1")
                     shift
-
-                    echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
-
-                    wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
-                    stdbuf -oL grep --line-buffered "%" |
-                    stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
-                        {
-                            match($0, /([0-9]{1,3})%/, arr);
-                            if (arr[1] != "") {
-                                percent = int((count * 100 + arr[1]) / total);
-                                print "XXX\n" percent "\n" label "\nXXX";
-                            }
-                        }'
-
-                    ((count++))
                 done
+                local url="$1"
+                shift
 
-                echo -e "XXX\n100\nConcluído\nXXX"
-                ;;
+                echo -e "XXX\n$((count * 100 / total))\n${current_label}\nXXX"
 
-        
+                wget --tries=20 --progress=bar:force:noscroll "${wget_opts[@]}" "$url" 2>&1 |
+                stdbuf -oL grep --line-buffered "%" |
+                stdbuf -oL sed -u -e "s,\.,,g" | awk -v count="$count" -v total="$total" -v label="$current_label" '
+                    {
+                        match($0, /([0-9]{1,3})%/, arr);
+                        if (arr[1] != "") {
+                            percent = int((count * 100 + arr[1]) / total);
+                            print "XXX\n" percent "\n" label "\nXXX";
+                        }
+                    }'
+
+                ((count++))
+            done
+
+            echo -e "XXX\n100\nConcluído\nXXX"
+            ;;
 
         extract)
             # Uso: show_progress_dialog extract "Extraindo arquivos..." /caminho/arquivo.ext [diretório_destino]

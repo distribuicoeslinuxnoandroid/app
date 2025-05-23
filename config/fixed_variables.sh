@@ -281,50 +281,46 @@ show_progress_dialog() {
                 ;;
 
         extract)
-            local label="$title"
-            local archive="$steps_or_pid"
+            # Uso: show_progress_dialog extract "Extraindo arquivos..." /caminho/arquivo.ext [diretório_destino]
+            file="$3"
+            dest="$4"
 
-            echo -e "XXX\n0\n${label}\nXXX"
+            # Se destino não especificado, usar diretório atual
+            [ -z "$dest" ] && dest="."
 
-            # Extrai com tar e mostra progresso baseado em arquivos processados
-            if [[ "$archive" == *.tar.xz || "$archive" == *.txz ]]; then
-                total_files=$(tar -tf "$archive" | wc -l)
-                count=0
-
-                tar -xJvf "$archive" -C "$HOME" | while read -r line; do
-                    ((count++))
-                    percent=$((count * 100 / total_files))
-                    echo -e "XXX\n$percent\n${label}\nXXX"
-                done
-
-            elif [[ "$archive" == *.tar.gz || "$archive" == *.tgz ]]; then
-                total_files=$(tar -tzf "$archive" | wc -l)
-                count=0
-
-                tar -xzvf "$archive" -C "$HOME" | while read -r line; do
-                    ((count++))
-                    percent=$((count * 100 / total_files))
-                    echo -e "XXX\n$percent\n${label}\nXXX"
-                done
-
-            elif [[ "$archive" == *.zip ]]; then
-                total_files=$(unzip -l "$archive" | grep -v '/$' | wc -l)
-                count=0
-
-                unzip -o "$archive" -d "$HOME" | while read -r line; do
-                    ((count++))
-                    percent=$((count * 100 / total_files))
-                    echo -e "XXX\n$percent\n${label}\nXXX"
-                done
-
-            else
-                echo "Formato de arquivo não suportado: $archive" >&2
+            case "$file" in
+            *.tar.xz) cmd=(tar -xJf "$file" -C "$dest") ;;
+            *.tar.gz|*.tgz) cmd=(tar -xzf "$file" -C "$dest") ;;
+            *.tar.bz2) cmd=(tar -xjf "$file" -C "$dest") ;;
+            *.tar) cmd=(tar -xf "$file" -C "$dest") ;;
+            *.zip) cmd=(unzip -o "$file" -d "$dest") ;;
+            *.xz) cmd=(xz -d "$file") ;;
+            *.gz) cmd=(gunzip "$file") ;;
+            *) 
+                dialog --title "Erro" --msgbox "Formato de arquivo não suportado: $file" 10 50
                 return 1
-            fi
+                ;;
+            esac
 
-            echo -e "XXX\n100\nConcluído\nXXX"
+            # Executa extração em background
+            (
+            "${cmd[@]}" >/dev/null 2>&1
+            ) &
+            pid=$!
+
+            # Barra de progresso fluida baseada em PID
+            {
+            i=0
+            while kill -0 "$pid" 2>/dev/null; do
+                echo $i
+                sleep 0.2
+                i=$((i + 2))
+                [ $i -ge 95 ] && i=95
+            done
+            wait "$pid"
+            echo 100
+            } | dialog --gauge "$2" 10 70 0
             ;;
-
 
         *)
             echo "Modo desconhecido para show_progress_dialog: $mode" >&2

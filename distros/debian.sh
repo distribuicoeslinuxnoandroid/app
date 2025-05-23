@@ -153,7 +153,6 @@ echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Set
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
 source "/usr/local/bin/fixed_variables.sh"
-source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 #echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
 #deb http://security.debian.org/debian-security stable-security main contrib non-free
 #deb http://deb.debian.org/debian stable-updates main contrib non-free
@@ -164,25 +163,53 @@ dialog --infobox 'Etapa 10 \nbaixar pacotes necessários...' 5 50
 sleep 4
 echo '${label_alert_autoupdate_for_u}'
 apt update -y > /dev/null 2>&1
-total_steps=3
+total_steps=7
 {
-    # Verifica se o sudo está instalado
+    #1 Verifica se o sudo está instalado
     if ! dpkg -l | grep -qw sudo; then
         apt install sudo -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-	# Verifica se o wget está instalado
+	#2 Verifica se o wget está instalado
     if ! dpkg -l | grep -qw wget; then
         apt install wget -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
 
-	# Verifica se o dialog está instalado
+	#3 Verifica se o dialog está instalado
     if ! dpkg -l | grep -qw dialog; then
         apt install dialog -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+	#4 Verifica se o xz-utils está instalado
+    if ! dpkg -l | grep -qw xz-utils; then
+        apt install xz-utils -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+	#5 Verifica se o unzip está instalado
+    if ! dpkg -l | grep -qw unzip; then
+        apt install unzip -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+	#6 Verifica se o tar está instalado
+    if ! dpkg -l | grep -qw tar; then
+        apt install tar -y
+    fi
+    ((current_step++))
+    update_progress "$current_step" "$total_steps"; sleep 0.1
+
+    #7 Verifica se o curl está instalado
+    if ! dpkg -l | grep -qw curl; then
+        apt install curl -y
     fi
     ((current_step++))
     update_progress "$current_step" "$total_steps"; sleep 0.1
@@ -267,12 +294,7 @@ esac
 chmod +x $folder/root/config-environment.sh
 touch $folder/root/.hushlogin
 echo '#!/bin/bash
-extralink="https://raw.githubusercontent.com/andistro/app/main"
-system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 source "/usr/local/bin/fixed_variables.sh"
-source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
-
-export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 
 show_progress_dialog apt-labeled 4 \
 	"${label_find_update}" 'sudo apt update -y ' \

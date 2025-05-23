@@ -85,9 +85,8 @@ update_progress() {
 
     printf "\r[%s%s] %3d%%" "$filled_bar" "$empty_bar" "$percent"
 }
-
 #total_steps=2  # Número total de etapas que você quer monitorar
-#current_step=0
+current_step=0
 
 
 # Usar o:

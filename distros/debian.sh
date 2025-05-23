@@ -26,7 +26,7 @@ if [ "$first" != 1 ];then
 	error_code="DW001deb"
 	show_progress_dialog "wget" "${label_debian_download}" 1 -O $folder.tar.xz "${extralink}/distros/files/debian-${codinome}-${archurl}.tar.xz"
 	sleep 2
-	show_progress_dialog extract "${label_debian_download_extract}" "$folder.tar.xz"
+	show_progress_dialog extract "${label_debian_download_extract}" "$HOME/$folder.tar.xz"
 	show_progress_dialog steps "${label_debian_download_extract}" 1 \
 						"${label_debian_download_extract}" "tar -xJf $folder.tar.xz"
 	sleep 2

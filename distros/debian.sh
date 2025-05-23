@@ -11,7 +11,6 @@ if [ -d "$folder" ]; then
 	echo "${label_skip_download}"
 fi
 
-dialog --infobox "Etapa 3 \nBaixar o sistema..." 5 50
 sleep 4
 # Baixa
 if [ "$first" != 1 ];then
@@ -82,6 +81,7 @@ if [ ! -d "$folder/root/.vnc/" ];then
 	mkdir -p $folder/root/.vnc/
 	echo "pasta criada"
 fi
+dialog --infobox "Etapa 1 \nbaixar os papeis de parede e arquivo de configuração principal..." 5 50
 
 show_progress_dialog wget-labeled "${label_progress}" 3 \
   "${label_progress}" -O "$folder/root/system-config.sh" "${extralink}/config/system-config.sh" \
@@ -145,7 +145,7 @@ cp "$PREFIX/bin/andistro_files/l10n_*.sh" $folder/usr/local/bin
 cp "$PREFIX/bin/andistro_files/fixed_variables.sh" $folder/usr/local/bin
 
 #echo "fixing shebang of $bin"
-termux-fix-shebang $bin
+#termux-fix-shebang $bin
 #echo "making $bin executable"
 chmod +x $bin
 

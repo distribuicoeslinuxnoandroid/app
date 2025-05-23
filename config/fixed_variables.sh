@@ -234,6 +234,7 @@ show_progress_dialog() {
             } | dialog --title "$label" --gauge "$label" 10 70 0
             ;;
 
+
         wget-labeled)
                 local total="${steps_or_pid}"
                 local count=0
@@ -280,10 +281,13 @@ show_progress_dialog() {
                 echo -e "XXX\n100\nConcluído\nXXX"
                 ;;
 
+        
+
         extract)
             # Uso: show_progress_dialog extract "Extraindo arquivos..." /caminho/arquivo.ext [diretório_destino]
-            file="$3"
-            dest="$4"
+            local label="$1"
+            local file="$2"
+            local dest="$3"
 
             # Se destino não especificado, usar diretório atual
             [ -z "$dest" ] && dest="."
@@ -303,9 +307,10 @@ show_progress_dialog() {
             esac
 
             # Executa extração em background
+            set +m
             (
             "${cmd[@]}" >/dev/null 2>&1
-            ) &
+            ) & disown
             pid=$!
 
             # Barra de progresso fluida baseada em PID
@@ -317,8 +322,9 @@ show_progress_dialog() {
                 i=$((i + 2))
                 [ $i -ge 95 ] && i=95
             done
-            wait "$pid"
+            #wait "$pid"
             echo 100
+            set -m
             } | dialog --gauge "$2" 10 70 0
             ;;
 

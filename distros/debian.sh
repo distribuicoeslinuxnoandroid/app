@@ -24,8 +24,13 @@ if [ "$first" != 1 ];then
 		echo "unknown architecture"; exit 1 ;;
 	esac
 	error_code="DW001deb"
-	show_progress_dialog pid "${label_debian_download}" 100 debootstrap --arch="$archurl" "$codinome" "$HOME/$folder" http://ftp.debian.org/debian
-
+	show_progress_dialog "wget" "${label_debian_download}" 1 -O $folder.tar.xz "${extralink}/distros/files/debian-${codinome}-${archurl}.tar.xz"
+	sleep 2
+	show_progress_dialog steps "${label_debian_download_extract}" 4 \
+						"${label_debian_download_extract}" 'mkdir -p "$folder"' \
+						"${label_debian_download_extract}" 'cd "$folder" || exit' \
+						"${label_debian_download_extract}" 'proot --link2symlink tar -xf "${HOME}/${folder}.tar.xz" --exclude=dev || :' \
+						"${label_debian_download_extract}" 'cd $HOME'
 fi
 
 echo "${label_start_script}"

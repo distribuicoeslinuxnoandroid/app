@@ -97,9 +97,9 @@ Usado quando você tem múltiplos comandos executados sequencialmente com rótul
 show_progress_dialog steps "${label_progress}" 5 \
 "<label 1>" "sudo apt update" \
 "<label 1>" "sudo apt full-upgrade -y" \
-"<label 2>" "sudo apt autoremove -y"
-"<label 3>" "mkdir -p folder"
-"<label 4>" "cp folder/arquivo.sh folder2/arquivo.sh"
+"<label 2>" "sudo apt autoremove -y" \
+"<label 3>" "mkdir -p folder" \
+"<label 4>" "cp folder/arquivo.sh folder2/arquivo.sh" \
 ```
 
 

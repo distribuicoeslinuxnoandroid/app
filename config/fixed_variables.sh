@@ -207,6 +207,7 @@ show_progress_dialog() {
             } | dialog --title "$label" --gauge "$label" 10 70 0
             ;;
 
+        
         wget)
             # Ex: show_progress_dialog wget "${label}" -O arquivo URL
             # Ex: show_progress_dialog wget "${label_download}" \

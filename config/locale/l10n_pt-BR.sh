@@ -88,6 +88,7 @@ label_gnome_download_setup="Baixando as configurações necessárias para o Gnom
 #Download do sistema
 label_ubuntu_download="Baixando o Ubuntu..."
 label_debian_download="Baixando o Debian..."
+label_debian_download_extract="Extraindo o Debian para o armazenamento..."
 
 #TITULO DO MENU DE DIALOGO
 MENU_operating_system_select="Escolha o sistema operacional que será instalado: "

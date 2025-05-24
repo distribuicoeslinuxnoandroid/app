@@ -1,7 +1,7 @@
 #!/bin/bash
 source "/usr/local/bin/fixed_variables.sh"
 
-show_progress_dialog apt-labeled 68 \
+show_progress_dialog steps 68 \
     "${label_progress}" 'sudo apt autoremove --purge snapd -y' \
     "${label_progress}" 'sudo apt purge snapd -y' \
     "${label_progress}" 'sudo rm -rf /var/cache/snapd' \

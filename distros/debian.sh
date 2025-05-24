@@ -305,13 +305,14 @@ show_progress_dialog apt-labeled 3 \
     "${label_tzdata_settings}" "sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y"
 
 show_progress_dialog apt-labeled 7 \
-    "${label_system_setup}" "sudo apt-get install exo-utils --no-install-recommends -y" \
-    "${label_system_setup}" "sudo apt-get install tigervnc-standalone-server --no-install-recommends -y" \
-    "${label_system_setup}" "sudo apt-get install tigervnc-common --no-install-recommends -y" \
-    "${label_system_setup}" "sudo apt-get install tigervnc-tools --no-install-recommends -y" \
-    "${label_system_setup}" "sudo apt-get install dbus-x11 --no-install-recommends -y" \
-    "${label_system_setup}" "sudo apt-get install python3-gi -y" \
-    "${label_system_setup}" "sudo apt-get install python3 -y"
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install exo-utils --no-install-recommends -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install tigervnc-standalone-server --no-install-recommends -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install tigervnc-common --no-install-recommends -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install tigervnc-tools --no-install-recommends -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install dbus-x11 --no-install-recommends -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install python3-gi -y" \
+    "${label_system_setup}" "sudo DEBIAN_FRONTEND=noninteractive apt-get install python3 -y"
+
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

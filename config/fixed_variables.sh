@@ -48,19 +48,10 @@ fi
 
 if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
     source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
-elif [ -f "$PREFIX/bin/andistro_files/l10n_*.sh" ]; then
-    source "$PREFIX/bin/andistro_files/l10n_*.sh"
 elif [ -f "/usr/local/bin/l10n_${system_icu_locale_code}.sh" ]; then
-    source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
-elif [ -f "/usr/local/bin/l10n_*.sh" ]; then
-    source "/usr/local/bin/l10n_*.sh"
-elif [ -f "/root/l10n_${system_icu_locale_code}.sh" ]; then
-    source "/root/l10n_${system_icu_locale_code}.sh"
-elif [ -f "/root/l10n_*.sh" ]; then
-    source "/root/l10n_*.sh"
+    source "~/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 else
     echo "Arquivo de localização não encontrado para o código: $system_icu_locale_code"
-    exit 1
 fi
 
 # Sistema de detecção de erros ==================================================================================

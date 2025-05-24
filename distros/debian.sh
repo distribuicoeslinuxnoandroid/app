@@ -141,7 +141,7 @@ clear
 #Copiando arquivos para dentro do linux
 
 #move para o bin
-cp "$PREFIX/bin/andistro_files/l10n_*.sh" $folder/usr/local/bin
+cp $PREFIX/bin/andistro_files/l10n_*.sh $folder/usr/local/bin
 cp "$PREFIX/bin/andistro_files/fixed_variables.sh" $folder/usr/local/bin
 
 #echo "fixing shebang of $bin"

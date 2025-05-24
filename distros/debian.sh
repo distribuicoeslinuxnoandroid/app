@@ -155,7 +155,7 @@ sleep 4
 echo "APT::Acquire::Retries \"3\";" > $folder/etc/apt/apt.conf.d/80-retries #Setting APT retry count
 touch $folder/root/.hushlogin
 echo "#!/bin/bash
-source "../usr/local/bin/fixed_variables.sh"
+source "/usr/local/bin/fixed_variables.sh"
 #echo 'deb http://deb.debian.org/debian stable main contrib non-free non-free-firmware
 #deb http://security.debian.org/debian-security stable-security main contrib non-free
 #deb http://deb.debian.org/debian stable-updates main contrib non-free

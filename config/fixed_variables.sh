@@ -148,16 +148,23 @@ show_progress_dialog() {
             local label="$1"
             local steps="$2"
             shift 2
+
+            # Corrige o valor de steps com base no número real de comandos
+            steps=$(( $# / 2 ))
+
             {
                 local percent step=0
-                for cmd in "$@"; do
+                while [ "$#" -gt 1 ]; do
+                    local lbl="$1"
+                    local cmd="$2"
                     echo "XXX"
                     percent=$(( step * 100 / steps ))
                     echo "$percent"
-                    echo "$label"
+                    echo "$lbl"
                     echo "XXX"
-                    bash -c "$cmd -y" &>/dev/null
+                    bash -c "$cmd" &>/dev/null
                     step=$((step + 1))
+                    shift 2
                 done
                 echo "XXX"
                 echo "100"
@@ -165,7 +172,6 @@ show_progress_dialog() {
                 echo "XXX"
             } | dialog --title "$label" --gauge "$label" 10 70 0
             ;;
-
         pid)
             # Ex: show_progress_dialog pid "${label_configure_locale}" "dpkg-reconfigure locales"
             local label="$1"

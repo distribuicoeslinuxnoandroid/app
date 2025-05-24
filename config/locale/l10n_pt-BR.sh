@@ -1,7 +1,4 @@
 #!/bin/bash
-source "/data/data/com.termux/files/usr/bin/andistro_files/fixed_variables.sh"
-source "/usr/local/bin/fixed_variables.sh"
-
 
 # Se o arquivo ~/.bashrc não existir, cria um vazio
 if [ ! -f ~/.bashrc ]; then

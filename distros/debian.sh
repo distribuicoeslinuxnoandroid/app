@@ -299,11 +299,10 @@ touch $folder/root/.hushlogin
 echo '#!/bin/bash
 source "/usr/local/bin/fixed_variables.sh"
 
-show_progress_dialog apt-labeled 4 \
-	"${label_find_update}" 'sudo apt update -y ' \
-	"${label_keyboard_settings}" 'sudo apt autoremove whiptail -y' \
-	"${label_keyboard_settings}" 'sudo apt install keyboard-configuration -y' \
-	"${label_tzdata_settings}" 'sudo apt install tzdata -y'
+show_progress_dialog apt-labeled 3 \
+	"${label_find_update}" "sudo apt update" \
+	"${label_keyboard_settings}" "sudo apt install keyboard-configuration -y" \
+	"${label_tzdata_settings}" "sudo apt install tzdata -y"
 
 apts=(
 	"apt-get install exo-utils --no-install-recommends -y"

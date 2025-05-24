@@ -156,7 +156,12 @@ show_progress_dialog() {
                     echo "$percent"
                     echo "$label"
                     echo "XXX"
-                    bash -c "$cmd" &>/dev/null
+                     # Executar apt de forma não-interativa para evitar travas
+                    if [[ "$cmd" == apt* || "$cmd" == sudo\ apt* ]]; then
+                        bash -c "DEBIAN_FRONTEND=noninteractive $cmd" &>/dev/null
+                    else
+                        bash -c "$cmd" &>/dev/null
+                    fi
                     step=$((step + 1))
                 done
                 echo "XXX"

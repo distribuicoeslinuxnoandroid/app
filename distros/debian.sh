@@ -304,16 +304,14 @@ show_progress_dialog apt-labeled 3 \
     "${label_keyboard_settings}" "sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y" \
     "${label_tzdata_settings}" "sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y"
 
-apts=(
-	"apt-get install exo-utils --no-install-recommends -y"
-	"apt-get install tigervnc-standalone-server --no-install-recommends -y"
-	"apt-get install tigervnc-common --no-install-recommends -y"
-	"apt-get install tigervnc-tools --no-install-recommends -y"
-	"apt-get install dbus-x11 --no-install-recommends -y"
-	"apt install python3-gi -y"
-	"apt install python3 -y"
-)
-show_progress_dialog "steps" "$label_system_setup" 7 "${apts[@]}"
+show_progress_dialog apt-labeled 7 \
+    "${label_system_setup}" "sudo apt-get install exo-utils --no-install-recommends -y" \
+    "${label_system_setup}" "sudo apt-get install tigervnc-standalone-server --no-install-recommends -y" \
+    "${label_system_setup}" "sudo apt-get install tigervnc-common --no-install-recommends -y" \
+    "${label_system_setup}" "sudo apt-get install tigervnc-tools --no-install-recommends -y" \
+    "${label_system_setup}" "sudo apt-get install dbus-x11 --no-install-recommends -y" \
+    "${label_system_setup}" "sudo apt-get install python3-gi -y" \
+    "${label_system_setup}" "sudo apt-get install python3 -y"
 
 chmod +x /usr/local/bin/vnc
 chmod +x /usr/local/bin/vncpasswd

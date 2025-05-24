@@ -2,6 +2,13 @@
 export extralink="https://raw.githubusercontent.com/andistro/app/alpha"
 export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 
+exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
+  if [ $? -ne 0 ]; then
+    echo "Erro na execução. Abortando instalação. Código ${error_code}"
+    exit 1
+  fi
+}
+
 check_dependencies() {
     local deps=("$@")
     for dep in "${deps[@]}"; do
@@ -10,7 +17,6 @@ check_dependencies() {
         fi
     done
 }
-
 
 
 #dialog
@@ -47,20 +53,16 @@ fi
 # Irá carregar os pacotes de idiomas que tiver no sistema
 
 if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
+    echo "Solicitando a fonte $PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
     source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
 elif [ -f "/usr/local/bin/l10n_${system_icu_locale_code}.sh" ]; then
+    echo "Solicitando a fonte /usr/local/bin/l10n_${system_icu_locale_code}.sh"
     source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 else
     echo "Arquivo de localização não encontrado para o código: $system_icu_locale_code"
 fi
 
 # Sistema de detecção de erros ==================================================================================
-exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
-  if [ $? -ne 0 ]; then
-    echo "Erro na execução. Abortando instalação. Código ${error_code}"
-    exit 1
-  fi
-}
 
 # TERMINAL Progress  ==================================================================================
 # A barra de progresso aparece no terminal sem caixa de dialogo

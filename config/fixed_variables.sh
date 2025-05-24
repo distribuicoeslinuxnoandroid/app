@@ -133,11 +133,7 @@ show_progress_dialog() {
                     echo "$percent"
                     echo "$label"
                     echo "XXX"
-                    if [[ "$cmd" == apt* || "$cmd" == sudo\ apt* ]]; then
-                        bash -c "DEBIAN_FRONTEND=noninteractive $cmd" &>/dev/null
-                    else
-                        bash -c "$cmd" &>/dev/null
-                    fi
+                    bash -c "$cmd" &>/dev/null
                     step=$((step + 1))
                     shift 2
                 done

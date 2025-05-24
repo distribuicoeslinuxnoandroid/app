@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if command -v getprop > /dev/null 2>&1; then
+    system_country=$(getprop ro.csc.country_code 2>/dev/null)              # País
+fi
+# Troca o nome "Brazil" por "Brasil"
+if [ "$system_country" = "Brazil" ]; then
+  system_country="Brasil"
+fi
+
 # Se o arquivo ~/.bashrc não existir, cria um vazio
 if [ ! -f ~/.bashrc ]; then
   touch ~/.bashrc
@@ -93,8 +101,3 @@ label_debian_download_extract="Extraindo o Debian para o armazenamento..."
 MENU_operating_system_select="Escolha o sistema operacional que será instalado: "
 MENU_language_select="Escolha o idioma "
 MENU_environments_select="Escolha um ambientes de área de trabalho: "
-
-# Troca o nome "Brazil" por "Brasil"
-if [ "$system_country" = "Brazil" ]; then
-  system_country="Brasil"
-fi

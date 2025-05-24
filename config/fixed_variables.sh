@@ -334,7 +334,7 @@ show_progress_dialog() {
             #wait "$pid"
             echo 100
             set -m
-            } | dialog --gauge "$2" 10 70 0
+            } | dialog --gauge "$label" 10 70 0
             ;;
 
         *)

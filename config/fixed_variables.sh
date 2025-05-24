@@ -107,15 +107,6 @@ WIDTH=100
 CHOICE_HEIGHT=5
 export PORT=1
 
-CHOICE=$(dialog --clear \
-				--title "$TITLE" \
-				--menu "$MENU_language_select" \
-				$HEIGHT $WIDTH $CHOICE_HEIGHT \
-				"${OPTIONS[@]}" \
-				2>&1 >/dev/tty)
-
-
-
 # DIALOG Progress ==================================================================================
 # Função para ter uma barra de progresso usando o dialog em diversas tarefas
 show_progress_dialog() {

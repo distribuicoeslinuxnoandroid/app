@@ -1,12 +1,7 @@
 #!/bin/bash
-#source "/usr/local/bin/fixed_variables.sh"
-if [ -f "$PREFIX/bin/andistro_files/fixed_variables.sh" ]; then
-    source "$PREFIX/bin/andistro_files/fixed_variables.sh"
-elif [ -f "/usr/local/bin/fixed_variables.sh" ]; then
-    source "/usr/local/bin/fixed_variables.sh"
-else
-    echo "Arquivo de localização não encontrado para fixed_variables.sh"
-fi
+source "/data/data/com.termux/files/usr/bin/andistro_files/fixed_variables.sh"
+source "/usr/local/bin/fixed_variables.sh"
+
 
 # Se o arquivo ~/.bashrc não existir, cria um vazio
 if [ ! -f ~/.bashrc ]; then

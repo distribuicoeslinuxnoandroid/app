@@ -51,16 +51,8 @@ fi
 
 # PACOTE DE IDIOMAS ==================================================================================
 # Irá carregar os pacotes de idiomas que tiver no sistema
-
-if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
-    echo "Solicitando a fonte $PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
-    source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
-elif [ -f "/usr/local/bin/l10n_${system_icu_locale_code}.sh" ]; then
-    echo "Solicitando a fonte /usr/local/bin/l10n_${system_icu_locale_code}.sh"
-    source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
-else
-    echo "Arquivo de localização não encontrado para o código: $system_icu_locale_code"
-fi
+source "/data/data/com.termux/files/usr/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
+source "/usr/local/bin/l10n_${system_icu_locale_code}.sh"
 
 # Sistema de detecção de erros ==================================================================================
 

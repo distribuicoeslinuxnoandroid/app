@@ -1,5 +1,6 @@
 #!/bin/bash
 export extralink="https://raw.githubusercontent.com/andistro/app/alpha"
+export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
 
 check_dependencies() {
     local deps=("$@")
@@ -10,23 +11,20 @@ check_dependencies() {
     done
 }
 
-export NEWT_COLORS="window=,white border=black,white title=black,white textbox=black,white button=white,blue"
+
 
 #dialog
 dialog_total_time=2 ## Configurar o intervalo de atualização da barra de progresso
 dialog_intervalo=1 ## Número de etapas na barra de progresso
 steps=$((dialog_total_time / dialog_intervalo))
 percentage=0
+
+
 #Formato GMT
 GMT_date=$(date +"%Z":00)
 
-export USER=$(whoami)
-HEIGHT=0
-WIDTH=100
-CHOICE_HEIGHT=5
-export PORT=1
 
-
+# VERIFICADOR DO GETPROP ==================================================================================
 # Verifica se o comando getprop existe antes de executar
 if command -v getprop > /dev/null 2>&1; then
     android_version=$(getprop ro.build.version.release 2>/dev/null)         # Versão do Android
@@ -43,6 +41,10 @@ if command -v getprop > /dev/null 2>&1; then
 else
     system_icu_locale_code=$(echo $LANG | sed 's/\..*//' | sed 's/_/-/')
 fi
+
+
+# PACOTE DE IDIOMAS ==================================================================================
+# Irá carregar os pacotes de idiomas que tiver no sistema
 
 if [ -f "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh" ]; then
     source "$PREFIX/bin/andistro_files/l10n_${system_icu_locale_code}.sh"
@@ -61,6 +63,7 @@ else
     exit 1
 fi
 
+# Sistema de detecção de erros ==================================================================================
 exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
   if [ $? -ne 0 ]; then
     echo "Erro na execução. Abortando instalação. Código ${error_code}"
@@ -68,6 +71,8 @@ exit_erro() { # ao usar esse comando, o sistema encerra caso haja erro
   fi
 }
 
+# TERMINAL Progress  ==================================================================================
+# A barra de progresso aparece no terminal sem caixa de dialogo
 # Função para atualizar a barra de progresso
 # update_progress() precisa ser definido antes de ser usado
 
@@ -88,12 +93,31 @@ update_progress() {
 #total_steps=2  # Número total de etapas que você quer monitorar
 current_step=0
 
+# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+# ==================================================================================================
+# DIALOG ===========================================================================================
+# ==================================================================================================
+# //////////////////////////////////////////////////////////////////////////////////////////////////
 
-# Usar o:
-# ((current_step++))
-# update_progress "$current_step" "$total_steps"; sleep 0.1
-# Abaixo do código dentro do {} para que haja uma etapa de progresso
+# DIALOG menu ==================================================================================
+# Para o menu de seleção no dialog
+export USER=$(whoami)
+HEIGHT=0
+WIDTH=100
+CHOICE_HEIGHT=5
+export PORT=1
 
+CHOICE=$(dialog --clear \
+				--title "$TITLE" \
+				--menu "$MENU_language_select" \
+				$HEIGHT $WIDTH $CHOICE_HEIGHT \
+				"${OPTIONS[@]}" \
+				2>&1 >/dev/tty)
+
+
+
+# DIALOG Progress ==================================================================================
+# Função para ter uma barra de progresso usando o dialog em diversas tarefas
 show_progress_dialog() {
     # show_progress_dialog [type] [title] [steps/count/pid] [commands...]
     # Types supported:

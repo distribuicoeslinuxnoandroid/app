@@ -301,8 +301,8 @@ source "/usr/local/bin/fixed_variables.sh"
 
 show_progress_dialog apt-labeled 3 \
 	"${label_find_update}" "sudo apt update" \
-	"${label_keyboard_settings}" "sudo apt install keyboard-configuration -y" \
-	"${label_tzdata_settings}" "sudo apt install tzdata -y"
+	"${label_keyboard_settings}" "sudo DEBIAN_FRONTEND=noninteractive apt install keyboard-configuration -y" \
+	"${label_tzdata_settings}" "sudo DEBIAN_FRONTEND=noninteractive apt install tzdata -y"
 
 apts=(
 	"apt-get install exo-utils --no-install-recommends -y"
